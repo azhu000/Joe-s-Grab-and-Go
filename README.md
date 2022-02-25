@@ -7,3 +7,4 @@ Developers: (Add your name here)
 - Anson Oommen,
 - Pablo Lara,
 - Ali Mohamed,
+- Hyemin Shin
