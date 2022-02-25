@@ -3,7 +3,7 @@ Group project for CSC33200
 
 Developers: (Add your name here)
 
-Anthony Zhu,
-Anson Oommen,
-Pablo Lara,
-Ali Mohamed,
+- Anthony Zhu
+- Anson Oommen,
+- Pablo Lara,
+- Ali Mohamed,
