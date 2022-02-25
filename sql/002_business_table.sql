@@ -9,5 +9,5 @@ CREATE TABLE IF NOT EXISTS `businesses` (
 ;
 
     
-INSERT INTO businesses VALUES ( "Moe's Tavern", '555 5th Avenue', '(212)-867-5309');
+INSERT INTO businesses (Name, Address, Phone) VALUES ( "Moe's Tavern", '555 5th Avenue', '(212)-867-5309');
 
