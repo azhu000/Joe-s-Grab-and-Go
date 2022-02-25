@@ -7,3 +7,7 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `Phone` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ;
+
+    
+INSERT INTO businesses VALUES ( "Moe's Tavern", '555 5th Avenue', '(212)-867-5309');
+
