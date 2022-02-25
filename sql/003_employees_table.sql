@@ -11,3 +11,9 @@ CREATE TABLE IF NOT EXISTS `employees` (
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
     ON UPDATE CASCADE);
+
+INSERT INTO employees VALUES (00001, "User-1", 'Manager', 1);
+INSERT INTO employees VALUES (00002, "User-2", 'Chef', 1);
+INSERT INTO employees VALUES (00003, "User-3", 'Chef', 1);
+INSERT INTO employees VALUES (00004, "User-4", 'Delivery', 1);
+INSERT INTO employees VALUES (00005, "User-5", 'Delivery', 1);
