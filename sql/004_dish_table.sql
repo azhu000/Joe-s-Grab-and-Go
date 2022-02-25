@@ -1,0 +1,16 @@
+DROP TABLE IF EXISTS dish ;
+
+CREATE TABLE IF NOT EXISTS dish (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  `bizID` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+  INDEX `fk_bizID_idx` (`bizID` ASC) VISIBLE,
+  CONSTRAINT `fk_bizID`
+    FOREIGN KEY (`bizID`)
+    REFERENCES `businesses` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;

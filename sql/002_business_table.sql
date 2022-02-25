@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS `businesses` ;
+
+CREATE TABLE IF NOT EXISTS `businesses` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NOT NULL,
+  `Address` VARCHAR(255) NOT NULL,
+  `Phone` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+;
