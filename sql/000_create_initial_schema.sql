@@ -131,7 +131,7 @@ ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `orderLineItem`
--- ----------------------------------------------------- dish orders missing
+-- -----------------------------------------------------
 DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
@@ -141,15 +141,21 @@ CREATE TABLE IF NOT EXISTS `orderLineItem` (
   `subtotal` VARCHAR(45) NOT NULL,
   `discount` VARCHAR(45) NULL,
   `total` VARCHAR(45) NOT NULL,
+  `DishOrdered` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_orderID_idx` (`orderID` ASC) VISIBLE,
+  INDEX `fk_DishOrdered_idx` (`DishOrdered` ASC) VISIBLE,
   CONSTRAINT `fk_orderID`
     FOREIGN KEY (`orderID`)
     REFERENCES `orders` (`id`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_DishOrdered`
+    FOREIGN KEY (`DishOrdered`)
+    REFERENCES `dish` (`id`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `dishRating`
