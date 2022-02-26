@@ -131,7 +131,7 @@ ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `orderLineItem`
--- -----------------------------------------------------
+-- ----------------------------------------------------- dish orders missing
 DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
