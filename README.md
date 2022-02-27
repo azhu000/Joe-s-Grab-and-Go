@@ -18,6 +18,7 @@ Initial setup:
     - (return `Hello, JoeShmoe`)
   - `http://localhost:5000/biz` 
     - (retuns contents of biz table `(1, "Moe's Tavern", '555 5th Avenue', '(212)-867-5309')`)
+    - (you can also print the contents of other tables by adding `?tablename=(enter table name)`)
 
 Developers: (Add your name here)
 
@@ -26,3 +27,4 @@ Developers: (Add your name here)
 - Pablo Lara,
 - Ali Mohamed,
 - Hyemin Shin
+

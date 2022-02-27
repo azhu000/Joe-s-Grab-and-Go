@@ -3,10 +3,10 @@ import mysql.connector
 
 app = Flask(__name__)
 
-#@app.route('/')
-#def hello():
-#    name = request.args.get("name", "World")
-#    return f'Hello, {escape(name)}!'
+@app.route('/')
+def hello():
+   name = request.args.get("name", "World")
+   return f'Hello, {escape(name)}!'
 
 @app.route('/biz')
 def biz():
@@ -14,9 +14,12 @@ def biz():
                                     host='localhost',
                                     database='test_schema')
     c = cnx.cursor()
-    c.execute('Select * from businesses')
+
+    tablename = request.args.get("tablename", "businesses")
+    print("Tablename is = ", tablename)
+
+    c.execute(f'Select * from {tablename}')
     output = ""
     for row in c :
-        output += "{}".format(row)
+        output += "{}</br>".format(row)
     return output
-    
