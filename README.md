@@ -18,7 +18,7 @@ Initial setup:
     - (return `Hello, JoeShmoe`)
   - `http://localhost:5000/biz` 
     - (retuns contents of biz table `(1, "Moe's Tavern", '555 5th Avenue', '(212)-867-5309')`)
-    - (you can also print the contents of other tables by adding `?tablename=(enter table name)`)
+  - `http://127.0.0.1:5000/biz?tablename=dish` is an example. Replace `dish` with another table name. 
 
 Developers: (Add your name here)
 
