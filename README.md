@@ -11,6 +11,11 @@ Initial setup:
     set FLASK_APP=/full/path/to/your/folder/app.py
     python -m flask run
   ```
+
+To run mysql_connect.py you need to install `mysql-connector-python`
+
+
+
 - Open your browser to the end points
   - `http://localhost:5000/`  
     - (return `Hello, World!`)
@@ -19,6 +24,8 @@ Initial setup:
   - `http://localhost:5000/biz` 
     - (retuns contents of biz table `(1, "Moe's Tavern", '555 5th Avenue', '(212)-867-5309')`)
   - `http://127.0.0.1:5000/biz?tablename=dish` is an example. Replace `dish` with another table name. 
+
+ ******** When running both the app.py and mysql_connect.py please make sure the correct credentials for the connection to the sql server. *********
 
 Developers: (Add your name here)
 
