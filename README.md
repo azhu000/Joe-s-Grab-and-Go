@@ -22,7 +22,7 @@ Initial setup:
 
 Developers: (Add your name here)
 
-- Anthony Zhu
+- Anthony Zhu,
 - Anson Oommen,
 - Pablo Lara,
 - Ali Mohamed,
