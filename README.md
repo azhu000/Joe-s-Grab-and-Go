@@ -7,6 +7,13 @@ Initial setup:
 - install python (3.9)
 - install flask via pip: `pip install Flask`
 - run the flask web server:
+
+in order to activate the virtual environment... you have to be in the repository directory
+
+and the use the command [ .\venv\Scripts\activate ] 
+
+in order to deactivate the virtual environment, you can use the command [ deactivate ]
+
 - ```bash
     set FLASK_APP=/full/path/to/your/folder/app.py
     python -m flask run
@@ -24,7 +31,7 @@ Initial setup:
 
 Developers: (Add your name here)
 
-- Anthony Zhu
+- Anthony Zhu,
 - Anson Oommen,
 - Pablo Lara,
 - Ali Mohamed,
