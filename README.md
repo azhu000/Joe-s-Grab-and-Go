@@ -18,6 +18,11 @@ in order to deactivate the virtual environment, you can use the command [ deacti
     set FLASK_APP=/full/path/to/your/folder/app.py
     python -m flask run
   ```
+
+To run mysql_connect.py you need to install `mysql-connector-python`
+
+
+
 - Open your browser to the end points
   - `http://localhost:5000/`  
     - (return `Hello, World!`)

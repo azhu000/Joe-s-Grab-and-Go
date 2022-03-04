@@ -11,7 +11,7 @@ INSERT INTO dish VALUES (3, "Chicken Wings", 'Fresh chicken wings that comes wit
 INSERT INTO dish VALUES (4, "Draft Beer", 'Choose from Duff or Duff Lite.', 1);
 INSERT INTO dish VALUES (5, "Mr.Teeny", 'Lemonade, pineapple juice, and Blue Curaçao syrup. Freshly prepared and served with a specialty garnish.', 1);
 INSERT INTO dish VALUES (6, "Burgers and Fries", 'A juicy hamburger topped with lettuce, pickles, onions, mayo and ketchup and a side of fries.', 1);
-INSERT INTO dish VALUES (7, "Birria Tacos", 'tortillas dipped in a stewed layer of beef fat before tossing them on the griddle, which gives them a vibrant color somewhere between a camel overcoat and an orange traffic cone: the mark of the genuine article. Topped with cilantro, onion, a spicy red sauce and a wedge of lime.', 1);
+INSERT INTO dish VALUES (7, "Birria Tacos", 'Topped with cilantro, onion, a spicy red sauce and a wedge of lime.', 1);
 INSERT INTO dish VALUES (8, "Pizza", 'its just pizza.', 1);
 
 INSERT INTO menu VALUES (1, 2, 1);
