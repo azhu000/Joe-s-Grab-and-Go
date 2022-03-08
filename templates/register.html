@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title><center>Register</center></title>
 </head>
 <body>
-    <h1>Register Page</h1> 
+    <h1><center>Register Page</center></h1> 
 
-    <form method="POST" action="">
+    <center><form method="POST" action="">
         {{ form.hidden_tag() }}
         {{ form.username }}
         {{ form.password }}
         {{ form.submit }}
-    </form>
+    </form></center>
     
-    <a href="{{url_for('login')}}">Already have an account? Login!</a><br>
+    <a href="{{url_for('login')}}"><center>Already have an account? Login!</center></a><br>
 </body>
 </html>

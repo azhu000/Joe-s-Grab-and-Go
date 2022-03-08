@@ -7,15 +7,15 @@
     <title>Login</title>
 </head>
 <body>
-    <h1>Login Page</h1> 
+    <h1><center>Login Page</center></h1> 
 
-    <form method="POST" action="">
+    <center><form method="POST" action="">
         {{ form.hidden_tag() }}
         {{ form.username }}
         {{ form.password }}
         {{ form.submit }}
-    </form>
+    </form></center>
     
-    <a href="{{url_for('register')}}">If you don't have an account, sign up!</a><br>
+    <a href="{{url_for('register')}}"><center>If you don't have an account, sign up!<center></a><br>
 </body>
 </html>
