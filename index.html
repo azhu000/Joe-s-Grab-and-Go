@@ -1,23 +1,93 @@
 <!-- HTML - Hypertext Markup Language -->
 <!DOCTYPE html> <!--Doctype Explanation-->
-<html>
+<html lang="en">
     <head>
-        <title>Index/Main</title>
+        <meta charset="UTF-8"> <!--Lines 5-7: Meta tags to give the page a more responsive layout-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="style.css">
+        <title>Restaurant</title>
     </head>
-    <style>
-        img{
-            width: 500px;
-            border-radius: 50px;
-            float: left;
-            margin-right: 15px;
-        }
-        p.grade{
-            font-weight: bold;
-        }
-    </style>
+    <header>
+        <nav class="topnav">
+            <h1><a role="banner" tabindex="1" href="index.html">Restuarant</a></h1>
+            <a href="menu.html">Menu</a>
+            <a href="login_register.html">Login</a>
+            <a href="login_register.html">Register</a>
+            <a href="">VIP</a>
+        </nav>
+    </header>
     <body>
-        <img src="images/restuarant1.jpg" alt="Restaurant">
-        <p>Welcome to Restuarant.</p>
-        <p class="grade">Please give us A+.</p>
+        <script>
+            var slideIndex = 1;
+            showSlides(slideIndex);
+
+            // Next/previous controls
+            function plusSlides(n) {
+            showSlides(slideIndex += n);
+            }
+
+            // Thumbnail image controls
+            function currentSlide(n) {
+            showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+            var captionText = document.getElementById("caption");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+            captionText.innerHTML = dots[slideIndex-1].alt;
+            }
+        </script>
+        <!-- Container for the image gallery -->
+        <div class="container">
+
+            <!-- Full-width images with number text -->
+            <div class="mySlides">
+            <div class="numbertext">1 / 5</div>
+                <img src="images/restuarant1.jpg" style="width:50%">
+            </div>
+        
+            <div class="mySlides">
+            <div class="numbertext">2 / 5</div>
+                <img src="images/pexels-photo-1640777.jpeg" style="width:100%">
+            </div>
+        
+            <div class="mySlides">
+            <div class="numbertext">3 / 5</div>
+                <img src="images/pexels-photo-3186654.jpeg" style="width:100%">
+            </div>
+        
+            <div class="mySlides">
+            <div class="numbertext">4 / 5</div>
+                <img src="images/restaurant-liability-insurance-st-augustine.jpg" style="width:100%">
+            </div>
+        
+            <div class="mySlides">
+            <div class="numbertext">5 / 5</div>
+                <img src="images/360_F_227622470_sJ3yEaz44RK7UrWNaGdSn7azgeRu9UDs.jpg" style="width:100%">
+            </div>
+    
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        
+            <!-- Image text -->
+            <div class="caption-container">
+                <p id="caption"></p>
+            </div>
+        </div>
     </body>
+    <footer>Footer: Contact Information down here</footer>
 </html>
