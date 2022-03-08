@@ -1,3 +1,23 @@
+# Pablo Front End Notes
+To access the material. Please follow the instructions below until a better method can be found.
+
+1. Open up visual studio code, and go to the Extensions menu on the left hand bar.
+2. Look up "Live Server." It is the first extension.
+3. Install "Live Server"
+4. Open up an html file on VS Code.
+5. Right click and press Open with Live Server.
+
+Once you press open with live server, it will open up a local host server on your web browser. Everytime you save the file, it should update as well. 
+
+If it doesn't either refresh the page or do the following.
+
+1. Go to the HTML file you're trying to see.
+2. Right click and press Stop Live Server.
+3. Then, right click, and press Open with Live Server again.
+
+This should reset the page with your new version of the file. Thank you.
+
+
 # CSC322-SWE-Group-Project
 Group project for CSC33200
 
