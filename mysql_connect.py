@@ -75,6 +75,8 @@ def getDishes(cnx, bizID)  :
 # d = getDishes( conn, 1)
 # print(d)
 
+# This function doesn't work since the initial schema files don't match. 
+# MySQL states 'menu' table has a businessID, but not in the sql folder here.
 
 def getMenu(cnx, bizID, menuID) -> Menu:
     c = cnx.cursor()
