@@ -1,9 +1,12 @@
+from ctypes import addressof
+from unicodedata import name
 import bcrypt
 from click import password_option
 from flask import Flask, redirect, render_template, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
+from sqlalchemy import ForeignKey
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
@@ -43,10 +46,48 @@ def load_user(customers_id):
     return customers.query.get(int(customers_id))
 
 #setting up database ids
+
+class businesses(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    name = db.Column(db.String(45), nullable = False)
+    address = db.Column(db.String(255), nullable = False)
+    phone = db.Column(db.Integer, nullable = False)
+
+
+class employees(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    name = db.Column(db.String(45), nullable = False)
+    role = db.Column(db.String(45), nullable = False)
+    bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
+
+
 class customers(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(20), nullable = False)
-    password = db.Column(db.String(80), nullable = False, unique = True)
+    password = db.Column(db.String(255), nullable = False, unique = True)
+
+class menu(db.Model):
+    id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
+    chefID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
+    businessID = db.Column(db.String(20), nullable = False)
+
+class menuDishes(db.Model):
+    id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
+    MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
+    price = db.Column(db.String(20), nullable = False)
+
+class dish(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    name = db.Column(db.String(45), primary_key=True, nullable = False, unique = True)
+    description = db.Column(db.String(255), nullable = False)
+    bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
+
+
+
+
+
+
+
 
 #Registration Authentication setup
 class RegisterForm(FlaskForm):
@@ -96,6 +137,28 @@ def login():
                 return redirect(url_for('dashboard'))
     #Login fucntion returns the login.html file
     return render_template('login.html', form=form)
+
+
+#more app routes for menus, dishes, etc. 
+#need to build templates for new routes. 
+
+
+
+
+@app.route('/menu', methods = ['GET'])
+def menu():
+
+    return render_template('menu')
+
+@app.route('/menu/<name>')
+
+
+
+
+
+
+
+
 
 #upon successful login, this is the page that will be displayed
 @app.route('/dashboard', methods = ['GET', 'POST'])
