@@ -95,10 +95,11 @@ DROP TABLE IF EXISTS `customers` ;
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `phone` VARCHAR(255) NULL,
   `isVIP` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE)
+  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE)
 ENGINE = InnoDB;
 
 
@@ -177,6 +178,28 @@ CREATE TABLE IF NOT EXISTS `dishRating` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table .`menuDishes`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `menuDishes` ;
+
+CREATE TABLE IF NOT EXISTS `menuDishes` (
+  `id` INT NOT NULL,
+  `MenuDishID` INT NOT NULL,
+  `price` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`, `MenuDishID`),
+  CONSTRAINT `fk_MenuDishID`
+    FOREIGN KEY (`id`)
+    REFERENCES `dish` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ID`
+    FOREIGN KEY (`id`)
+    REFERENCES `menu` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

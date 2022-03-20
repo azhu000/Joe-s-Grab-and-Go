@@ -15,10 +15,10 @@ INSERT INTO dish VALUES (7, "Birria Tacos", ' Topped with cilantro, onion, a spi
 INSERT INTO dish VALUES (8, "Pizza", 'its just pizza.', 1);
 
 INSERT INTO menu VALUES (1, 2, 1);
-INSERT INTO menu VALUES (2, 3, 2);
-INSERT INTO menu VALUES (3, 3, 7);
-INSERT INTO menu VALUES (4, 2, 6);
-INSERT INTO menu VALUES (5, 2, 3);
+INSERT INTO menu VALUES (2, 3, 1);
+INSERT INTO menu VALUES (3, 3, 1);
+INSERT INTO menu VALUES (4, 2, 1);
+INSERT INTO menu VALUES (5, 2, 1);
 
 INSERT INTO customers VALUES (1, "Jolene", "Jolene", "(347)-621-2020",0);
 INSERT INTO customers VALUES (2, "Nathaniel", "Nathaniel", "(646)-626-6686",1);
