@@ -40,45 +40,53 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-#loads the user id which is stored
+# loads the user id which is stored
 @login_manager.user_loader
 def load_user(customers_id):
     return customers.query.get(int(customers_id))
 
-#setting up database ids
+
+
+
+# setting up database ids
+# Note: not sure if its more comprehensive to list the relationships between classes
+#  in the parent class or the child class. For now its in the parent class.
+# I have no clue if the foreign keys will work. That is still to be tested.
 
 class businesses(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(45), nullable = False)
     address = db.Column(db.String(255), nullable = False)
     phone = db.Column(db.Integer, nullable = False)
+    employee = db.relationship('employees', backref='businesses')
+    dishes = db.relationship('dish', backref='businesses')
+    order = db.relationship('orders', backref='businesses')
+    #might be possible for a single relationship() to define two children 
+    # employee = db.relationship('employees', secondary=dish, backref='businesses')
 
 
+# This class is missing a way to get specific roles. Something like:
+# SELECT employees WHERE role = chef, so that it can be referenced by 'menu' class.
+# Might also need UserMixin for the class if we implement employees similar to customers.
 class employees(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(45), nullable = False)
     role = db.Column(db.String(45), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
-
+    menus = db.relationship('menu', backref='employees')
 
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(20), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
-
+    rating = db.relationship('dishRating', backref='customers')
+    order = db.relationship('orders', backref='customers')
 
 class menu(db.Model):
     id = db.Column(db.Integer,primary_key=True, nullable = False)
     chefID = db.Column(db.Integer,db.ForeignKey('employees.name'), nullable = False)
     businessID = db.Column(db.String(20), nullable = False)
-
-
-#Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys.
-class menuDishes(db.Model):
-    id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
-    MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
-    price = db.Column(db.String(20), nullable = False)
-
+    menudish = db.relationship('menuDishes', backref='menu')
 
 
 class dish(db.Model):
@@ -86,12 +94,40 @@ class dish(db.Model):
     name = db.Column(db.String(45), primary_key=True, nullable = False, unique = True)
     description = db.Column(db.String(255), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
+    menudish = db.relationship('menuDishes', backref='dish')
+    rating = db.relationship('dishRating', backref='dish')
+    orderline = db.relationship('orderLineItem', backref='dish')
 
+#Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
+class menuDishes(db.Model):
+    id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
+    MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
+    price = db.Column(db.String(20), nullable = False)
+    #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
+class dishRating(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    rating = db.Column(db.Integer,  nullable = False)
+    comment = db.Column(db.String(255), nullable = True)
+    custID = db.Column(db.Integer, db.ForeignKey('customers'), nullable = False)
+    dishID = db.Column(db.Integer, db.ForeignKey('dish'), nullable = False)
+    
+class orders(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    total = db.Column(db.String(45),  nullable = False)
+    DeliveryTime = db.Column(db.String(45), nullable = True)
+    custID = db.Column(db.Integer, db.ForeignKey('customers'), nullable = False)
+    bizID = db.Column(db.Integer, db.ForeignKey('businesses'), nullable = False)
+    orderline = db.relationship('orderLineItem', backref='orders')
 
-
-
-
+class orderLineItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    quantity = db.Column(db.String(45),  nullable = False)
+    subtotal = db.Column(db.String(45),  nullable = False)
+    discount = db.Column(db.String(45),  nullable = True)
+    total = db.Column(db.String(45),  nullable = False)
+    orderID = db.Column(db.Integer, db.ForeignKey('orders'), nullable = False)
+    DishOrdered = db.Column(db.Integer, db.ForeignKey('dish'),  nullable = False)
 
 
 #Registration Authentication setup
@@ -144,23 +180,22 @@ def login():
     return render_template('login.html', form=form)
 
 
+#############################################################
 #more app routes for menus, dishes, etc. 
 #need to build templates for new routes. 
 
+#
+#@app.route('/menu', methods = ['GET'])
+#def menu():
+#
+#    return render_template('menu')
+#
+#@app.route('/menu/<name>')
+#
+#
 
 
-
-@app.route('/menu', methods = ['GET'])
-def menu():
-
-    return render_template('menu')
-
-@app.route('/menu/<name>')
-
-
-
-
-
+############################################################
 
 
 
