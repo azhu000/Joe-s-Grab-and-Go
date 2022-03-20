@@ -66,15 +66,20 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
 
+
 class menu(db.Model):
-    id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
-    chefID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
+    id = db.Column(db.Integer,primary_key=True, nullable = False)
+    chefID = db.Column(db.Integer,db.ForeignKey('employees.name'), nullable = False)
     businessID = db.Column(db.String(20), nullable = False)
 
+
+#Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys.
 class menuDishes(db.Model):
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
     price = db.Column(db.String(20), nullable = False)
+
+
 
 class dish(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
