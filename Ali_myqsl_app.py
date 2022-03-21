@@ -199,6 +199,12 @@ def login():
 # I'm too lazy to bother making separate tables in html for each class even though
 # its literally copy and paste with like two changes.
 
+@app.route('/customers')
+def index():
+    all_customers = customers.query.all()
+    return render_template('index.html', cust=all_customers)
+
+
 @app.route('/dish')
 def dishes():
     all_dishes = dish.query.all()
