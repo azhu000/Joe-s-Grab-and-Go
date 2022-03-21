@@ -211,6 +211,7 @@ def dishes():
     return render_template('index.html',cust=all_dishes)
 
 # This route just prints the numbers, not the referenced items.
+# 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. 
 @app.route('/menu')
 def menus():
     all_dishes = menu.query.all()
