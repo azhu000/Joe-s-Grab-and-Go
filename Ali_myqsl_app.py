@@ -75,6 +75,9 @@ class employees(db.Model):
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
 
+    def __repr__(self):
+        return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.role)
+
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(20), nullable = False)
@@ -82,12 +85,17 @@ class customers(db.Model, UserMixin):
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
 
+    def __repr__(self):
+        return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.password)
+
 class menu(db.Model):
     id = db.Column(db.Integer,primary_key=True, nullable = False)
     chefID = db.Column(db.Integer,db.ForeignKey('employees.name'), nullable = False)
     businessID = db.Column(db.String(20), nullable = False)
     menudish = db.relationship('menuDishes', backref='menu')
 
+    def __repr__(self):
+        return "id: {0} | name: {1} | password: {2}".format(self.id, self.chefID, self.businessID)
 
 class dish(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
@@ -97,6 +105,9 @@ class dish(db.Model):
     menudish = db.relationship('menuDishes', backref='dish')
     rating = db.relationship('dishRating', backref='dish')
     orderline = db.relationship('orderLineItem', backref='dish')
+
+    def __repr__(self):
+        return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.description)
 
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
 class menuDishes(db.Model):
@@ -109,15 +120,15 @@ class dishRating(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     rating = db.Column(db.Integer,  nullable = False)
     comment = db.Column(db.String(255), nullable = True)
-    custID = db.Column(db.Integer, db.ForeignKey('customers'), nullable = False)
-    dishID = db.Column(db.Integer, db.ForeignKey('dish'), nullable = False)
+    custID = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
+    dishID = db.Column(db.Integer, db.ForeignKey('dish.id'), nullable = False)
     
 class orders(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     total = db.Column(db.String(45),  nullable = False)
     DeliveryTime = db.Column(db.String(45), nullable = True)
-    custID = db.Column(db.Integer, db.ForeignKey('customers'), nullable = False)
-    bizID = db.Column(db.Integer, db.ForeignKey('businesses'), nullable = False)
+    custID = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
+    bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     orderline = db.relationship('orderLineItem', backref='orders')
 
 class orderLineItem(db.Model):
@@ -126,8 +137,8 @@ class orderLineItem(db.Model):
     subtotal = db.Column(db.String(45),  nullable = False)
     discount = db.Column(db.String(45),  nullable = True)
     total = db.Column(db.String(45),  nullable = False)
-    orderID = db.Column(db.Integer, db.ForeignKey('orders'), nullable = False)
-    DishOrdered = db.Column(db.Integer, db.ForeignKey('dish'),  nullable = False)
+    orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
+    DishOrdered = db.Column(db.Integer, db.ForeignKey('dish.id'),  nullable = False)
 
 
 #Registration Authentication setup
@@ -184,15 +195,20 @@ def login():
 #more app routes for menus, dishes, etc. 
 #need to build templates for new routes. 
 
-#
-#@app.route('/menu', methods = ['GET'])
-#def menu():
-#
-#    return render_template('menu')
-#
-#@app.route('/menu/<name>')
-#
-#
+# These routes use index.html, to which you have to change the table according to the names in each class.
+# I'm too lazy to bother making separate tables in html for each class even though
+# its literally copy and paste with like two changes.
+
+@app.route('/dish')
+def dishes():
+    all_dishes = dish.query.all()
+    return render_template('index.html',cust=all_dishes)
+
+# This route just prints the numbers, not the referenced items.
+@app.route('/menu')
+def menus():
+    all_dishes = menu.query.all()
+    return render_template('index.html',cust=all_dishes)
 
 
 ############################################################
