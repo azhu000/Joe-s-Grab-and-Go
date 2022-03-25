@@ -114,13 +114,14 @@ class dish(db.Model):
 
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
 class menuDishes(db.Model):
+    __tablename__ = 'menuDishes'
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
     price = db.Column(db.String(20), nullable = False)
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
 class dishRating(db.Model):
-    __tablename__ = 'dishRating'
+    __tablename__ = 'dishRating'            #dumbest thing ever
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     rating = db.Column(db.Integer,  nullable = False)
     comment = db.Column(db.String(255), nullable = True)
@@ -221,11 +222,20 @@ def menus():
     all_dishes = menu.query.all()
     return render_template('index.html',cust=all_dishes)
 
-# This doesnt work, gives me an error saying that the table doesnt exist.
 @app.route('/dishes')
-def popular():
-    all_dishes = dishRating.query.all()
+def menudish():
+    all_dishes = menuDishes.query.all()
     return render_template('index.html',dish=all_dishes)
+
+@app.route('/dishes/popular')
+def popular():
+    popular = dishRating.query.order_by(dishRating.rating.desc())
+    return render_template('index.html',rating=popular)
+
+@app.route('/rating')
+def dishlist():
+    all_dishes = dishRating.query.all()
+    return render_template('index.html',rating=all_dishes)
 ############################################################
 
 
