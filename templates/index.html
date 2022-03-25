@@ -42,7 +42,7 @@
             {%for row in dish%}
             <tr>
                 <td>{{ row.id }}</td>
-                <td>{{ row.name}}</td>
+                <td>{{ row.dish.name}}</td>
                 <td>{{ row.rating}} </td>
             </tr>
             {% endfor %}

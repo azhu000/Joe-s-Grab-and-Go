@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
 from sqlalchemy import ForeignKey
+from sqlalchemy import *
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
@@ -119,6 +120,7 @@ class menuDishes(db.Model):
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
 class dishRating(db.Model):
+    __tablename__ = 'dishRating'
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     rating = db.Column(db.Integer,  nullable = False)
     comment = db.Column(db.String(255), nullable = True)
