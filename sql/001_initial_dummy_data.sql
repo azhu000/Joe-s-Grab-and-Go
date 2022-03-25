@@ -36,11 +36,11 @@ INSERT INTO customers VALUES (5, "Brady", "Brady", "(716)-216-6677",1);
 -- INSERT INTO orderLineItem VALUES (4, "Pizza", 2, 3);
 -- INSERT INTO orderLineItem VALUES (5, "Pizza", 2, 3);
 
--- INSERT INTO dishRating VALUES (1, 5, "Pizza", 2, 3);
--- INSERT INTO dishRating VALUES (2, 4, "Pizza", 2, 3);
--- INSERT INTO dishRating VALUES (3, 4, "Pizza", 2, 3);
--- INSERT INTO dishRating VALUES (4, 5, "Pizza", 2, 3);
--- INSERT INTO dishRating VALUES (5, 3, "Pizza", 2, 3);
+ INSERT INTO dishRating VALUES (1, 5, "Pizza", 2, 8);
+ INSERT INTO dishRating VALUES (2, 4, "Pizza", 2, 8);
+ INSERT INTO dishRating VALUES (3, 4, "Pizza", 1, 8);
+ INSERT INTO dishRating VALUES (4, 5, "Pizza", 4, 8);
+ INSERT INTO dishRating VALUES (5, 3, "Pizza", 3, 8);
 
 
 -- INSERT INTO menuDishes VALUES(1,1,$7.99)

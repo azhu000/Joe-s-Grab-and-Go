@@ -21,8 +21,29 @@
             {%for row in cust%}
             <tr>
                 <td>{{ row.id }}</td>
-                <td>{{ row.chefID}}</td>
+                <td>{{ row.employees.name}}</td>
                 <td>{{ row.businessID}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if dish %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>thing</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in dish%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name}}</td>
+                <td>{{ row.rating}} </td>
             </tr>
             {% endfor %}
         </tbody>

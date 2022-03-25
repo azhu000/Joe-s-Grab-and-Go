@@ -90,7 +90,7 @@ class customers(db.Model, UserMixin):
 
 class menu(db.Model):
     id = db.Column(db.Integer,primary_key=True, nullable = False)
-    chefID = db.Column(db.Integer,db.ForeignKey('employees.name'), nullable = False)
+    chefID = db.Column(db.Integer,db.ForeignKey('employees.id'), nullable = False)
     businessID = db.Column(db.String(20), nullable = False)
     menudish = db.relationship('menuDishes', backref='menu')
 
@@ -108,6 +108,8 @@ class dish(db.Model):
 
     def __repr__(self):
         return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.description)
+
+        
 
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
 class menuDishes(db.Model):
@@ -211,13 +213,17 @@ def dishes():
     return render_template('index.html',cust=all_dishes)
 
 # This route just prints the numbers, not the referenced items.
-# 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. 
+# 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
 @app.route('/menu')
 def menus():
     all_dishes = menu.query.all()
     return render_template('index.html',cust=all_dishes)
 
-
+# This doesnt work, gives me an error saying that the table doesnt exist.
+@app.route('/dishes')
+def popular():
+    all_dishes = dishRating.query.all()
+    return render_template('index.html',dish=all_dishes)
 ############################################################
 
 
