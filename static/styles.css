@@ -1,0 +1,37 @@
+body {
+    background-color: powderblue;
+  }
+
+/* button{  
+  border: none;  border-radius: 150px;}
+html,body { 
+   font-size: 20px;  min-height: 100%;  overflow: hidden;  font-family: "Helvetica Neue", Helvetica, sans-serif;    text-align: center;}
+.text {  
+  padding-top: 50px;  font-family: "Helvetica Neue", Helvetica, 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;}
+.text:hover{  
+  cursor: pointer;  color: #1565C0;}
+.main { 
+  padding: 0px 0px 0px 0px;  margin: 0;  background-image: none;  text-align: center;  
+      background-size: 100% !important;  background-repeat: no-repeat;  width: 900px;  height: 700px;  }
+  
+.icon-button {
+  background-color: rgb(110, 21, 212);  border-radius: 3.6rem;  cursor: pointer;  display: inline-block; 
+      font-size: 2rem;  height: 3.6rem;  line-height: 3.6rem;  margin: 0 5px;  position: relative;  text-align: center;  
+          -webkit-user-select: none;  -moz-user-select: none;  -ms-user-select: none;  user-select: none;  width: 3.6rem;}
+  
+  .icon-button span {  
+    border-radius: 0;  display: block;  height: 0;  left: 50%;  margin: 0;  position: absolute;  
+        top: 50%;  -webkit-transition: all 0.3s;  -moz-transition: all 0.3s;  -o-transition: all 0.3s;  
+            transition: all 0.3s;  width: 0;}
+  .icon-button:hover span {  width: 3.6rem;  height: 3.6rem;  
+    border-radius: 3.6rem;  margin: -1.8rem;}
+  .twitter span {  background-color: #12cc49;}
+   */
+  /* Icons */
+  /* .icon-button i {  
+                  background: none;  color: rgb(14, 161, 219);  height: 3.6rem;  left: 0;  line-height: 3.6rem;  position: absolute;  
+                      top: 0;  -webkit-transition: all 0.3s;  -moz-transition: all 0.3s;  -o-transition: all 0.3s;  
+                          transition: all 0.3s;  width: 3.6rem;  z-index: 10;}
+              .icon-button .icon-twitter {  color: #b81111;} */
+  
+  /* .icon-button:hover .icon-twitter {  color: rgb(197, 230, 10);} */
