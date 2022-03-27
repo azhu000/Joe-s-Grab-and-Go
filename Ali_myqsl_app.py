@@ -1,4 +1,6 @@
+from crypt import methods
 from ctypes import addressof
+from functools import wraps
 from unicodedata import name
 import bcrypt
 from click import password_option
@@ -69,15 +71,16 @@ class businesses(db.Model):
 # This class is missing a way to get specific roles. Something like:
 # SELECT employees WHERE role = chef, so that it can be referenced by 'menu' class.
 # Might also need UserMixin for the class if we implement employees similar to customers.
-class employees(db.Model):
+class employees(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(45), nullable = False)
+    password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.role)
+        return "id: {0} | name: {1} | role: {2}".format(self.id, self.name, self.role)
 
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
@@ -96,7 +99,7 @@ class menu(db.Model):
     menudish = db.relationship('menuDishes', backref='menu')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | password: {2}".format(self.id, self.chefID, self.businessID)
+        return "id: {0} | chef: {1} | business: {2}".format(self.id, self.chefID, self.businessID)
 
 class dish(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
@@ -108,10 +111,9 @@ class dish(db.Model):
     orderline = db.relationship('orderLineItem', backref='dish')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.description)
+        return "id: {0} | name: {1} | description: {2}".format(self.id, self.name, self.description)
 
         
-
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
 class menuDishes(db.Model):
     __tablename__ = 'menuDishes'
@@ -169,6 +171,48 @@ class LoginForm(FlaskForm):
     password = PasswordField(validators=[InputRequired(), Length(
         min = 2, max = 80)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
+
+
+def superuser(func):
+    @wraps(func)
+    def super_checker(*args, **kwargs):
+        if employees.name != 'Manager':
+            return redirect(url_for('login'))
+        return func(*args, **kwargs)
+    return super_checker
+
+@app.route('/employees/<Name>')
+@superuser
+@login_required
+def hire(Name):
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        new_user = employees(name=form.name.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+
+    return render_template('employee.html',form=form)
+    #some form thingy for name of employee to hire.
+    #adds that new user to the database and commmits. 
+
+@app.route('/employee_login', methods = ['GET', 'POST'])
+def login():
+    form = LoginForm()
+    #This is what will happen when you press submit
+    if form.validate_on_submit():
+        #it first checks for the username in the query of the database
+        user = employees.query.filter_by(name=form.name.data).first()
+        #if username exists
+        if user:
+            #checks if the passwords match
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                #if passwords match, redirect to the dashboard page
+                login_user(user)
+                return redirect(url_for('employees'))
+    #Login fucntion returns the login.html file
+    return render_template('login.html', form=form)
 
 
 #this is the base routing "url" this is the standard home page
