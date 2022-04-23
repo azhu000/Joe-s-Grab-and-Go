@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Login Authentication System Test using Flask</h1>
+{% if cust %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>thing</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in cust%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name}}</td>
+                <td>{{ row.description}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if dish %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>thing</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in dish%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.dish.name}}</td>
+                <td>{{ row.price}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if rating %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>thing</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in rating%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.dish.name}}</td>
+                <td>{{ row.rating}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+</body>
+</html>
