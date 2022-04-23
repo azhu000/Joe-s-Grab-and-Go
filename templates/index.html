@@ -21,8 +21,14 @@
             {%for row in cust%}
             <tr>
                 <td>{{ row.id }}</td>
+<<<<<<< Updated upstream
                 <td>{{ row.name}}</td>
                 <td>{{ row.description}} </td>
+=======
+                <!--row.chefID-->
+                <td>{{ row.employees.name}}</td>
+                <td>{{ row.businessID}} </td>
+>>>>>>> Stashed changes
             </tr>
             {% endfor %}
         </tbody>
