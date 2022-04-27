@@ -5,8 +5,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
+
 <style>
 * {box-sizing: border-box}
+body {font-family: Arial, Helvetica, sans-serif;}
 
 body {
   margin: 0;
@@ -23,7 +25,6 @@ body {
   text-align: center;
   padding: 40px;
 }
-
 
 
 nav {
@@ -97,54 +98,22 @@ li a:hover, .dropdown:hover .dropbtn {
  text-decoration: underline;
 }
 
-section {
-  column-width: 15em;
-  background: #dadadf;
-  padding: 2em 12em;
+.subrow {
+
 }
 
-.column {
-  float: left;
-  width: 25%;
-  padding: 10px;
-}
 
-.column img {
-  margin-top: 12px;
-}
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.container {
-  position: relative;
-  font-family: Arial;
-}
-
-.text-block {
-  position: absolute;
-  text-align: center;
-  bottom: 10px;
-  right: 20%;
-  left: 20%;
-  background-color: black;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-}
 
 </style>
 <body>
+
   <div class="header">
-    <h1><b>Joe's Grab and Go</b></h1>
-    <h4>Order Food to  Your Door :D</h4>
+  <h1><b>Joe's Grab and Go</b></h1>
+  <h4>Order Food to  Your Door :D</h4>
   </div>
 
-  <div class="sticky-top">
+
   <nav role="navigation">
     <ul id="main-menu">
       <li><a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
@@ -177,47 +146,51 @@ section {
       <li><a href="#"><i class="fa fa-fw fa-envelope"></i>Contact</a></li>
     </ul>
   </nav>
+
+
+<div class="header">
+  <h2>Order History<i class="fa fa-fw fa-history"></i></h2>
 </div>
 
-  <div class="row"> 
-    <div class="column">
-      <div class="container">
-      <a href="menu_popular.html"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80", width="450" height="600" ></a>
-      <div class="text-block">
-        <h2>Popular</h2>
-      </div>
-      </div>
-    </div>
-   
-    <div class="column">
-      <div class="container">
-    <a href="menu_popular.html"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60" width="450" height="600"></a>
-     <div class="text-block">
-      <h2>Healthy</h2>
-    </div>
-    </div>
-    </div>  
+<div class="row">
+    <div class="col">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+    
+      </h4>
+      <ul class="list-group mb-6">
+        <li class="list-group-item d-flex justify-content-between lh-md">
+          <div>
+            <h6 class="my-0">Order Number ########</h6><br>
+            <div><small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;- Ordered item 1</small></div>
+            <div><small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;- Ordered item 2</small></div>
+            <div><small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;- Ordered item 3</small></div> <br>
+          </div>
+          <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mm/dd/yyyy</span>
+          <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delivered</span>
+          <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$25</span>
+         
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-md">
+          <div>
+            <h6 class="my-0">Order Number ########</h6><br>
+            <div><small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;- Ordered item 1</small></div>
+            <div><small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;- Ordered item 2</small></div>
+            <div><small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;- Ordered item 3</small></div> <br>
+          </div>
+          <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mm/dd/yyyy</span>
+          <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Picked up</span>
+          <span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$35</span>
+        </li>
+        
+       
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (USD)</span>
+          <strong>$60</strong>
+        </li>
+      </ul>
 
-    <div class="column">
-      <div class="container">
-    <a href="menu_popular.html"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" width="450" height="600"></a>
-    <div class="text-block">
-      <h2>Kids</h2>
-    </div>
-    </div>
-    </div>
 
-    <div class="column">
 
-      <div class="container">
-    <a href="menu_popular.html"><img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=749&q=80" width="450" height="600"></a>
-    <div class="text-block">
-      <h2>Dessert</h2>
-    </div>
-    </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
-</html> 
-
+</html>
