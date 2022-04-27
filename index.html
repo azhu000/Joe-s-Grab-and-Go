@@ -11,132 +11,165 @@
 <style>
     * {box-sizing: border-box}
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  overflow-x: hidden;  
-}
-
-.header {
-  text-align: center;
-  padding: 40px;
-}
-
-nav {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  background: black;
-  z-index: 1;
-}
-
- ul, li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  
-}
-
-li a:hover, .dropdown:hover .dropbtn {
-  background-color: rgb(40, 148, 112);
-}
-
-#main-menu > li {
-  float: left;
-  position: relative;
-}
-
-#main-menu > li > a {
-  font-size: 20px;
-  color: rgba(253, 252, 252, 0.85);
-  text-align: center;
-  text-decoration: none;
-  letter-spacing: 0.05em;
-  display: block;
-  width: 100%;
-  padding: 14px 36px;
-  border-right: 1px solid rgba(0,0,0,0.15);
-  
-}
-
-#main-menu > li:nth-child(1) > a {
-  border-left: 1px solid rgba(0,0,0,0.15);
-}
-
-#sub-menu {
-  position: absolute;
-  background: #f8f8f6;
-  opacity: 0;
-  visibility: hidden;
-  width:100%;
-  text-align: center;
-  transition: all 0.15s ease-in;
-}
-
-#sub-menu > li {
-  padding: 16px 28px;
-  border-bottom: 1px solid rgba(0,0,0,0.15);
-}
-
-#sub-menu > li >  a {
-  color: rgba(19, 18, 18, 0.6);
-  text-decoration: none;
-}
-
-#main-menu > li:hover #sub-menu {
-  opacity: 1;
-  visibility: visible;
-}
-
-#sub-menu > li >  a:hover {
- text-decoration: underline;
-}
-
-section {
-  column-width: 15em;
-  background: #dadadf;
-  padding: 2em 12em;
-}
-
-.column {
-  float: left;
-  width: 25%;
-  padding: 10px;
-}
-
-.column img {
-  margin-top: 12px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.container {
-  position: relative;
-  font-family: Arial;
-}
-
-.text-block {
-  position: absolute;
-  text-align: center;
-  bottom: 10px;
-  right: 20%;
-  left: 20%;
-  background-color: black;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
-}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;  
+    }
+    
+    .header {
+      text-align: center;
+      padding: 40px;
+    }
+    
+    h1 {
+      margin: 2em 0 1.5em 0;
+    }
+    
+    nav {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      background: black;
+      z-index: 1;
+    }
+    
+    section{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%, -50%); 
+    }
+    
+    .float-container {
+      padding: 20px;
+    }
+    
+    .float-child {
+      float: left;
+      padding: 20px;
+      position: relative;
+    }  
+    
+     ul, li {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      
+    }
+    
+    li a:hover, .dropdown:hover .dropbtn {
+      background-color: rgb(40, 148, 112);
+    }
+    
+    #main-menu > li {
+      float: left;
+      position: relative;
+    }
+    
+    #main-menu > li > a {
+      font-size: 20px;
+      color: rgba(253, 252, 252, 0.85);
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      display: block;
+      width: 100%;
+      padding: 14px 36px;
+      border-right: 1px solid rgba(0,0,0,0.15);
+      
+    }
+    
+    #main-menu > li:nth-child(1) > a {
+      border-left: 1px solid rgba(0,0,0,0.15);
+    }
+    
+    #sub-menu {
+      position: absolute;
+      background: #f8f8f6;
+      opacity: 0;
+      visibility: hidden;
+      width:100%;
+      text-align: center;
+      transition: all 0.15s ease-in;
+    }
+    
+    #sub-menu > li {
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+    }
+    
+    #sub-menu > li >  a {
+      color: rgba(19, 18, 18, 0.6);
+      text-decoration: none;
+    }
+    
+    #main-menu > li:hover #sub-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #sub-menu > li >  a:hover {
+     text-decoration: underline;
+    }
+    
+    section {
+      column-width: 15em;
+      background: #dadadf;
+      padding: 2em 12em;
+    }
+    
+    .column {
+      float: left;
+      width: 25%;
+      padding: 10px;
+    }
+    
+    .column img {
+      margin-top: 12px;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    .container {
+      position: relative;
+      font-family: Arial;
+    }
+    
+    .text-block {
+      position: absolute;
+      text-align: center;
+      bottom: 10px;
+      right: 20%;
+      left: 20%;
+      background-color: black;
+      color: white;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    
+    .delivery-button{
+      padding-top: 15px;
+      padding-bottom: 15px;
+      text-align: center;
+      font-size: large;
+    }
+    
+    footer{
+      margin-top: 1rem;
+    }
 </style>
 
 <body>
@@ -210,33 +243,29 @@ section {
         captionText.innerHTML = dots[slideIndex-1].alt;
         }
     </script>
+
     <!-- Container for the image gallery -->
-    <div class="container">
+    <center><div class="container">
 
         <!-- Full-width images with number text -->
         <div class="mySlides">
-        <div class="numbertext">1 / 5</div>
-            <img src="images/restuarant1.jpg" style="width:50%">
+        <div class="numbertext">1 / 4</div>
+            <img src="images/restuarant1.jpg" style="width:100%">
         </div>
     
         <div class="mySlides">
-        <div class="numbertext">2 / 5</div>
+        <div class="numbertext">2 / 4</div>
             <img src="images/pexels-photo-1640777.jpeg" style="width:100%">
         </div>
     
         <div class="mySlides">
-        <div class="numbertext">3 / 5</div>
+        <div class="numbertext">3 / 4</div>
             <img src="images/pexels-photo-3186654.jpeg" style="width:100%">
         </div>
     
         <div class="mySlides">
-        <div class="numbertext">4 / 5</div>
+        <div class="numbertext">4 / 4</div>
             <img src="images/restaurant-liability-insurance-st-augustine.jpg" style="width:100%">
-        </div>
-    
-        <div class="mySlides">
-        <div class="numbertext">5 / 5</div>
-            <img src="images/360_F_227622470_sJ3yEaz44RK7UrWNaGdSn7azgeRu9UDs.jpg" style="width:100%">
         </div>
 
         <!-- Next and previous buttons -->
@@ -247,9 +276,10 @@ section {
         <div class="caption-container">
             <p id="caption"></p>
         </div>
-    </div>
+    </div></center>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>    
 </body>
+
 <center>
     <footer><br>Footer: Contact Information down here</footer> 
         <br>Address: 1234 Main Street
