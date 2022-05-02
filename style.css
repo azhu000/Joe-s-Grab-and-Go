@@ -29,6 +29,10 @@ nav {
   z-index: 1;
 }
 
+#navbar-placeholder{
+  width:100%;
+}
+
 section{
   position: absolute;
   top: 50%;
