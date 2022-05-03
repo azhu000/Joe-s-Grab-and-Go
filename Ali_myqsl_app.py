@@ -1,5 +1,6 @@
 #from crypt import methods
 #from ctypes import addressof
+
 from functools import wraps
 from unicodedata import name
 import bcrypt
@@ -27,7 +28,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -172,18 +173,18 @@ class LoginForm(FlaskForm):
         min = 2, max = 80)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
 
-
-def superuser(func):
-    @wraps(func)
-    def super_checker(*args, **kwargs):
-        if employees.name != 'Manager':
-            return redirect(url_for('login'))
-        return func(*args, **kwargs)
-    return super_checker
-
 #######################################
 ###   Testing some functions
 
+#
+#def superuser(func):
+#    @wraps(func)
+#    def super_checker(*args, **kwargs):
+#        if employees.name != 'Manager':
+#            return redirect(url_for('login'))
+#        return func(*args, **kwargs)
+#    return super_checker
+#
 ###@app.route('/employees/<Name>')
 ###@superuser
 ###@login_required
