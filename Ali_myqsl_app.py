@@ -1,5 +1,5 @@
-from crypt import methods
-from ctypes import addressof
+#from crypt import methods
+#from ctypes import addressof
 from functools import wraps
 from unicodedata import name
 import bcrypt
@@ -181,38 +181,45 @@ def superuser(func):
         return func(*args, **kwargs)
     return super_checker
 
-@app.route('/employees/<Name>')
-@superuser
-@login_required
-def hire(Name):
-    form = RegisterForm()
+#######################################
+###   Testing some functions
 
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = employees(name=form.name.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-
-    return render_template('employee.html',form=form)
-    #some form thingy for name of employee to hire.
-    #adds that new user to the database and commmits. 
-
-@app.route('/employee_login', methods = ['GET', 'POST'])
-def login():
-    form = LoginForm()
-    #This is what will happen when you press submit
-    if form.validate_on_submit():
-        #it first checks for the username in the query of the database
-        user = employees.query.filter_by(name=form.name.data).first()
-        #if username exists
-        if user:
-            #checks if the passwords match
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                #if passwords match, redirect to the dashboard page
-                login_user(user)
-                return redirect(url_for('employees'))
-    #Login fucntion returns the login.html file
-    return render_template('login.html', form=form)
+###@app.route('/employees/<Name>')
+###@superuser
+###@login_required
+###def hire(Name):
+###    form = RegisterForm()
+###
+###    if form.validate_on_submit():
+###        hashed_password = bcrypt.generate_password_hash(form.password.data)
+###        new_user = employees(name=form.name.data, password=hashed_password)
+###        db.session.add(new_user)
+###        db.session.commit()
+###
+###    return render_template('employee.html',form=form)
+###    #some form thingy for name of employee to hire.
+###    #adds that new user to the database and commmits. 
+###
+##
+##
+##@app.route('/employee_login', methods = ['GET', 'POST'])
+##def login():
+##    form = LoginForm()
+##    #This is what will happen when you press submit
+##    if form.validate_on_submit():
+##        #it first checks for the username in the query of the database
+##        user = employees.query.filter_by(name=form.name.data).first()
+##        #if username exists
+##        if user:
+##            #checks if the passwords match
+##            if bcrypt.check_password_hash(user.password, form.password.data):
+##                #if passwords match, redirect to the dashboard page
+##                login_user(user)
+##                return redirect(url_for('employees'))
+##    #Login fucntion returns the login.html file
+##    return render_template('login.html', form=form)
+##
+## 
 
 
 #this is the base routing "url" this is the standard home page
