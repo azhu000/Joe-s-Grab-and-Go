@@ -231,20 +231,21 @@ def home():
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-    form = LoginForm()
+    
+    #form = LoginForm()
     #This is what will happen when you press submit
-    if form.validate_on_submit():
+    #if form.validate_on_submit():
         #it first checks for the username in the query of the database
-        user = customers.query.filter_by(name=form.name.data).first()
+        #user = customers.query.filter_by(name=form.name.data).first()
         #if username exists
-        if user:
+       # if user:
             #checks if the passwords match
-            if bcrypt.check_password_hash(user.password, form.password.data):
+          #  if bcrypt.check_password_hash(user.password, form.password.data):
                 #if passwords match, redirect to the dashboard page
-                login_user(user)
-                return redirect(url_for('dashboard'))
+              #  login_user(user)
+              #  return redirect(url_for('dashboard'))
     #Login fucntion returns the login.html file
-    return render_template('login.html', form=form)
+    return render_template('login.html')
 
 
 #############################################################
