@@ -4,7 +4,7 @@ from functools import wraps
 from unicodedata import name
 import bcrypt
 from click import password_option
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
@@ -310,18 +310,24 @@ def logout():
 #This is the routing for the registration page
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
-    form = RegisterForm()
+    #form = RegisterForm()
+    if request.method =='POST':
+        name = request.form.get('email')
+        password = request.form.get('password')
 
-    #Hasing the password entered for encryption instead of being entered as plain-text
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = customers(name=form.name.data, password=hashed_password)
+        new_user = customers(name=name, password=password)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('login'))
+    #Hasing the password entered for encryption instead of being entered as plain-text
+   # if form.validate_on_submit():
+    #    hashed_password = bcrypt.generate_password_hash(form.password.data)
+    #    new_user = customers(name=form.name.data, password=hashed_password)
+    #    db.session.add(new_user)
+        #db.session.commit()
 
     #returns the register.html file
-    return render_template('register.html', form=form)
+    return render_template('register.html')#, '''form=form''')
 
 
 if __name__ == '__main__':
