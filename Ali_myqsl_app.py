@@ -231,6 +231,19 @@ def home():
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        name = request.form.get('email')
+        password = request.form.get('password')
+        user = customers.query.filter_by(name=name).first()
+        if user:
+            if(user.password == password):
+                print("Logged in successfully!")
+                return redirect(url_for('menus'))
+            else:
+                print("Incorrect credentials!")
+        else:
+            print("No such username exists, try again")
+
     
     #form = LoginForm()
     #This is what will happen when you press submit
@@ -271,8 +284,8 @@ def dishes():
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
 @app.route('/menu')
 def menus():
-    all_dishes = menu.query.all()
-    return render_template('index.html',cust=all_dishes)
+    #all_dishes = menu.query.all()
+    return render_template('menu.html')
 
 @app.route('/dishes')
 def menudish():
@@ -316,10 +329,14 @@ def register():
         name = request.form.get('email')
         password = request.form.get('password')
 
-        new_user = customers(name=name, password=password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
+        user = customers.query.filter_by(name=name).first()
+        if user:
+            print("Username already exists")
+        else:
+            new_user = customers(name=name, password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('login'))
     #Hasing the password entered for encryption instead of being entered as plain-text
    # if form.validate_on_submit():
     #    hashed_password = bcrypt.generate_password_hash(form.password.data)
