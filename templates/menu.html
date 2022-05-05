@@ -140,14 +140,14 @@ section {
 </style>
 <body>
   <div class="header">
-    <h1><b>Restaurant.com</b></h1>
-    <h4>Order Food to  Your Door :D</h4>
+    <h1><b>Joe's Grab and Go</b></h1>
+    <h2>Order Food to  Your Door :D</h2>
   </div>
 
 <nav role="navigation">
     <ul id="main-menu">
       <li><a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
-      <li><a href="menu.html"><i class="fa fa-fw fa-search"></i>Menu</a>
+      <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
         <ul id="sub-menu">
           <li><a href="menu_popular.html" aria-label="subemnu">Popular</a></li>
           <li><a href="menu_popular.html" aria-label="subemnu">Healthy</a></li>
@@ -172,8 +172,13 @@ section {
           <li><a href="#" aria-label="subemnu">submenu</a></li>
         </ul>
       </li>
-      <li><a href="login.html"><i class="fa fa-fw fa-user"></i>Login/Register</a></li>
-      <li><a href="#"><i class="fa fa-fw fa-envelope"></i>Contact</a></li>
+      <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
+        <ul id="sub-menu">
+          <li><a href="{{url_for('login')}}" aria-label="submenu">Log-in</a></li>
+          <li><a href="{{url_for('register')}}" aria-label="submenu">Register</a></li>
+        </ul>
+      </li>
+      <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
     </ul>
   </nav>
   <div class="row"> 

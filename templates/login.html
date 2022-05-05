@@ -119,22 +119,18 @@
             }
           }
     
-    
-    
-    
-    
     </style>
     <body>
     
       <div class="header">
-        <h1><b>Restaurant.com</b></h1>
-        <h4>Order Food to  Your Door :D</h4>
+      <h1><b>Joe's Grab and Go</b></h1>
+      <h2>Order Food to  Your Door :D</h2>
       </div>
     
       <nav role="navigation">
         <ul id="main-menu">
           <li><a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
-          <li><a href="menu.html"><i class="fa fa-fw fa-search"></i>Menu</a>
+          <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
             <ul id="sub-menu">
               <li><a href="menu_popular.html" aria-label="subemnu">Popular</a></li>
               <li><a href="menu_popular.html" aria-label="subemnu">Healthy</a></li>
@@ -159,8 +155,13 @@
               <li><a href="#" aria-label="subemnu">submenu</a></li>
             </ul>
           </li>
-          <li><a href="login.html"><i class="fa fa-fw fa-user"></i>Login/Register</a></li>
-          <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact</a></li>
+          <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
+            <ul id="sub-menu">
+              <li><a href="{{url_for('login')}}" aria-label="submenu">Log-in</a></li>
+              <li><a href="{{url_for('register')}}" aria-label="submenu">Register</a></li>
+            </ul>
+          </li>
+          <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
         </ul>
       </nav>
     
@@ -171,7 +172,7 @@
       <body class="text-center">
         
     <main class="form-signin">
-      <form method="POST">
+      <form>
         <br>
         <br>
         <br>
@@ -179,12 +180,12 @@
         <h3 class="h5 mb-3 fw-normal">Enter your Email address and Password</h3>
         <br>
         <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com">
+          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
           <label for="floatingInput">Email address</label>
         </div>
         <br>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
           <label for="floatingPassword">Password</label>
         </div>
         <br> 
@@ -194,7 +195,7 @@
           </label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
-        <p>Don't you have account?<a class="btn btn-link" href="{{url_for('register')}}" role="button">Register</a>
+        <p>Don't have an account?<a class="btn btn-link" href={{url_for('register')}} role="button">Register Now</a>
 
         
       </form>
@@ -202,4 +203,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
+<center>
+  <footer><br>Contact Information down here</footer> 
+      <br>Address: 1234 Main Street
+      <br>Telephone: 1-(212)-777-1234
+      <br>Email Address: thebestrestaurant@resturants.com
+      <p></p>
+
+</center>
 </html>
