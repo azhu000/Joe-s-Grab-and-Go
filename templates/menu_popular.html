@@ -113,7 +113,7 @@ li a:hover, .dropdown:hover .dropbtn {
 
   <nav role="navigation">
     <ul id="main-menu">
-      <li><a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
+      <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
       <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
         <ul id="sub-menu">
           <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
@@ -132,7 +132,7 @@ li a:hover, .dropdown:hover .dropbtn {
       </li>
       <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
         <ul id="sub-menu">
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
+          <li><a href="{{url_for('cart')}}" aria-label="subemnu">Cart</a></li>
           <li><a href="#" aria-label="subemnu">submenu</a></li>
           <li><a href="#" aria-label="subemnu">submenu</a></li>
           <li><a href="#" aria-label="subemnu">submenu</a></li>

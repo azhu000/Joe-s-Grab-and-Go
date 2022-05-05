@@ -351,6 +351,10 @@ def register():
 def menu_popular():
     return render_template('menu_popular.html')
 
+@app.route('/cart', methods = ['GET', 'POSTS'])
+def cart():
+    return render_template('cart.html')
+
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
     return render_template('contact_us.html')
