@@ -292,7 +292,7 @@ def menudish():
     all_dishes = menuDishes.query.all()
     return render_template('index.html',dish=all_dishes)
 
-@app.route('/dishes/popular')
+@app.route('/dishes/popular') # im gonna completely ignore this route and not touch it and create a new one for popular dishes - Anthony
 def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
     return render_template('index.html',rating=popular)
@@ -346,6 +346,10 @@ def register():
 
     #returns the register.html file
     return render_template('register.html')#, '''form=form''')
+
+@app.route('/menu_popular', methods = ['GET', 'POST'])
+def menu_popular():
+    return render_template('menu_popular.html')
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
