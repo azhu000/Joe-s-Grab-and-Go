@@ -29,6 +29,10 @@ nav {
   z-index: 1;
 }
 
+#main-menu, dl, ol, ul{
+  margin-bottom: 0rem;
+}
+
 #navbar-placeholder{
   width:100%;
 }
