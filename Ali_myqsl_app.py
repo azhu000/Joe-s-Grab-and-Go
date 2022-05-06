@@ -204,7 +204,7 @@ class LoginForm(FlaskForm):
 ##
 ##
 ##@app.route('/employee_login', methods = ['GET', 'POST'])
-##def login():
+##def employee_login():
 ##    form = LoginForm()
 ##    #This is what will happen when you press submit
 ##    if form.validate_on_submit():
@@ -242,8 +242,27 @@ def login():
                 return redirect(url_for('menus'))
             else:
                 print("Incorrect credentials!")
-        else:
-            print("No such username exists, try again")
+    else:
+        print("No such username exists, try again!")
+        return render_template('login.html')
+# This code goes under the line "if(user.password == password):"
+#
+#            print("No such username exists, try again")
+#            user = employees.query.filter_by(name=name).first()
+#            if user:
+#                if(user.password == password):
+#                    if (user.role = 'Chef'):
+#                    print("Logged in successfully!")
+#                       return redirect(url_for(chef_homepage))
+#                    if (user.role = 'Manager'):
+#                    print("Logged in successfully!")
+#                       return redirect(url_for(manager_homepage))
+#                    print("Logged in successfully!")
+#                    return redirect(url_for('menus'))
+#                else:
+#                    print("Incorrect credentials!")
+#            else:
+#                print("No such username exists, try again")
 
     
     #form = LoginForm()
@@ -258,8 +277,7 @@ def login():
                 #if passwords match, redirect to the dashboard page
               #  login_user(user)
               #  return redirect(url_for('dashboard'))
-    #Login fucntion returns the login.html file
-    return render_template('login.html')
+    #Login function returns the login.html file
 
 
 #############################################################
