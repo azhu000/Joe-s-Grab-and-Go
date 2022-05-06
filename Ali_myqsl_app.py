@@ -351,6 +351,26 @@ def register():
 def menu_popular():
     return render_template('menu_popular.html')
 
+@app.route('/cart', methods = ['GET', 'POSTS'])
+def cart():
+    return render_template('cart.html')
+
+@app.route('/customer_page', methods = ['GET', 'POST']) #customer page
+def customer_page():
+    return render_template('customer_page.html')
+
+@app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
+def delivery_page():
+    return render_template('delivery_page.html')
+
+@app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
+def manager_page():
+    return render_template('manager_page.html')
+
+@app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
+def chef_page():
+    return render_template('chef_page.html')
+
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
     return render_template('contact_us.html')
