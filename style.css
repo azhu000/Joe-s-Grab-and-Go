@@ -33,6 +33,13 @@ nav {
   margin-bottom: 0rem;
 }
 
+img {
+  float: left;
+  width:  500px;
+  height: 300px;
+  object-fit: cover;
+}
+
 #navbar-placeholder{
   width:100%;
 }
