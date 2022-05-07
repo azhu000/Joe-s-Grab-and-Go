@@ -1,92 +1,169 @@
-/* Cascadying Stylesheet */
-p.grade{
-    font-weight: bold;
+* {box-sizing: border-box}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;  
 }
 
+.header {
+  text-align: center;
+  padding: 40px;
+}
 
-* {
-    box-sizing: border-box;
-  }
+h1 {
+  margin: 2em 0 1.5em 0;
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: black;
+  z-index: 1;
+}
+
+#main-menu, dl, ol, ul{
+  margin-bottom: 0rem;
+}
+
+#navbar-placeholder{
+  width:100%;
+}
+
+section{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%); 
+}
+
+.float-container {
+  padding: 20px;
+}
+
+.float-child {
+  float: left;
+  padding: 20px;
+  position: relative;
+}  
+
+ ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   
-  /* Position the image container (needed to position the left and right arrows) */
-  .container {
-    position: relative;
-  }
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(40, 148, 112);
+}
+
+#main-menu > li {
+  float: left;
+  position: relative;
+}
+
+#main-menu > li > a {
+  font-size: 20px;
+  color: rgba(253, 252, 252, 0.85);
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  display: block;
+  width: 100%;
+  padding: 14px 36px;
+  border-right: 1px solid rgba(0,0,0,0.15);
   
-  /* Hide the images by default */
-  .mySlides {
-    display: none;
-  }
-  
-  /* Add a pointer when hovering over the thumbnail images */
-  .cursor {
-    cursor: pointer;
-  }
-  
-  /* Next & previous buttons */
-  .prev,
-  .next {
-    cursor: pointer;
-    position: absolute;
-    top: 40%;
-    width: auto;
-    padding: 16px;
-    margin-top: -50px;
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  
-  /* Position the "next button" to the right */
-  .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-  }
-  
-  /* On hover, add a black background color with a little bit see-through */
-  .prev:hover,
-  .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  /* Number text (1/3 etc) */
-  .numbertext {
-    color: #f2f2f2;
-    font-size: 12px;
-    padding: 8px 12px;
-    position: absolute;
-    top: 0;
-  }
-  
-  /* Container for image text */
-  .caption-container {
-    text-align: center;
-    background-color: #222;
-    padding: 2px 16px;
-    color: white;
-  }
-  
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  /* Six columns side by side */
-  .column {
-    float: left;
-    width: 16.66%;
-  }
-  
-  /* Add a transparency effect for thumnbail images */
-  .demo {
-    opacity: 0.6;
-  }
-  
-  .active,
-  .demo:hover {
-    opacity: 1;
-  }
+}
+
+#main-menu > li:nth-child(1) > a {
+  border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu {
+  position: absolute;
+  background: #f8f8f6;
+  opacity: 0;
+  visibility: hidden;
+  width:100%;
+  text-align: center;
+  transition: all 0.15s ease-in;
+}
+
+#sub-menu > li {
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu > li >  a {
+  color: rgba(19, 18, 18, 0.6);
+  text-decoration: none;
+}
+
+#main-menu > li:hover #sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+#sub-menu > li >  a:hover {
+ text-decoration: underline;
+}
+
+section {
+  column-width: 15em;
+  background: #dadadf;
+  padding: 2em 12em;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+
+.column img {
+  margin-top: 12px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.container {
+  position: relative;
+  font-family: Arial;
+}
+
+.text-block {
+  position: absolute;
+  text-align: center;
+  bottom: 10px;
+  right: 20%;
+  left: 20%;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.delivery-button{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: large;
+}
+
+footer{
+  margin-top: 1rem;
+}
