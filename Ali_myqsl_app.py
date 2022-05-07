@@ -5,7 +5,7 @@ from functools import wraps
 from unicodedata import name
 import bcrypt
 from click import password_option
-from flask import Flask, redirect, render_template, url_for, request
+from flask import Flask, redirect, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
@@ -89,6 +89,7 @@ class customers(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable = False, unique = True)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
+    #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
 
     def __repr__(self):
         return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.password)
@@ -198,8 +199,8 @@ class LoginForm(FlaskForm):
 ###        db.session.commit()
 ###
 ###    return render_template('employee.html',form=form)
-###    #some form thingy for name of employee to hire.
-###    #adds that new user to the database and commmits. 
+###    some form thingy for name of employee to hire.
+###    adds that new user to the database and commmits. 
 ###
 ##
 ##
@@ -242,12 +243,12 @@ def login():
                 return redirect(url_for('menus'))
             else:
                 print("Incorrect credentials!")
-    else:
-        print("No such username exists, try again!")
-        return render_template('login.html')
+        else:
+            print("No such username exists, try again!")
+    return render_template('login.html')
 # This code goes under the line "if(user.password == password):"
 #
-#            print("No such username exists, try again")
+#            
 #            user = employees.query.filter_by(name=name).first()
 #            if user:
 #                if(user.password == password):
@@ -257,8 +258,9 @@ def login():
 #                    if (user.role = 'Manager'):
 #                    print("Logged in successfully!")
 #                       return redirect(url_for(manager_homepage))
+#                    if (user.role = 'Delivery Driver'):
 #                    print("Logged in successfully!")
-#                    return redirect(url_for('menus'))
+#                       return redirect(url_for('menus'))
 #                else:
 #                    print("Incorrect credentials!")
 #            else:
@@ -293,11 +295,13 @@ def index():
     all_customers = customers.query.all()
     return render_template('index.html', cust=all_customers)
 
-
+# This uses jsonify to return more specific information from the database
+# Doesnt work since jsonify cannot return queries. It usually returns lists/dictionaries.
+# This means we would need to create our own serializer to fetch table data and convert into list/dicts. 
 @app.route('/dish')
 def dishes():
     all_dishes = dish.query.all()
-    return render_template('index.html',cust=all_dishes)
+    return render_template('index.html',jsonify(all_dishes))
 
 # This route just prints the numbers, not the referenced items.
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
@@ -306,10 +310,14 @@ def menus():
     #all_dishes = menu.query.all()
     return render_template('menu.html')
 
+# Successfully able to return information from multiple tables in a single route.
+# To specify a single item in the table, you can do something like the dishing variable.
 @app.route('/dishes')
 def menudish():
     all_dishes = menuDishes.query.all()
-    return render_template('index.html',dish=all_dishes)
+    dished = dish.query.all()
+    dishing = dish.query.filter_by(name="Flaming Moe").first()
+    return render_template('index.html',dish = all_dishes, dished = dished, dishing = dishing)
 
 @app.route('/dishes/popular') # im gonna completely ignore this route and not touch it and create a new one for popular dishes - Anthony
 def popular():

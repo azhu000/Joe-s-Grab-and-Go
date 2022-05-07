@@ -21,14 +21,8 @@
             {%for row in cust%}
             <tr>
                 <td>{{ row.id }}</td>
-<<<<<<< Updated upstream
                 <td>{{ row.name}}</td>
                 <td>{{ row.description}} </td>
-=======
-                <!--row.chefID-->
-                <td>{{ row.employees.name}}</td>
-                <td>{{ row.businessID}} </td>
->>>>>>> Stashed changes
             </tr>
             {% endfor %}
         </tbody>
@@ -55,6 +49,22 @@
         </tbody>
     </table>
 {% endif %}
+
+<!--
+    This is how you would call items from the database. To specify which columns from a table you want,
+    it needs to match with the column named in the class. Ex: dishes.id returns id, if you wanted the
+    name, you would do dishes.name
+    If you dont want the entire table contents but only a single item, you would need to go to 
+    the app route and specify the query to find the item you want. 
+-->
+{% for dishes in dished %}
+    <li> {{ dishes.id }}.   {{ dishes.name }}  - {{dishes. description }}
+    </li>
+
+{% endfor %}
+
+<!-- dishing.name returns simply the name. -->
+{{dishing.name}}
 
 {% if rating %}
     <table>
