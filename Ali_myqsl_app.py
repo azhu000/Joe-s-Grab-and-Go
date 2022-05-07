@@ -382,18 +382,23 @@ def menu_popular():
 def cart():
     return render_template('cart.html')
 
+@login_required
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
 def customer_page():
+    
     return render_template('customer_page.html')
 
+@login_required
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 def delivery_page():
     return render_template('delivery_page.html')
 
+@login_required
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 def manager_page():
     return render_template('manager_page.html')
 
+@login_required
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
 def chef_page():
     return render_template('chef_page.html')
@@ -405,3 +410,5 @@ def contact():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+    #eirsaujhnghngihsr
