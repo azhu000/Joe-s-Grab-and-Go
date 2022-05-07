@@ -43,9 +43,8 @@ INSERT INTO customers VALUES (5, "Brady", "Brady", "(716)-216-6677",1);
  INSERT INTO dishRating VALUES (5, 3, "Pizza", 3, 8);
 
 
- INSERT INTO menuDishes VALUES(1,1,$7.99)
- INSERT INTO menuDishes VALUES(1,3,$8.99)
- INSERT INTO menuDishes VALUES(2,2,$4.19)
- INSERT INTO menuDishes VALUES(2,3,$9.99)
- INSERT INTO menuDishes VALUES(2,8,$3.00)
-
+ INSERT INTO menuDishes VALUES(1,1,"$7.99");
+ INSERT INTO menuDishes VALUES(1,3,"$8.99");
+ INSERT INTO menuDishes VALUES(2,2,"$4.19");
+ INSERT INTO menuDishes VALUES(2,3,"$9.99");
+ INSERT INTO menuDishes VALUES(2,8,"$3.00");
