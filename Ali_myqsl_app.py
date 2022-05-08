@@ -85,6 +85,7 @@ class employees(db.Model, UserMixin):
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(20), nullable = False)
+    email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
@@ -213,9 +214,9 @@ def home():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        name = request.form.get('email')
+        email = request.form.get('email')
         password = request.form.get('password')
-        user = customers.query.filter_by(name=name).first()
+        user = customers.query.filter_by(email=email).first()
         if user:
             if(user.password == password):
                 print("Logged in successfully!")
@@ -223,7 +224,7 @@ def login():
             else:
                 print("Incorrect credentials!")
         else:
-            user = employees.query.filter_by(email=name).first()
+            user = employees.query.filter_by(email=email).first()
             if user:
                 if(user.password == password):
                     if (user.role == 'Chef'):
@@ -306,8 +307,6 @@ def dishlist():
 ############################################################
 
 
-
-
 #upon successful login, this is the page that will be displayed
 @app.route('/dashboard', methods = ['GET', 'POST'])
 @login_required
@@ -327,19 +326,21 @@ def logout():
 def register():
     #form = RegisterForm()
     if request.method =='POST':
-        name = request.form.get('email')
+        name = request.form.get('name')
+        email = request.form.get('email')
         password = request.form.get('password')
-
-        user = customers.query.filter_by(name=name).first()
-        worker = employees.query.filter_by(email=name).first()
+        user = customers.query.filter_by(email=email).first()
+        worker = employees.query.filter_by(email=email).first()
+        #checks if email is already taken by customer or employee
         if user:
             print("Username already exists")
         if worker:
             print("Ay, im workin ova here!")
         else:
-            new_user = customers(name=name, password=password)
+            new_user = customers(name=name, email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
+            print("Thank you for registering!")
             return redirect(url_for('login'))
     #Hasing the password entered for encryption instead of being entered as plain-text
    # if form.validate_on_submit():

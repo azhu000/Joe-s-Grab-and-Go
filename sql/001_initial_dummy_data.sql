@@ -20,11 +20,12 @@ INSERT INTO menu VALUES (3, 3, 1);
 INSERT INTO menu VALUES (4, 2, 1);
 INSERT INTO menu VALUES (5, 2, 1);
 
-INSERT INTO customers VALUES (1, "Jolene", "Jolene", "(347)-621-2020",0);
-INSERT INTO customers VALUES (2, "Nathaniel", "Nathaniel", "(646)-626-6686",1);
-INSERT INTO customers VALUES (3, "Tom", "Tom", "(718)-762-8213",0);
-INSERT INTO customers VALUES (4, "Angelica","Angelica", "(939)-952-6445",0);
-INSERT INTO customers VALUES (5, "Brady", "Brady", "(716)-216-6677",1);
+INSERT INTO customers VALUES (1, "Jolene", "why@dahell.com", "amihere" ,0);
+INSERT INTO customers VALUES (2, "Nathaniel", "jimmytwoshoes@aol.com","jimmy" ,1);
+INSERT INTO customers VALUES (3, "Tom", "Tom@Tom.Tom", "Tom",0);
+INSERT INTO customers VALUES (4, "Angelica","ahhh@1.2", "3",0);
+INSERT INTO customers VALUES (5, "Brady", "8@superbowl.rings","easy" ,1);
+INSERT INTO customers VALUES (6, "DATBOI", "bigboi@aol.com", "password", 0);
 
 -- INSERT INTO orders VALUES (1, "$24.50", NULL, 3, 1);
 -- INSERT INTO orders VALUES (2, "$11.00", NULL, 3, 1);
