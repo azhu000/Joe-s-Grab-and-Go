@@ -1,9 +1,9 @@
 INSERT INTO businesses (Name, Address, Phone) VALUES ( "Moe's Tavern", '555 5th Avenue', '(212)-867-5309');
-INSERT INTO employees VALUES (1, "Tracy", 'Manager', 1);
-INSERT INTO employees VALUES (2, "Stefan", 'Chef', 1);
-INSERT INTO employees VALUES (3, "Rachel", 'Chef', 1);
-INSERT INTO employees VALUES (4, "Bob", 'Delivery', 1);
-INSERT INTO employees VALUES (5, "Jeffrey", 'Delivery', 1);
+INSERT INTO employees VALUES (1, "Tracy", "abc@123.com" , "",'Manager', 1);
+INSERT INTO employees VALUES (2, "Stefan", "joe@shmoe.org" ,"Bobbyscar@yahoo.com" , 'Chef', 1);
+INSERT INTO employees VALUES (3, "Rachel", "a@b.c" ,"3",'Chef', 1);
+INSERT INTO employees VALUES (4, "Bob", "hi@there.com" ,"4",'Delivery', 1);
+INSERT INTO employees VALUES (5, "Jeffrey", "blah@blah.edu" ,"5", 'Delivery', 1);
 
 INSERT INTO dish VALUES (1, "Caesar Salad", 'a tossed salad made of romaine, garlic, anchovies, and croutons and dressed with olive oil, coddled egg, lemon juice, and grated cheese. ', 1);
 INSERT INTO dish VALUES (2, "Flaming Moe", 'The signature specialty drink of Springfield', 1);

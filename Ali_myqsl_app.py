@@ -50,8 +50,6 @@ def load_user(customers_id):
     return customers.query.get(int(customers_id))
 
 
-
-
 # setting up database ids
 # Note: not sure if its more comprehensive to list the relationships between classes
 #  in the parent class or the child class. For now its in the parent class.
@@ -75,6 +73,7 @@ class businesses(db.Model):
 class employees(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(45), nullable = False)
+    email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
@@ -201,27 +200,7 @@ class LoginForm(FlaskForm):
 ###    return render_template('employee.html',form=form)
 ###    some form thingy for name of employee to hire.
 ###    adds that new user to the database and commmits. 
-###
-##
-##
-##@app.route('/employee_login', methods = ['GET', 'POST'])
-##def employee_login():
-##    form = LoginForm()
-##    #This is what will happen when you press submit
-##    if form.validate_on_submit():
-##        #it first checks for the username in the query of the database
-##        user = employees.query.filter_by(name=form.name.data).first()
-##        #if username exists
-##        if user:
-##            #checks if the passwords match
-##            if bcrypt.check_password_hash(user.password, form.password.data):
-##                #if passwords match, redirect to the dashboard page
-##                login_user(user)
-##                return redirect(url_for('employees'))
-##    #Login fucntion returns the login.html file
-##    return render_template('login.html', form=form)
-##
-## 
+
 
 
 #this is the base routing "url" this is the standard home page
@@ -244,27 +223,23 @@ def login():
             else:
                 print("Incorrect credentials!")
         else:
-            print("No such username exists, try again!")
-    return render_template('login.html')
-# This code goes under the line "if(user.password == password):"
-#
-#            
-#            user = employees.query.filter_by(name=name).first()
-#            if user:
-#                if(user.password == password):
-#                    if (user.role = 'Chef'):
-#                    print("Logged in successfully!")
-#                       return redirect(url_for(chef_homepage))
-#                    if (user.role = 'Manager'):
-#                    print("Logged in successfully!")
-#                       return redirect(url_for(manager_homepage))
-#                    if (user.role = 'Delivery Driver'):
-#                    print("Logged in successfully!")
-#                       return redirect(url_for('menus'))
-#                else:
-#                    print("Incorrect credentials!")
-#            else:
-#                print("No such username exists, try again")
+            user = employees.query.filter_by(email=name).first()
+            if user:
+                if(user.password == password):
+                    if (user.role == 'Chef'):
+                        print("Logged in successfully!")
+                        return redirect(url_for('chef_page'))
+                    if (user.role == 'Manager'):
+                        print("Logged in successfully!")
+                        return redirect(url_for('manager_page'))
+                    if (user.role == 'Delivery'):
+                        print("Logged in successfully!")
+                        return redirect(url_for('menus'))
+                else:
+                    print("Incorrect credentials!")
+            else:
+                print("No such username exists, try again")
+    return render_template('login.html')    
 
     
     #form = LoginForm()
@@ -347,7 +322,6 @@ def logout():
     return redirect(url_for('login'))
 
 
-
 #This is the routing for the registration page
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -357,8 +331,11 @@ def register():
         password = request.form.get('password')
 
         user = customers.query.filter_by(name=name).first()
+        worker = employees.query.filter_by(email=name).first()
         if user:
             print("Username already exists")
+        if worker:
+            print("Ay, im workin ova here!")
         else:
             new_user = customers(name=name, password=password)
             db.session.add(new_user)
@@ -378,6 +355,7 @@ def register():
 def menu_popular():
     return render_template('menu_popular.html')
 
+@login_required
 @app.route('/cart', methods = ['GET', 'POSTS'])
 def cart():
     return render_template('cart.html')
@@ -385,6 +363,7 @@ def cart():
 @login_required
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
 def customer_page():
+    current_user.is_authenticated()
     
     return render_template('customer_page.html')
 
@@ -410,5 +389,3 @@ def contact():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-    #eirsaujhnghngihsr
