@@ -289,7 +289,7 @@ def index():
 @app.route('/dish')
 def dishes():
     all_dishes = dish.query.all()
-    return render_template('index.html',jsonify(all_dishes))
+    return render_template('index.html',dish=all_dishes)
 
 # This route just prints the numbers, not the referenced items.
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
