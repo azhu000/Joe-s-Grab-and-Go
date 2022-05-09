@@ -44,11 +44,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-#@login_manager.user_loader
-#def load_user(Customerid):
-#    print("get cucked")
-#    return customers.query.get(int(Customerid))
 # loads the user id which is stored
+# This does not work like it should. It checks for the ID of the user and if it exists in customer
+# else it will check in employees. 
+# Both tables have the same IDs, so the else statement will never trigger. 
+# Would need to check by email, but I am not sure at all what is actually being passed in. 
 @login_manager.user_loader
 def load_user(id):
     if customers.query.get(int(id)):
@@ -366,12 +366,12 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    return render_template('menu_popular.html')
+    dished = dish.query.all()
+    return render_template('menu_popular.html',dish=dished)
 
 @app.route('/cart', methods = ['GET', 'POST'])
 @login_required
 def cart():
-    print("get cucked")
     return render_template('cart.html')
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
@@ -384,11 +384,33 @@ def customer_page():
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
 def delivery_page():
+    user2 = employees.query.filter_by(role="Delivery").first()
+    print(current_user.name)
+    print(user2.role)
+#    try:
+#        print(current_user.role)
+#    except:
+#        print("no role to be found")
+#        return render_template('home.html')
+
+#    print(user1.name, type(user1))
+#    print(user2, type(user2))
+#    if (user1.role != "Delivery"):
+#        print("Git outta hea")
+#        return render_template('home.html')
     return render_template('delivery_page.html')
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 @login_required
 def manager_page():
+    # confirms the user accessing this page is the manager
+    # This doesnt work like i thought because theres still an issue with user_loader.
+    # If a customer logs in with ID = 1, that customer can access this page.
+    user = employees.query.filter_by(id="1").first()
+    if (current_user.get_id() != str(user.id)):
+        print(current_user.get_id())
+        return render_template('home.html')
+    
     return render_template('manager_page.html')
 
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
