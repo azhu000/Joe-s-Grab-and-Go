@@ -44,10 +44,18 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+#@login_manager.user_loader
+#def load_user(Customerid):
+#    print("get cucked")
+#    return customers.query.get(int(Customerid))
 # loads the user id which is stored
 @login_manager.user_loader
-def load_user(customers_id):
-    return customers.query.get(int(customers_id))
+def load_user(id):
+    if customers.query.get(int(id)):
+        return customers.query.get(int(id))
+    else:
+        return employees.query.get(int(id))
+
 
 
 # setting up database ids
@@ -219,8 +227,9 @@ def login():
         user = customers.query.filter_by(email=email).first()
         if user:
             if(user.password == password):
+                login_user(user)
                 print("Logged in successfully!")
-                return redirect(url_for('menus'))
+                return redirect(url_for('cart'))
             else:
                 print("Incorrect credentials!")
         else:
@@ -228,12 +237,15 @@ def login():
             if user:
                 if(user.password == password):
                     if (user.role == 'Chef'):
+                        login_user(user)
                         print("Logged in successfully!")
                         return redirect(url_for('chef_page'))
                     if (user.role == 'Manager'):
+                        login_user(user)
                         print("Logged in successfully!")
                         return redirect(url_for('manager_page'))
                     if (user.role == 'Delivery'):
+                        login_user(user)
                         print("Logged in successfully!")
                         return redirect(url_for('menus'))
                 else:
@@ -356,30 +368,31 @@ def register():
 def menu_popular():
     return render_template('menu_popular.html')
 
+@app.route('/cart', methods = ['GET', 'POST'])
 @login_required
-@app.route('/cart', methods = ['GET', 'POSTS'])
 def cart():
+    print("get cucked")
     return render_template('cart.html')
 
-@login_required
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
+@login_required
 def customer_page():
-    current_user.is_authenticated()
+    #current_user.is_authenticated()
     
     return render_template('customer_page.html')
 
-@login_required
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
+@login_required
 def delivery_page():
     return render_template('delivery_page.html')
 
-@login_required
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
+@login_required
 def manager_page():
     return render_template('manager_page.html')
 
-@login_required
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
+@login_required
 def chef_page():
     return render_template('chef_page.html')
 
