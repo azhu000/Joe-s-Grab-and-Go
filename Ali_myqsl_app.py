@@ -229,7 +229,7 @@ def login():
             if(user.password == password):
                 login_user(user)
                 print("Logged in successfully!")
-                return redirect(url_for('cart'))
+                return redirect(url_for('menus'))
             else:
                 print("Incorrect credentials!")
         else:
@@ -247,7 +247,7 @@ def login():
                     if (user.role == 'Delivery'):
                         login_user(user)
                         print("Logged in successfully!")
-                        return redirect(url_for('menus'))
+                        return redirect(url_for('delivery_page'))
                 else:
                     print("Incorrect credentials!")
             else:
@@ -304,13 +304,15 @@ def menus():
 def menudish():
     all_dishes = menuDishes.query.all()
     dished = dish.query.all()
+    print(type(dished))
+    
     dishing = dish.query.filter_by(name="Flaming Moe").first()
     return render_template('index.html',dish = all_dishes, dished = dished, dishing = dishing)
 
 @app.route('/dishes/popular') # im gonna completely ignore this route and not touch it and create a new one for popular dishes - Anthony
 def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
-    return render_template('index.html',rating=popular)
+    return render_template('index.html',dishes=popular)
 
 @app.route('/rating')
 def dishlist():
@@ -370,19 +372,19 @@ def menu_popular():
     return render_template('menu_popular.html',dish=dished)
 
 @app.route('/cart', methods = ['GET', 'POST'])
-@login_required
+#@login_required
 def cart():
     return render_template('cart.html')
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
-@login_required
+#@login_required
 def customer_page():
     #current_user.is_authenticated()
     
     return render_template('customer_page.html')
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
-@login_required
+#@login_required
 def delivery_page():
     user2 = employees.query.filter_by(role="Delivery").first()
     print(current_user.name)
@@ -401,7 +403,7 @@ def delivery_page():
     return render_template('delivery_page.html')
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
-@login_required
+#@login_required
 def manager_page():
     # confirms the user accessing this page is the manager
     # This doesnt work like i thought because theres still an issue with user_loader.
@@ -414,7 +416,7 @@ def manager_page():
     return render_template('manager_page.html')
 
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
-@login_required
+#@login_required
 def chef_page():
     return render_template('chef_page.html')
 
