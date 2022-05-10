@@ -117,9 +117,12 @@ li a:hover, .dropdown:hover .dropbtn {
       <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
         <ul id="sub-menu">
           <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Healthy</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Kids</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Dessert</a></li>
+          <li><a href="#appetizers" aria-label="subemnu">Appetizers</a></li>
+          <li><a href="#entree" aria-label="subemnu">Entrees</a></li>
+          <li><a href="#soups" aria-label="subemnu">Soup & Salad</a></li>
+          <li><a href="#dessert" aria-label="subemnu">Dessert</a></li>
+          <li><a href="#drinks" aria-label="subemnu">Beverages</a></li>
+
         </ul>
       </li>
       <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
@@ -149,7 +152,7 @@ li a:hover, .dropdown:hover .dropbtn {
   </nav>
 
 
-<div class="header">
+<div class="header" id="appetizers">
   <h2>Appetizers</h2>
 </div>
 <div class="row">
@@ -332,7 +335,7 @@ li a:hover, .dropdown:hover .dropbtn {
 
 
 
- <div class="header">
+ <div class="header" id="entree">
   <h2>Entree</h2><br>
 <div/>
 
@@ -454,7 +457,7 @@ li a:hover, .dropdown:hover .dropbtn {
   </div>
 
 
- <div class="header">
+ <div class="header" id="soups">
   <h2>Soup & Salad</h2>
  </div>
 
@@ -605,7 +608,7 @@ li a:hover, .dropdown:hover .dropbtn {
   </div>
 </div>
 
- <div class="header">
+ <div class="header" id="dessert">
   <h2>Dessert</h2>
  </div>
 
@@ -726,7 +729,7 @@ li a:hover, .dropdown:hover .dropbtn {
   </div>
 </div>
 
- <div class="header">
+ <div class="header" id="drinks">
   <h2>Drink</h2>
  </div>
  <div class="row">
