@@ -33,13 +33,6 @@ nav {
   margin-bottom: 0rem;
 }
 
-img {
-  float: left;
-  width:  500px;
-  height: 300px;
-  object-fit: cover;
-}
-
 #navbar-placeholder{
   width:100%;
 }
@@ -66,7 +59,6 @@ section{
   margin: 0;
   padding: 0;
   list-style: none;
-  
 }
 
 li a:hover, .dropdown:hover .dropbtn {
@@ -101,6 +93,7 @@ li a:hover, .dropdown:hover .dropbtn {
   opacity: 0;
   visibility: hidden;
   width:100%;
+  padding: 0;
   text-align: center;
   transition: all 0.15s ease-in;
 }
@@ -160,7 +153,6 @@ section {
   left: 20%;
   background-color: black;
   color: white;
-  padding-left: 20px;
   padding-right: 20px;
 }
 
