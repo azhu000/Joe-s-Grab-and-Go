@@ -27,6 +27,7 @@ nav {
   position: relative;
   background: black;
   z-index: 1;
+  margin-bottom: 2em;
 }
 
 #main-menu, dl, ol, ul{
@@ -165,4 +166,13 @@ section {
 
 footer{
   margin-top: 1rem;
+}
+
+.table-container{
+  width: max-content;
+  height: max-content;
+}
+
+.dispute-submit-button{
+  float: right;
 }
