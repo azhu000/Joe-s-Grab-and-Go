@@ -150,6 +150,7 @@ class orders(db.Model):
     orderline = db.relationship('orderLineItem', backref='orders')
 
 class orderLineItem(db.Model):
+    __tablename__ = 'orderLineItem'
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     quantity = db.Column(db.String(45),  nullable = False)
     subtotal = db.Column(db.String(45),  nullable = False)
@@ -304,16 +305,17 @@ def menus():
 @app.route('/dishes')
 def menudish():
     all_dishes = menuDishes.query.all()
+    thing = dishRating.query.all()
     dished = dish.query.all()
     print(type(dished))
-    
     dishing = dish.query.filter_by(name="Flaming Moe").first()
-    return render_template('index.html',dish = all_dishes, dished = dished, dishing = dishing)
+    order = orderLineItem.query.all()
+    return render_template('index.html',order=order,thing=thing,dish = all_dishes, dished = dished, dishing = dishing)
 
 @app.route('/dishes/popular') # im gonna completely ignore this route and not touch it and create a new one for popular dishes - Anthony
 def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
-    return render_template('index.html',dishes=popular)
+    return render_template('index.html',popular=popular)
 
 @app.route('/rating')
 def dishlist():
