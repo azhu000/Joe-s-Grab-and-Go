@@ -1,6 +1,7 @@
 #from crypt import methods
 #from ctypes import addressof
 
+from ast import Delete
 from functools import wraps
 from unicodedata import name
 import bcrypt
@@ -415,10 +416,43 @@ def manager_page():
     
     return render_template('manager_page.html')
 
+
+@app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
+def chef_page_rm():
+    dished = dish.query.all()
+    if request.method == "POST":
+        if request.form.get('id') == '':
+            print("Need a non empty ID")
+        else:
+            ids = request.form.get('id')
+            try:
+                dish.query.filter(dish.id == ids).delete()
+                db.session.commit()
+                print("Deletion Successful")
+                return redirect(url_for('chef_page_rm'))
+            except:
+                print("Deletion Failed")
+    return render_template('chef_page_rm.html', dished = dished)
+
+
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
 #@login_required
 def chef_page():
-    return render_template('chef_page.html')
+    dished = dish.query.all()
+    if request.method == "POST":
+        if request.form.get('dish') == '' or request.form.get('description') == '' or request.form.get('bizID') == '' :
+            print("Nothing Posted")
+        else:
+            dishes = request.form.get('dish')
+            description = request.form.get('description')
+            bizID = request.form.get('bizID')
+            new_dish = dish(name = dishes, description = description, bizID = bizID)
+            db.session.add(new_dish)
+            db.session.commit()
+            print("New Dish added")
+            return redirect(url_for('chef_page'))
+
+    return render_template('chef_page.html', dished = dished)
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():

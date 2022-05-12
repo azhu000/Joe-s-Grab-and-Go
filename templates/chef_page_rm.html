@@ -189,26 +189,13 @@ section {
              
         <br>
         <div class="form-floating">
-          <input type="dish" class="form-control" id="floatingInput" name="dish" placeholder="Enter the Dish to be Added"/>
-          <label for="floatingInput">Dish To be Added</label>
+          <input type="id" class="form-control" id="floatingInput" name="id" placeholder="Enter Dish Id to be removed"/>
+          <label for="floatingInput">Dish To be Removed</label>
         </div>
-        <br> 
-        <div class="form-floating">
-          <input type="description" class="form-control" id="floatingInput" name="description" placeholder="Enter Description of Dish"/>
-          <label for="floatingInput">Description</label>
-        </div>
-        <br>
-        <div class="form-floating">
-          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
-          <label for="floatingInput">bizID</label>
-        </div>
-        <br> 
-
+        <br>   
         
-        <div>
-        
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Add Dishes</button>
-        <p>Remove Dishes? <a class="btn btn-link" href="{{url_for('chef_page_rm')}}" role="button">Remove Dishes</a>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Remove Dish</button>
+        <p>Add Dishes? <a class="btn btn-link" href="{{url_for('chef_page')}}" role="button">Go to Add dishes</a>
         
         
       </form>
