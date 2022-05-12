@@ -29,7 +29,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
