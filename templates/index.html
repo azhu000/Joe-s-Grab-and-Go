@@ -50,6 +50,57 @@
     </table>
 {% endif %}
 
+{{thing[0].comment}}
+
+{% if thing %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>thing</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in thing%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.rating}}</td>
+                <td>{{ row.comment}} </td>
+                <td>{{ row.customers.name}} </td>
+                <td>{{ row.dish.name}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if order %}
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>thing</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for row in order%}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.orders.id}} </td>
+                <td>{{ row.quantity}}</td>
+                <td>{{ row.dish.name}} </td>
+                <td>{{ row.subtotal}} </td>
+                <td>{{ row.discount}} </td>
+                <td>{{ row.total}} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+
 <!--
     This is how you would call items from the database. To specify which columns from a table you want,
     it needs to match with the column named in the class. Ex: dishes.id returns id, if you wanted the
@@ -114,8 +165,10 @@
     {{dishing.name}}
     {{dishing.description}}
 -->
+{% for pop in popular%}
+    {{pop}}
 
-
+{% endfor %}
 
 {% if rating %}
     <table>
