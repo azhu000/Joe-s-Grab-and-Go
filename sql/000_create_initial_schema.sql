@@ -5,8 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 
+
 -- -----------------------------------------------------
--- Table `test_schema`.`businesses`
+-- Table .`businesses`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `businesses` ;
 
@@ -15,35 +16,34 @@ CREATE TABLE IF NOT EXISTS `businesses` (
   `Name` VARCHAR(45) NOT NULL,
   `Address` VARCHAR(255) NOT NULL,
   `Phone` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`));
+
+
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`employees`
+-- Table `employees`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `employees` ;
 
 CREATE TABLE IF NOT EXISTS `employees` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
   `bizID` INT NOT NULL,
   INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
   PRIMARY KEY (`id`),
+  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
   CONSTRAINT `fk_bizID`
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+    ON UPDATE CASCADE);
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`dish`
+-- Table `dish`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `dish` ;
 
@@ -59,12 +59,11 @@ CREATE TABLE IF NOT EXISTS `dish` (
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`menu`
+-- Table .`menu`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `menu` ;
 
@@ -84,28 +83,39 @@ CREATE TABLE IF NOT EXISTS `menu` (
     FOREIGN KEY (`businessID`)
     REFERENCES `businesses` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`customers`
+-- Table .`customers`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `customers` ;
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `isVIP` TINYINT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE);
+
+
+
+CREATE TABLE IF NOT EXISTS `test_schema`.`customers` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `phone` VARCHAR(45) NULL,
   `isVIP` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE)
-ENGINE = InnoDB;
+  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
+  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE);
+
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`orders`
+-- Table .`orders`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `orders` ;
 
@@ -127,12 +137,11 @@ CREATE TABLE IF NOT EXISTS `orders` (
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`orderLineItem`
+-- Table .`orderLineItem`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `orderLineItem` ;
 
@@ -156,12 +165,11 @@ CREATE TABLE IF NOT EXISTS `orderLineItem` (
     FOREIGN KEY (`DishOrdered`)
     REFERENCES `dish` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`dishRating`
+-- Table .`dishRating`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `dishRating` ;
 
@@ -183,12 +191,11 @@ CREATE TABLE IF NOT EXISTS `dishRating` (
     FOREIGN KEY (`dishID`)
     REFERENCES `dish` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
 
 -- -----------------------------------------------------
--- Table `test_schema`.`menuDishes`
+-- Table .`menuDishes`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `menuDishes` ;
 
@@ -206,10 +213,10 @@ CREATE TABLE IF NOT EXISTS `menuDishes` (
     FOREIGN KEY (`id`)
     REFERENCES `menu` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

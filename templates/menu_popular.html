@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<style>
+* {box-sizing: border-box}
+body {font-family: Arial, Helvetica, sans-serif;}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;  
+}
+
+.header {
+  text-align: center;
+  padding: 40px;
+}
+
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: black;
+  z-index: 1;
+}
+
+ ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(40, 148, 112);
+}
+
+#main-menu > li {
+  float: left;
+  position: relative;
+}
+
+#main-menu > li > a {
+  font-size: 20px;
+  color: rgba(253, 252, 252, 0.85);
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  display: block;
+  width: 100%;
+  padding: 14px 36px;
+  border-right: 1px solid rgba(0,0,0,0.15);
+  
+}
+
+#main-menu > li:nth-child(1) > a {
+  border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu {
+  position: absolute;
+  background: #f8f8f6;
+  opacity: 0;
+  visibility: hidden;
+  width:100%;
+  text-align: center;
+  transition: all 0.15s ease-in;
+}
+
+#sub-menu > li {
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu > li >  a {
+  color: rgba(19, 18, 18, 0.6);
+  text-decoration: none;
+}
+
+#main-menu > li:hover #sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+#sub-menu > li >  a:hover {
+ text-decoration: underline;
+}
+
+
+
+
+
+
+</style>
+<body>
+
+  <div class="header">
+  <h1><b>Joe's Grab and Go</b></h1>
+  <h2>Order Food to  Your Door :D</h2>
+  </div>
+
+  <nav role="navigation">
+    <ul id="main-menu">
+      <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
+      <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+        <ul id="sub-menu">
+          <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
+          <li><a href="#appetizers" aria-label="subemnu">Appetizers</a></li>
+          <li><a href="#entree" aria-label="subemnu">Entrees</a></li>
+          <li><a href="#soups" aria-label="subemnu">Soup & Salad</a></li>
+          <li><a href="#dessert" aria-label="subemnu">Dessert</a></li>
+          <li><a href="#drinks" aria-label="subemnu">Beverages</a></li>
+
+        </ul>
+      </li>
+      <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
+        <ul id="sub-menu">
+          <li><a href="#" aria-label="subemnu">Reviews</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
+        <ul id="sub-menu">
+          <li><a href="{{url_for('cart')}}" aria-label="submenu">Cart</a></li>
+          <li><a href="#" aria-label="submenu">Order History</a></li>
+
+        </ul>
+        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
+          <ul id="sub-menu">
+            <li><a href="{{url_for('login')}}" aria-label="submenu">Log-in</a></li>
+            <li><a href="{{url_for('register')}}" aria-label="submenu">Register</a></li>
+          </ul>
+        </li>
+        <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
+    </ul>
+  </nav>
+
+
+<div class="header" id="appetizers">
+  <h2>Appetizers</h2>
+</div>
+<div class="row"> <!-- dish 1 -->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 1</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">
+            Order
+            </button>
+            
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dish 1</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+            </div>
+            <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+            <br> <b>Price</b>: $$$$$
+            <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <br> <b>Review</b>: This is sooooooo good!</p>
+            <table class="table"><!-- this is the review table. hard coded atm-->
+              <thead class = "table-light">
+                <tr> 
+                  <th scope="col">#</th>
+                  <th scope="col">Review</th>
+                  <th scope="col">Rate</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+              </tbody>
+            </table> <!-- end of table -->
+        </div>
+        <div class="modal-footer">
+          <p><h5><b>Quantity:</b></h5></p>
+          <div class="dropdown">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="3">4</option>
+              <option value="3">5</option>
+            </select>
+          </div>
+          
+          <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+      </div>
+  </div> <!-- dish 2-->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 2</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                      <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal2">
+              Order
+              </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dish 2</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+            </div>
+            <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+            <br> <b>Price</b>: $$$$$
+            <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <br> <b>Review</b>: This is sooooooo good!</p>
+            <table class="table"><!-- this is the review table. hard coded atm-->
+              <thead class = "table-light">
+                <tr> 
+                  <th scope="col">#</th>
+                  <th scope="col">Review</th>
+                  <th scope="col">Rate</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+              </tbody>
+            </table> <!-- end of table -->
+        </div>
+        <div class="modal-footer">
+          <p><h5><b>Quantity:</b></h5></p>
+          <div class="dropdown">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="3">4</option>
+              <option value="3">5</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+    </div>
+  </div>
+    <div class="col"> <!-- dish 3 -->
+      <div class="card" style="width: 18rem;">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+        <div class="card-body">
+          <h5 class="card-title">Dish 3</h5>
+          <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+          </p>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal3">
+            Order
+            </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dish 3</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+            </div>
+            <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+            <br> <b>Price</b>: $$$$$
+            <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <br> <b>Best Review</b>: This is sooooooo good!</p>
+        </div>
+        <div class="modal-footer">
+          <p><h5><b>Quantity:</b></h5></p>
+          <div class="dropdown">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="3">4</option>
+              <option value="3">5</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+    </div>
+  </div>
+  
+    <div class="col"> <!-- dish 4-->
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 4</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+            </p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal4">
+              Order
+              </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Dish 4</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="text-center">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+              </div>
+              <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+              <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+  
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <br> <b>Review</b>: This is sooooooo good!</p>
+              <table class="table"><!-- this is the review table. hard coded atm-->
+                <thead class = "table-light">
+                  <tr> 
+                    <th scope="col">#</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Rate</th>
+  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+  
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+  
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+  
+                  </tr>
+                </tbody>
+              </table> <!-- end of table -->
+          </div>
+          <div class="modal-footer">
+            <p><h5><b>Quantity:</b></h5></p>
+          <div class="dropdown">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="3">4</option>
+              <option value="3">5</option>
+            </select>
+          </div>
+            <button type="button" class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+ <div class="header" id="entree">
+    <h2>Entree</h2><br>
+ </div>
+
+    <div class="row"> <!-- dish 5 entree-->
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title">Dish 5</h5>
+              <p class="card-text">
+                <br> <b>FoodDetail</b>: FoodDetail
+                <br> <b>Price</b>: $$$$$
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal5">
+              Order
+              </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dish 5</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+            </div>
+            <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+            <br> <b>Price</b>: $$$$$
+            <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <br> <b>Review</b>: This is sooooooo good!</p>
+            <table class="table"><!-- this is the review table. hard coded atm-->
+              <thead class = "table-light">
+                <tr> 
+                  <th scope="col">#</th>
+                  <th scope="col">Review</th>
+                  <th scope="col">Rate</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+              </tbody>
+            </table> <!-- end of table -->
+        </div>
+        <div class="modal-footer">
+          <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+          <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+  </div>
+</div>
+
+      <div class="col"> <!--dish 6-->
+        <div class="card" style="width: 18rem;">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title">Dish 6</h5>
+              <p class="card-text">
+                <br> <b>FoodDetail</b>: FoodDetail
+                <br> <b>Price</b>: $$$$$
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal6">
+              Order
+            </button>
+
+        <!-- Modal -->
+  <div class="modal fade" id="modal6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dish 6</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+            </div>
+            <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+            <br> <b>Price</b>: $$$$$
+            <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <br> <b>Review</b>: This is sooooooo good!</p>
+            <table class="table"><!-- this is the review table. hard coded atm-->
+              <thead class = "table-light">
+                <tr> 
+                  <th scope="col">#</th>
+                  <th scope="col">Review</th>
+                  <th scope="col">Rate</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+
+                </tr>
+              </tbody>
+            </table> <!-- end of table -->
+        </div>
+        <div class="modal-footer">
+          <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+          <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+  </div>
+</div>
+
+
+      <div class="col"> <!--dish 7-->
+        <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 7</h5>
+            <p class="card-text">
+                <br> <b>FoodDetail</b>: FoodDetail
+                <br> <b>Price</b>: $$$$$
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+            </p>
+           <!-- Button trigger modal -->
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal7">
+            Order
+            </button>
+
+<!-- Modal -->
+<div class="modal fade" id="modal7" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 7</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div>
+
+
+      <div class="col"> <!-- dish 8-->
+        <div class="card" style="width: 18rem;">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title">Dish 8</h5>
+              <p class="card-text">
+                <br> <b>FoodDetail</b>: FoodDetail
+                <br> <b>Price</b>: $$$$$
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+              </p>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal8">
+                Order
+                </button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 8 -->
+<div class="modal fade" id="modal8" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 8</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div> <!--modal for dish 8-->
+
+
+
+
+ <div class="header" id="soups">
+  <h2>Soup & Salad</h2>
+ </div>
+
+ <div class="row"> <!--dish 9-->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 9</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+           <!-- Button trigger modal -->
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal9">
+            Order
+            </button>
+
+  <!-- Modal 9 -->
+  <div class="modal fade" id="modal9" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Dish 9</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+            </div>
+            <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+  
+            <br> <b>Price</b>: $$$$$
+            <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <br> <b>Review</b>: This is sooooooo good!</p>
+            <table class="table"><!-- this is the review table. hard coded atm-->
+              <thead class = "table-light">
+                <tr> 
+                  <th scope="col">#</th>
+                  <th scope="col">Review</th>
+                  <th scope="col">Rate</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+  
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+  
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+  
+                </tr>
+              </tbody>
+            </table> <!-- end of table -->
+        </div>
+        <div class="modal-footer">
+          <p><h5><b>Quantity:</b></h5></p>
+          <div class="dropdown">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="3">4</option>
+              <option value="3">5</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+            </div>
+        </div>
+      </div> <!--modal for dish 9-->
+
+
+    <div class="col"> <!-- dish 10 -->
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 10</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal10">
+              Order
+              </button>
+  
+   <!-- Modal 10 -->
+<div class="modal fade" id="modal10" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 10</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div> <!--modal for dish 10-->
+
+
+    <div class="col"> <!-- dish 11 -->
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 11</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal11">
+              Order
+              </button>
+  
+   <!-- Modal 11 -->
+<div class="modal fade" id="modal11" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 11</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div> <!--modal for dish 11-->
+
+
+    <div class="col"> <!-- dish 12 -->
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 12</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+            </p>
+           <!-- Button trigger modal -->
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal12">
+            Order
+            </button>
+
+<!-- Modal 12-->
+<div class="modal fade" id="modal12" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 12</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div> <!--modal for dish 12-->
+        </div>
+    </div>
+  </div>
+</div>
+
+
+ <div class="header" id="dessert">
+  <h2>Dessert</h2>
+ </div>
+
+ <div class="row"> <!-- dish 13-->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 13</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+           <!-- Button trigger modal -->
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal13">
+            Order
+            </button>
+
+<!-- Modal 13-->
+<div class="modal fade" id="modal13" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 13</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+    </div> <!--modal for dish 13-->
+
+
+
+
+    <div class="col"> <!-- dish 14-->
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 14</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal14">
+              Order
+           </button>
+
+
+           <!-- Modal 14-->
+<div class="modal fade" id="modal14" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 14</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+    </div>
+  </div>
+
+
+    <div class="col"> <!-- dish 15-->
+      <div class="card" style="width: 18rem;">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+        <div class="card-body">
+          <h5 class="card-title">Dish 15</h5>
+          <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+          </p>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal15">
+            Order
+            </button>
+
+<!-- Modal 15-->
+<div class="modal fade" id="modal15" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 15</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+    </div>
+  </div>
+
+    <!-- dish 16-->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 16</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+            </p>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal16">
+              Order
+              </button>
+
+<!-- Modal 16-->
+<div class="modal fade" id="modal16" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 16</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+ <div class="header" id="drinks">
+  <h2>Drink</h2>
+ </div>
+
+ <!--dish 17-->
+ <div class="row">
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 17</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal17">
+                Order
+                </button>
+
+<!-- Modal 17-->
+<div class="modal fade" id="modal17" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 17</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+      </div>
+  </div>
+
+
+    <!-- dish 18-->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 18</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+           <!-- Button trigger modal -->
+           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal18">
+            Order
+            </button>
+
+<!-- Modal 18-->
+<div class="modal fade" id="modal18" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 18</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+    </div>
+  </div>
+
+
+    <!-- dish 19 -->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+        <div class="card-body">
+          <h5 class="card-title">Dish 19</h5>
+          <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+          </p>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal19">
+            Order
+            </button>
+
+<!-- Modal 19-->
+<div class="modal fade" id="modal19" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 19</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+        </div>
+    </div>
+  </div>
+
+    <!--dish 20 -->
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">Dish 20</h5>
+            <p class="card-text">
+              <br> <b>FoodDetail</b>: FoodDetail
+              <br> <b>Price</b>: $$$$$
+              <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+            </p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal20">
+              Order
+              </button>
+  
+<!-- Modal 20-->
+<div class="modal fade" id="modal20" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dish 20</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="text-center">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+          </div>
+          <br> <b>FoodDetail</b>: FoodDetail .........................................................................................................
+          <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...................................</p>
+
+          <br> <b>Price</b>: $$$$$
+          <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <br> <b>Review</b>: This is sooooooo good!</p>
+          <table class="table"><!-- this is the review table. hard coded atm-->
+            <thead class = "table-light">
+              <tr> 
+                <th scope="col">#</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rate</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+
+              </tr>
+            </tbody>
+          </table> <!-- end of table -->
+      </div>
+      <div class="modal-footer">
+        <p><h5><b>Quantity:</b></h5></p>
+        <div class="dropdown">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="3">4</option>
+            <option value="3">5</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+
+<center>
+  <footer><br>Contact Information down here</footer> 
+      <br>Address: 1234 Main Street
+      <br>Telephone: 1-(212)-777-1234
+      <br>Email Address: thebestrestaurant@resturants.com
+      <p></p>
+
+</center>
+
+</html>

@@ -1,10 +1,12 @@
-from crypt import methods
-from ctypes import addressof
+#from crypt import methods
+#from ctypes import addressof
+
+from ast import Delete
 from functools import wraps
 from unicodedata import name
 import bcrypt
 from click import password_option
-from flask import Flask, redirect, render_template, url_for
+from flask import Flask, redirect, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
@@ -27,7 +29,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -44,10 +46,16 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 # loads the user id which is stored
+# This does not work like it should. It checks for the ID of the user and if it exists in customer
+# else it will check in employees. 
+# Both tables have the same IDs, so the else statement will never trigger. 
+# Would need to check by email, but I am not sure at all what is actually being passed in. 
 @login_manager.user_loader
-def load_user(customers_id):
-    return customers.query.get(int(customers_id))
-
+def load_user(id):
+    if customers.query.get(int(id)):
+        return customers.query.get(int(id))
+    else:
+        return employees.query.get(int(id))
 
 
 
@@ -74,6 +82,7 @@ class businesses(db.Model):
 class employees(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(45), nullable = False)
+    email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
@@ -85,9 +94,11 @@ class employees(db.Model, UserMixin):
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(20), nullable = False)
+    email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
+    #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
 
     def __repr__(self):
         return "id: {0} | name: {1} | password: {2}".format(self.id, self.name, self.password)
@@ -139,6 +150,7 @@ class orders(db.Model):
     orderline = db.relationship('orderLineItem', backref='orders')
 
 class orderLineItem(db.Model):
+    __tablename__ = 'orderLineItem'
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     quantity = db.Column(db.String(45),  nullable = False)
     subtotal = db.Column(db.String(45),  nullable = False)
@@ -172,47 +184,34 @@ class LoginForm(FlaskForm):
         min = 2, max = 80)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
 
+#######################################
+###   Testing some functions
 
-def superuser(func):
-    @wraps(func)
-    def super_checker(*args, **kwargs):
-        if employees.name != 'Manager':
-            return redirect(url_for('login'))
-        return func(*args, **kwargs)
-    return super_checker
+#
+#def superuser(func):
+#    @wraps(func)
+#    def super_checker(*args, **kwargs):
+#        if employees.name != 'Manager':
+#            return redirect(url_for('login'))
+#        return func(*args, **kwargs)
+#    return super_checker
+#
+###@app.route('/employees/<Name>')
+###@superuser
+###@login_required
+###def hire(Name):
+###    form = RegisterForm()
+###
+###    if form.validate_on_submit():
+###        hashed_password = bcrypt.generate_password_hash(form.password.data)
+###        new_user = employees(name=form.name.data, password=hashed_password)
+###        db.session.add(new_user)
+###        db.session.commit()
+###
+###    return render_template('employee.html',form=form)
+###    some form thingy for name of employee to hire.
+###    adds that new user to the database and commmits. 
 
-@app.route('/employees/<Name>')
-@superuser
-@login_required
-def hire(Name):
-    form = RegisterForm()
-
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = employees(name=form.name.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-
-    return render_template('employee.html',form=form)
-    #some form thingy for name of employee to hire.
-    #adds that new user to the database and commmits. 
-
-@app.route('/employee_login', methods = ['GET', 'POST'])
-def login():
-    form = LoginForm()
-    #This is what will happen when you press submit
-    if form.validate_on_submit():
-        #it first checks for the username in the query of the database
-        user = employees.query.filter_by(name=form.name.data).first()
-        #if username exists
-        if user:
-            #checks if the passwords match
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                #if passwords match, redirect to the dashboard page
-                login_user(user)
-                return redirect(url_for('employees'))
-    #Login fucntion returns the login.html file
-    return render_template('login.html', form=form)
 
 
 #this is the base routing "url" this is the standard home page
@@ -224,20 +223,53 @@ def home():
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
-    form = LoginForm()
-    #This is what will happen when you press submit
-    if form.validate_on_submit():
-        #it first checks for the username in the query of the database
-        user = customers.query.filter_by(name=form.name.data).first()
-        #if username exists
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = customers.query.filter_by(email=email).first()
         if user:
-            #checks if the passwords match
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                #if passwords match, redirect to the dashboard page
+            if(user.password == password):
                 login_user(user)
-                return redirect(url_for('dashboard'))
-    #Login fucntion returns the login.html file
-    return render_template('login.html', form=form)
+                print("Logged in successfully!")
+                return redirect(url_for('menus'))
+            else:
+                print("Incorrect credentials!")
+        else:
+            user = employees.query.filter_by(email=email).first()
+            if user:
+                if(user.password == password):
+                    if (user.role == 'Chef'):
+                        login_user(user)
+                        print("Logged in successfully!")
+                        return redirect(url_for('chef_page'))
+                    if (user.role == 'Manager'):
+                        login_user(user)
+                        print("Logged in successfully!")
+                        return redirect(url_for('manager_page'))
+                    if (user.role == 'Delivery'):
+                        login_user(user)
+                        print("Logged in successfully!")
+                        return redirect(url_for('delivery_page'))
+                else:
+                    print("Incorrect credentials!")
+            else:
+                print("No such username exists, try again")
+    return render_template('login.html')    
+
+    
+    #form = LoginForm()
+    #This is what will happen when you press submit
+    #if form.validate_on_submit():
+        #it first checks for the username in the query of the database
+        #user = customers.query.filter_by(name=form.name.data).first()
+        #if username exists
+       # if user:
+            #checks if the passwords match
+          #  if bcrypt.check_password_hash(user.password, form.password.data):
+                #if passwords match, redirect to the dashboard page
+              #  login_user(user)
+              #  return redirect(url_for('dashboard'))
+    #Login function returns the login.html file
 
 
 #############################################################
@@ -253,36 +285,43 @@ def index():
     all_customers = customers.query.all()
     return render_template('index.html', cust=all_customers)
 
-
+# This uses jsonify to return more specific information from the database
+# Doesnt work since jsonify cannot return queries. It usually returns lists/dictionaries.
+# This means we would need to create our own serializer to fetch table data and convert into list/dicts. 
 @app.route('/dish')
 def dishes():
     all_dishes = dish.query.all()
-    return render_template('index.html',cust=all_dishes)
+    return render_template('index.html',dish=all_dishes)
 
 # This route just prints the numbers, not the referenced items.
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
 @app.route('/menu')
 def menus():
-    all_dishes = menu.query.all()
-    return render_template('index.html',cust=all_dishes)
+    #all_dishes = menu.query.all()
+    return render_template('menu.html')
 
+# Successfully able to return information from multiple tables in a single route.
+# To specify a single item in the table, you can do something like the dishing variable.
 @app.route('/dishes')
 def menudish():
     all_dishes = menuDishes.query.all()
-    return render_template('index.html',dish=all_dishes)
+    thing = dishRating.query.all()
+    dished = dish.query.all()
+    print(type(dished))
+    dishing = dish.query.filter_by(name="Flaming Moe").first()
+    order = orderLineItem.query.all()
+    return render_template('index.html',order=order,thing=thing,dish = all_dishes, dished = dished, dishing = dishing)
 
-@app.route('/dishes/popular')
+@app.route('/dishes/popular') # im gonna completely ignore this route and not touch it and create a new one for popular dishes - Anthony
 def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
-    return render_template('index.html',rating=popular)
+    return render_template('index.html',popular=popular)
 
 @app.route('/rating')
 def dishlist():
     all_dishes = dishRating.query.all()
     return render_template('index.html',rating=all_dishes)
 ############################################################
-
-
 
 
 #upon successful login, this is the page that will be displayed
@@ -299,22 +338,127 @@ def logout():
     return redirect(url_for('login'))
 
 
-
 #This is the routing for the registration page
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
-    form = RegisterForm()
-
+    #form = RegisterForm()
+    if request.method =='POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = customers.query.filter_by(email=email).first()
+        worker = employees.query.filter_by(email=email).first()
+        #checks if email is already taken by customer or employee
+        if user:
+            print("Username already exists")
+        if worker:
+            print("Ay, im workin ova here!")
+        else:
+            new_user = customers(name=name, email=email, password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            print("Thank you for registering!")
+            return redirect(url_for('login'))
     #Hasing the password entered for encryption instead of being entered as plain-text
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = customers(name=form.name.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
+   # if form.validate_on_submit():
+    #    hashed_password = bcrypt.generate_password_hash(form.password.data)
+    #    new_user = customers(name=form.name.data, password=hashed_password)
+    #    db.session.add(new_user)
+        #db.session.commit()
 
     #returns the register.html file
-    return render_template('register.html', form=form)
+    return render_template('register.html')#, '''form=form''')
+
+@app.route('/menu_popular', methods = ['GET', 'POST'])
+def menu_popular():
+    dished = dish.query.all()
+    return render_template('menu_popular.html',dish=dished)
+
+@app.route('/cart', methods = ['GET', 'POST'])
+#@login_required
+def cart():
+    return render_template('cart.html')
+
+@app.route('/customer_page', methods = ['GET', 'POST']) #customer page
+#@login_required
+def customer_page():
+    #current_user.is_authenticated()
+    
+    return render_template('customer_page.html')
+
+@app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
+#@login_required
+def delivery_page():
+    user2 = employees.query.filter_by(role="Delivery").first()
+    print(current_user.name)
+    print(user2.role)
+#    try:
+#        print(current_user.role)
+#    except:
+#        print("no role to be found")
+#        return render_template('home.html')
+
+#    print(user1.name, type(user1))
+#    print(user2, type(user2))
+#    if (user1.role != "Delivery"):
+#        print("Git outta hea")
+#        return render_template('home.html')
+    return render_template('delivery_page.html')
+
+@app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
+#@login_required
+def manager_page():
+    # confirms the user accessing this page is the manager
+    # This doesnt work like i thought because theres still an issue with user_loader.
+    # If a customer logs in with ID = 1, that customer can access this page.
+    user = employees.query.filter_by(id="1").first()
+    if (current_user.get_id() != str(user.id)):
+        print(current_user.get_id())
+        return render_template('home.html')
+    
+    return render_template('manager_page.html')
+
+
+@app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
+def chef_page_rm():
+    dished = dish.query.all()
+    if request.method == "POST":
+        if request.form.get('id') == '':
+            print("Need a non empty ID")
+        else:
+            ids = request.form.get('id')
+            try:
+                dish.query.filter(dish.id == ids).delete()
+                db.session.commit()
+                print("Deletion Successful")
+                return redirect(url_for('chef_page_rm'))
+            except:
+                print("Deletion Failed")
+    return render_template('chef_page_rm.html', dished = dished)
+
+
+@app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
+#@login_required
+def chef_page():
+    dished = dish.query.all()
+    if request.method == "POST":
+        if request.form.get('dish') == '' or request.form.get('description') == '' or request.form.get('bizID') == '' :
+            print("Nothing Posted")
+        else:
+            dishes = request.form.get('dish')
+            description = request.form.get('description')
+            bizID = request.form.get('bizID')
+            new_dish = dish(name = dishes, description = description, bizID = bizID)
+            db.session.add(new_dish)
+            db.session.commit()
+            print("New Dish added")
+            return redirect(url_for('chef_page'))
+
+    return render_template('chef_page.html', dished = dished)
+
+@app.route('/contact_us', methods = ['GET', 'POST'])
+def contact():
+    return render_template('contact_us.html')
 
 
 if __name__ == '__main__':
