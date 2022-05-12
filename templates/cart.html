@@ -119,26 +119,22 @@ li a:hover, .dropdown:hover .dropbtn {
       <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
         <ul id="sub-menu">
           <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Healthy</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Kids</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Dessert</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Healthy</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Kids</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Dessert</a></li>
         </ul>
       </li>
       <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
         <ul id="sub-menu">
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
+          <li><a href="#" aria-label="subemnu">Reviews</a></li>
+
         </ul>
       </li>
       <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
         <ul id="sub-menu">
           <li><a href="{{url_for('cart')}}" aria-label="subemnu">Cart</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
+          <li><a href="#" aria-label="submenu">Order History</a></li>
+
         </ul>
         <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
           <ul id="sub-menu">

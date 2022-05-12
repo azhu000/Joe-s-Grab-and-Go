@@ -149,27 +149,21 @@ section {
       <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
       <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
         <ul id="sub-menu">
-          <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Healthy</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Kids</a></li>
-          <li><a href="menu_popular.html" aria-label="subemnu">Dessert</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="submenu">Popular</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="submenu">Healthy</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="submenu">Kids</a></li>
+          <li><a href="{{url_for('menu_popular')}}" aria-label="submenu">Dessert</a></li>
         </ul>
       </li>
       <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
         <ul id="sub-menu">
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
+          <li><a href="#" aria-label="subemnu">Reviews</a></li>
         </ul>
       </li>
       <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
         <ul id="sub-menu">
           <li><a href="{{url_for('cart')}}" aria-label="subemnu">Cart</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
-          <li><a href="#" aria-label="subemnu">submenu</a></li>
+          <li><a href="#" aria-label="submenu">Order History</a></li>
         </ul>
         <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
           <ul id="sub-menu">
@@ -183,7 +177,7 @@ section {
   <div class="row"> 
     <div class="column">
       <div class="container">
-      <a href="menu_detail.html"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80", width="450" height="600" ></a>
+      <a href="{{url_for('menu_popular')}}"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80", width="450" height="600" ></a>
       <div class="text-block">
         <h2>Popular</h2>
       </div>
@@ -192,7 +186,7 @@ section {
    
     <div class="column">
       <div class="container">
-    <a href="menu_detail.html"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60" width="450" height="600"></a>
+    <a href="{{url_for('menu_popular')}}"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60" width="450" height="600"></a>
      <div class="text-block">
       <h2>Healthy</h2>
     </div>
@@ -201,7 +195,7 @@ section {
 
     <div class="column">
       <div class="container">
-    <a href="menu_detail.html"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" width="450" height="600"></a>
+    <a href="{{url_for('menu_popular')}}"><img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80" width="450" height="600"></a>
     <div class="text-block">
       <h2>Kids</h2>
     </div>
@@ -211,7 +205,7 @@ section {
     <div class="column">
 
       <div class="container">
-    <a href="menu_detail.html"><img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=749&q=80" width="450" height="600"></a>
+    <a href="{{url_for('menu_popular')}}"><img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=749&q=80" width="450" height="600"></a>
     <div class="text-block">
       <h2>Dessert</h2>
     </div>
