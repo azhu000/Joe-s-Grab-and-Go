@@ -112,7 +112,7 @@ li a:hover, .dropdown:hover .dropbtn {
   <h4>Order Food to  Your Door :D</h4>
   </div>
 
-            
+  <nav class="navbar sticky-top">        
     <nav role="navigation">
         <ul id="main-menu">
           <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
@@ -121,7 +121,7 @@ li a:hover, .dropdown:hover .dropbtn {
               <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
                 <li><a href="#appetizers" aria-label="subemnu">Appetizers</a></li>
                 <li><a href="#entree" aria-label="subemnu">Entrees</a></li>
-                <li><a href="#soups" aria-label="subemnu">Soup & Salad</a></li>
+                <li><a href="#soups" aria-label="subemnu">Soup/Salad</a></li>
                 <li><a href="#dessert" aria-label="subemnu">Dessert</a></li>
                 <li><a href="#drinks" aria-label="subemnu">Beverages</a></li>
             </ul>
@@ -140,7 +140,7 @@ li a:hover, .dropdown:hover .dropbtn {
             <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
         </ul>
       </nav>
-    
+    </nav>
           
 
   <div class="header" id="appetizers">
@@ -164,7 +164,7 @@ li a:hover, .dropdown:hover .dropbtn {
           </button>
           
 
-<!-- Modal -->
+<!-- Modal for view dishes -->
 <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
@@ -181,9 +181,10 @@ li a:hover, .dropdown:hover .dropbtn {
 
           <br> <b>Price</b>: $ 20
           <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
-          <br> <b>Review &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      </b><!-- Button trigger modal fro review --><button type="button" class="btn btn-dark " data-bs-toggle="modal" data-bs-target="#modal1review">
+          <br> <b>Review &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal1review">
             Add Review
           </button>
+        
           <table class="table"><!-- this is the review table. hard coded atm-->
             <thead class = "table-light">
               <tr> 
@@ -227,8 +228,8 @@ li a:hover, .dropdown:hover .dropbtn {
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="3">4</option>
-            <option value="3">5</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
         
@@ -239,6 +240,46 @@ li a:hover, .dropdown:hover .dropbtn {
 </div>
       </div>
     </div>
+    <!-- Modal for add review -->
+    <div class="modal fade" id="modal1review" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalToggleLabel2">Add your review</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Submit"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Rate:</label>
+                <div class="dropdown">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Rate your dishes</option>
+                    <option value="1">&#9733;</option>
+                    <option value="2">&#9733;&#9733;</option>
+                    <option value="3">&#9733;&#9733;&#9733;</option>
+                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                  </select>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="message-text" class="col-form-label">Review:</label>
+                <textarea class="form-control" id="review-text"></textarea>
+              </div>
+              <div class="d-grid gap-2">
+                <button class="btn btn-dark" type="button">Submit</button>
+                
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#modal1" data-bs-toggle="modal">back to view</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div> <!-- dish 2-->
   <div class="col">
     <div class="card" style="width: 18rem;">
