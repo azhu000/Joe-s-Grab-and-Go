@@ -118,7 +118,7 @@ li a:hover, .dropdown:hover .dropbtn {
   <nav role="navigation">
     <ul id="main-menu">
       <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
-      <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+      <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
         <ul id="sub-menu">
           <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
         </ul>
@@ -149,7 +149,7 @@ li a:hover, .dropdown:hover .dropbtn {
 
     {%set number = ((loop.length - loop.revindex)/4) | int %}
     <div class="header">
-    <center><h2><b><u>{{menu_tags[number]}}</u></b></h2></center>
+    <center><h1><b><u>{{menu_tags[number]}}</u></b></h1></center>
     </div>
     <div class="row"> 
     {%endif%}

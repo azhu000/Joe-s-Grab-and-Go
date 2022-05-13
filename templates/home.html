@@ -119,103 +119,15 @@
               }
             }
 
-      /* Parent wrapper to carousel. Width can be changed as needed. */
-      .carousel-wrapper {
-        overflow: hidden;
-        width: 90%;
-        margin: auto;
+      .card {
+        text-center;
+        align-self-center;
+        margin-left: 30px; 
       }
-      
-      /* Apply 'border-box' to 'box-sizing' so border and padding is included in the width and height. */
-      .carousel-wrapper * {
-        box-sizing: border-box;
-      }
-      
-      /* We'll be using the 'transform' property to move the carousel's items, so setting the 'transform-style' to 'preserve-3d' will make sure our nested elements are rendered properly in the 3D space. */
-      .carousel {
-        -webkit-transform-style: preserve-3d;
-        -moz-transform-style: preserve-3d;
-        transform-style: preserve-3d;
-      }
-      
-      /* By default we're hiding items (except the initial one) until the JS initiates. Elements are absolutely positioned with a width of 100% (as we're styling for mobile first), letting the content's height dictate the height of the carousel. Our magic property here for all our animation needs is 'transition', taking the properties we wish to animate 'transform' and 'opacity', along with the length of time in seconds. */
-      .carousel__photo {
-        opacity: 0;
-        position: absolute;
-        top:0;
-        width: 100%;
-        margin: auto;
-        padding: 1rem 4rem;
-        z-index: 100;
-        transition: transform .5s, opacity .5s, z-index .5s;
-      }
-      
-      /* Display the initial item and bring it to the front using 'z-index'. These styles also apply to the 'active' item. */
-      .carousel__photo.initial,
-      .carousel__photo.active {
-        opacity: 1;
-        position: relative;
-        z-index: 900;
-      }
-      
-      /* Set 'z-index' to sit behind our '.active' item. */
-      .carousel__photo.prev,
-      .carousel__photo.next {
-        z-index: 800;
-      }
-      
-      /* Translate previous item to the left */
-      .carousel__photo.prev {
-        transform: translateX(-100%);
-      }
-      
-      /* Translate next item to the right */
-      .carousel__photo.next {
-        transform: translateX(100%);
-      }
-      
-      /* Style navigation buttons to sit in the middle, either side of the carousel. */
-      .carousel__button--prev,
-      .carousel__button--next {
-        position: absolute;
-        top:50%;
-        width: 3rem;
-        height: 3rem;
-        background-color: #FFF;
-        transform: translateY(-50%);
-        border-radius: 50%;
-        cursor: pointer; 
-        z-index: 1001; /* Sit on top of everything */
-        border:1px solid black;
-      /*  opacity: 0;  Hide buttons until carousel is initialised 
-        transition:opacity 1s;*/
-      }
-      
-      .carousel__button--prev {
-        left:0;
-      }
-      
-      .carousel__button--next {
-        right:0;
-      }
-      
-      /* Use pseudo elements to insert arrows inside of navigation buttons */
-      .carousel__button--prev::after,
-      .carousel__button--next::after {
-        content: " ";
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        top: 50%;
-        left: 54%;
-        border-right: 2px solid black;
-        border-bottom: 2px solid black;
-        transform: translate(-50%, -50%) rotate(135deg);
-      }
-      
-      .carousel__button--next::after {
-        left: 47%;
-        transform: translate(-50%, -50%) rotate(-45deg);
+
+      .carousel-inner {
+        width:825px;
+        height:600px;
       }
       
       </style>
@@ -227,7 +139,7 @@
       <nav role="navigation">
         <ul id="main-menu">
           <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
-          <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+          <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
             <ul id="sub-menu">
               <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
             </ul>
@@ -246,181 +158,64 @@
             <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
         </ul>
       </nav>
+
+
     <body>
       <br>
-        <div class="float-container d-flex justify-content-center">
-          <div class="carousel-wrapper">
-            <div class="carousel">
-        
-              <img class="carousel__photo initial" src="static\images\360_F_227622470_sJ3yEaz44RK7UrWNaGdSn7azgeRu9UDs.jpg" width = "825" height = "600">
-              <img class="carousel__photo" src="static\images\pexels-photo-1640777.jpeg" width = "825" height = "600">
-              <img class="carousel__photo" src="static\images\pexels-photo-3186654.jpeg" width = "825" height = "600">
-              <img class="carousel__photo" src="static\images\restaurant-liability-insurance-st-augustine.jpg" width = "825" height = "600">
-              <img class="carousel__photo" src="static\images\restuarant1.jpg" width = "825" height = "600">
-              
-              <div class="carousel__button--next"></div>
-              <div class="carousel__button--prev"></div>
-              <script>
-
-                !(function(d){
-                  // Variables to target our base class,  get carousel items, count how many carousel items there are, set the slide to 0 (which is the number that tells us the frame we're on), and set motion to true which disables interactivity.
-                  var itemClassName = "carousel__photo";
-                      items = d.getElementsByClassName(itemClassName),
-                      totalItems = items.length,
-                      slide = 0,
-                      moving = true; 
-                
-                  // To initialise the carousel we'll want to update the DOM with our own classes
-                  function setInitialClasses() {
-                
-                    // Target the last, initial, and next items and give them the relevant class.
-                    // This assumes there are three or more items.
-                    items[totalItems - 1].classList.add("prev");
-                    items[0].classList.add("active");
-                    items[1].classList.add("next");
-                  }
-                
-                  // Set click events to navigation buttons
-                
-                  function setEventListeners() {
-                    var next = d.getElementsByClassName('carousel__button--next')[0],
-                        prev = d.getElementsByClassName('carousel__button--prev')[0];
-                
-                    next.addEventListener('click', moveNext);
-                    prev.addEventListener('click', movePrev);
-                  }
-                
-                  // Disable interaction by setting 'moving' to true for the same duration as our transition (0.5s = 500ms)
-                  function disableInteraction() {
-                    moving = true;
-                
-                    setTimeout(function(){
-                      moving = false
-                    }, 500);
-                  }
-                
-                  function moveCarouselTo(slide) {
-                
-                    // Check if carousel is moving, if not, allow interaction
-                    if(!moving) {
-                
-                      // temporarily disable interactivity
-                      disableInteraction();
-                
-                      // Preemptively set variables for the current next and previous slide, as well as the potential next or previous slide.
-                      var newPrevious = slide - 1,
-                          newNext = slide + 1,
-                          oldPrevious = slide - 2,
-                          oldNext = slide + 2;
-                
-                      // Test if carousel has more than three items
-                      if ((totalItems - 1) > 3) {
-                
-                        // Checks if the new potential slide is out of bounds and sets slide numbers
-                        if (newPrevious <= 0) {
-                          oldPrevious = (totalItems - 1);
-                        } else if (newNext >= (totalItems - 1)){
-                          oldNext = 0;
-                        }
-                
-                        // Check if current slide is at the beginning or end and sets slide numbers
-                        if (slide === 0) {
-                          newPrevious = (totalItems - 1);
-                          oldPrevious = (totalItems - 2);
-                          oldNext = (slide + 1);
-                        } else if (slide === (totalItems -1)) {
-                          newPrevious = (slide - 1);
-                          newNext = 0;
-                          oldNext = 1;
-                        }
-                
-                        // Now we've worked out where we are and where we're going, by adding and removing classes, we'll be triggering the carousel's transitions.
-                
-                        // Based on the current slide, reset to default classes.
-                        items[oldPrevious].className = itemClassName;
-                        items[oldNext].className = itemClassName;
-                
-                        // Add the new classes
-                        items[newPrevious].className = itemClassName + " prev";
-                        items[slide].className = itemClassName + " active";
-                        items[newNext].className = itemClassName + " next";
-                      }
-                    }
-                  }
-                
-                  // Next navigation handler
-                  function moveNext() {
-                
-                    // Check if moving
-                    if (!moving) {
-                
-                      // If it's the last slide, reset to 0, else +1
-                      if (slide === (totalItems - 1)) {
-                        slide = 0;
-                      } else {
-                        slide++;
-                      }
-                
-                      // Move carousel to updated slide
-                      moveCarouselTo(slide);
-                    }
-                  }
-                
-                  // Previous navigation handler
-                  function movePrev() {
-                
-                    // Check if moving
-                    if (!moving) {
-                
-                      // If it's the first slide, set as the last slide, else -1
-                      if (slide === 0) {
-                        slide = (totalItems - 1);
-                      } else {
-                        slide--;
-                      }
-                
-                      // Move carousel to updated slide
-                      moveCarouselTo(slide);
-                    }
-                  }
-                
-                  // Initialise carousel
-                  function initCarousel() {
-                    setInitialClasses();
-                    setEventListeners();
-                
-                    // Set moving to false now that the carousel is ready
-                    moving = false;
-                  }
-                
-                  // make it rain
-                  initCarousel();
-                
-                }(document));
-              </script>
-
+        <div class="float-container d-flex justify-content-center" >
+          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="d-block w-100" src="static\images\360_F_227622470_sJ3yEaz44RK7UrWNaGdSn7azgeRu9UDs.jpg" width="800" height="600" alt="First slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="static\images\pexels-photo-1640777.jpeg" width="800" height="600" alt="Second slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="static\images\pexels-photo-3186654.jpeg" width="800" height="600" alt="Third slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="static\images\restaurant-liability-insurance-st-augustine.jpg" width="800" height="600" alt="Third slide">
+              </div>
+              <div class="carousel-item">
+                <img class="d-block w-100" src="static\images\restuarant1.jpg" width="800" height="600" alt="Third slide">
+              </div>
             </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
           </div>
-            <div class="float-child text-center align-self-center">
-                <p>Feeling Hungry?<a href="{{url_for('register')}}"><h4>REGISTER NOW!</h4></a> </p>
-                <p>Already registered? <a href="{{url_for('login')}}">Sign In</a></p>
-            </div>
-        </div>
-        
 
-        <div class="bs-teal delivery-button">
-            <p>Can't come in? Don't sweat!</p>
-            <p>
-                <a href="{{url_for('menus')}}" class="btn btn-primary"  role="button" aria-expanded="false">
-                    Order for Delivery!
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                    </svg>
-                </a>
-            </p>
-        </div>
+          <div class="card " style="width: 22rem;">
+            <br>
+            <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/2039/2039060.png" alt="Card image cap">
+            <center><div class="card-body ">
+              
+              <h2 class="card-title"><b>Feeling Hungry?</b>
+              </h2>
+              <a href="{{url_for('register')}}" class="btn btn-primary">Register Now!</a>
+              <p></p>
+              <h5><b>Already Registered?</b></h5>
+              <a href="{{url_for('login')}}" class="btn btn-secondary">Sign In</a>
 
-        <div class="float-container">
+
+            </div></center>
+          </div>
+            
+        </div>
+        <br>
+
+        <center><div class="card" style="width: 18rem;">
+          <center><div class="card-body">
+            <h5 class="card-title">Can't Come In?</h5>
+            <p class="card-text">Don't sweat!</p>
+            <a href="{{url_for('menu_popular')}}" class="btn btn-primary">Order for Delivery!</a>
+            <p></p>
             <p>Hear what our customers have to say!</p>
 
             <p class="float-child">
@@ -454,15 +249,18 @@
                     <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
                 </svg> My kids love this place! Their delivery is also great! - Barbara"
             </p>
-        </div>
-
+          </div></center>
+        </div></center>
+        <br>
         <div>Want to learn about how to earn the VIP Membership? <a href="">VIP Membership!</a></div>
+        <br>
+      </center>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
-    <footer>
+    <center> <footer>
         <!-- these three buttons are basically the same button, with the other two buttons just opening/closing the first button again.-->
         <ul>
             <p>
@@ -474,8 +272,9 @@
                 <div class="card card-body">
                     Established in 2011, Joe's Grab & Go has been a staple stop of New York City with fine cuisine to dine in or to take out!
                 </div>
+                <br>
             </div>
             <a class="btn btn-secondary" href="{{url_for('contact')}}" role="button">Contact Us</a>
         </ul>
-    </footer>
+    </footer> </center>
 </html>
