@@ -371,9 +371,10 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
+    #menus = menu.query.all()
     dished = dish.query.all()
     price = menuDishes.query.all()
-    return render_template('menu_popular.html',price=price)
+    return render_template('menu_popular.html',price=price,dish=dished)
 
 @app.route('/cart', methods = ['GET', 'POST'])
 #@login_required
