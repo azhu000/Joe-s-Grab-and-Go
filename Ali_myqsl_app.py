@@ -371,9 +371,18 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    #menus = menu.query.all()
     dished = dish.query.all()
     price = menuDishes.query.all()
+    #if request.method == "POST":
+    #    user = int(current_user.get_id())
+    #    quantity = request.form.get('quantity')
+    #    dishes = request.form.get('dish')
+    #    new_order = orders(name = dishes, custID=user, bizID='1')
+    #    new_orderline = orderLineItem(quantity=quantity, subtotal=d, DishOrdered=dishes)
+    #    db.session.add(new_order)
+    #    db.session.commit()
+    #    print("Order has been placed")
+    #    return redirect(url_for('menu_popular'))
     return render_template('menu_popular.html',price=price,dish=dished)
 
 @app.route('/cart', methods = ['GET', 'POST'])
