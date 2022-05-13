@@ -167,9 +167,19 @@ section {
           </ul>
         </nav>
     <br>
-    <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center
-    </body
+    <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center>
+    
+    {% for h in history%}
+    <center>{{h.id}}.  {{h.total}}  {{h.customers.name}}      </center>
+    {%for i in items%}
+    {% if i.orderID == h.id %}
+    <center>{{i.quantity}}.   {{i.dish.name}}  {{i.total}}  </center>
+    
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
 
+    
     <center>
         <footer><br>Contact Information down here</footer> 
             <br>Address: 1234 Main Street New York, NY, 10044
