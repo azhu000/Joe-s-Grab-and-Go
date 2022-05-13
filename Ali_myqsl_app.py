@@ -29,7 +29,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -416,16 +416,52 @@ def delivery_page():
 #        return render_template('home.html')
     return render_template('delivery_page.html')
 
+@app.route('/manager_page_hire', methods = ['GET', 'POST'])
+def manager_page_hire():
+    if request.method == "POST":
+        if request.form.get('name') == '' or request.form.get('email') == '' or request.form.get('password') == '' or request.form.get('role') == '' or request.form.get('bizID') == '':
+            print("Nothing Posted")
+        else:
+            name = request.form.get('name')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            role = request.form.get('role')
+            bizID = request.form.get('bizID')
+            new_employee = employees(name = name, email = email, password = password, role = role, bizID = bizID)
+            db.session.add(new_employee)
+            db.session.commit()
+            print('Employee Added')
+            return redirect(url_for('manager_page_hire'))
+
+    return render_template('manager_page_hire.html')
+
+@app.route('/manager_page_fire', methods = ['GET', 'POST'])
+def manager_page_fire():
+    if request.method == "POST":
+        if request.form.get('id') == '':
+            print("Need a non empty ID")
+        else:
+            ids = request.form.get('id')
+            try:
+                employees.query.filter(employees.id == ids).delete()
+                db.session.commit()
+                print("Firing Successful")
+                return redirect(url_for('manager_page_fire'))
+            except:
+                print("Firing Failed")
+
+    return render_template('manager_page_fire.html')
+
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 #@login_required
 def manager_page():
     # confirms the user accessing this page is the manager
     # This doesnt work like i thought because theres still an issue with user_loader.
     # If a customer logs in with ID = 1, that customer can access this page.
-    user = employees.query.filter_by(id="1").first()
-    if (current_user.get_id() != str(user.id)):
-        print(current_user.get_id())
-        return render_template('home.html')
+    #user = employees.query.filter_by(id="1").first()
+    #if (current_user.get_id() != str(user.id)):
+       # print(current_user.get_id())
+       # return render_template('home.html')
     
     return render_template('manager_page.html')
 
