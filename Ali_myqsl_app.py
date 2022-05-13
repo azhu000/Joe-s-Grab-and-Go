@@ -2,6 +2,7 @@
 #from ctypes import addressof
 
 from ast import Delete
+from doctest import TestResults
 from functools import wraps
 from unicodedata import name
 import bcrypt
@@ -226,7 +227,10 @@ def home():
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    correct_creds = True
+    
     if request.method == 'POST':
+
         email = request.form.get('email')
         password = request.form.get('password')
         user = customers.query.filter_by(email=email).first()
@@ -234,9 +238,13 @@ def login():
             if(user.password == password):
                 login_user(user)
                 print("Logged in successfully!")
+                counter = 0
                 return redirect(url_for('customer_page'))
             else:
-                print("Incorrect credentials!")
+                # print("Incorrect credentials!")
+                correct_creds = False
+                alert_user = "You have entered the incorrect credentials. "
+                return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
         else:
             user = employees.query.filter_by(email=email).first()
             if user:
@@ -254,7 +262,9 @@ def login():
                         print("Logged in successfully!")
                         return redirect(url_for('delivery_page'))
                 else:
-                    print("Incorrect credentials!")
+                    correct_creds = False
+                    alert_user = "You have entered the incorrect credentials. "
+                    return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
             else:
                 print("No such username exists, try again")
     return render_template('login.html')    
