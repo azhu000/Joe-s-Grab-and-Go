@@ -29,7 +29,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -44,6 +44,8 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+menu_tags = ["Appetizers", "Entrees", "Soup & Salad", "Dessert", "Beverages"]
 
 # loads the user id which is stored
 # This does not work like it should. It checks for the ID of the user and if it exists in customer
@@ -117,12 +119,13 @@ class dish(db.Model):
     name = db.Column(db.String(45), primary_key=True, nullable = False, unique = True)
     description = db.Column(db.String(255), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
+    url = db.Column(db.String(255), nullable = False)
     menudish = db.relationship('menuDishes', backref='dish')
     rating = db.relationship('dishRating', backref='dish')
     orderline = db.relationship('orderLineItem', backref='dish')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | description: {2}".format(self.id, self.name, self.description)
+        return "id: {0} | name: {1} | description: {2} | url: {3}".format(self.id, self.name, self.description, self.url)
 
         
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
@@ -374,7 +377,8 @@ def menu_popular():
     #menus = menu.query.all()
     dished = dish.query.all()
     price = menuDishes.query.all()
-    return render_template('menu_popular.html',price=price,dish=dished)
+    lens = len(menu_tags)
+    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
 
 @app.route('/cart', methods = ['GET', 'POST'])
 #@login_required
