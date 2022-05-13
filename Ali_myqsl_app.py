@@ -300,6 +300,7 @@ def dishes():
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
 @app.route('/menu')
 def menus():
+    print(current_user.name)
     #all_dishes = menu.query.all()
     return render_template('menu.html')
 
@@ -320,6 +321,7 @@ def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
     return render_template('index.html',popular=popular)
 
+#Currently not being used.
 @app.route('/rating')
 def dishlist():
     all_dishes = dishRating.query.all()
@@ -327,7 +329,7 @@ def dishlist():
 ############################################################
 
 
-#upon successful login, this is the page that will be displayed
+#Currently not being used. 
 @app.route('/dashboard', methods = ['GET', 'POST'])
 @login_required
 def dashboard():
@@ -376,6 +378,13 @@ def register():
 def menu_popular():
     dished = dish.query.all()
     price = menuDishes.query.all()
+    lens = len(menu_tags)
+
+    # This method below will handle the orders that come in from the menu. 
+    # It needs to update two tables, "orders" and "orderLineItem".
+    # Needs customerID, dishID, dish price, quantity of dish. 
+    # Issue here is that "adding to cart" is being read as its own order. 
+
     #if request.method == "POST":
     #    user = int(current_user.get_id())
     #    quantity = request.form.get('quantity')
@@ -387,38 +396,47 @@ def menu_popular():
     #    print("Order has been placed")
     #    return redirect(url_for('menu_popular'))
     #return render_template('menu_popular.html',price=price,dish=dished)
-    lens = len(menu_tags)
+
+
     return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
 
 @app.route('/cart', methods = ['GET', 'POST'])
-#@login_required
+@login_required
 def cart():
     return render_template('cart.html')
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
-#@login_required
+@login_required
 def customer_page():
-    #current_user.is_authenticated()
+    user = int(current_user.get_id())
+    try:
+         (customers.query.get(user))
+    except:
+        return render_template('home.html')
+    history = orders.query.filter_by(custID=user)
     
-    return render_template('customer_page.html')
+    print(history)
+    items = orderLineItem.query.all()
+    #item = orderLineItem.query.filter_by(orderID='1')
+    #print(items[0])
+    
+    return render_template('customer_page.html',history=history,items=items)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
-#@login_required
+@login_required
 def delivery_page():
     user2 = employees.query.filter_by(role="Delivery").first()
     print(current_user.name)
     print(user2.role)
-#    try:
-#        print(current_user.role)
-#    except:
-#        print("no role to be found")
-#        return render_template('home.html')
+    try:
+        print(current_user.role)
+    except:
+        print("You are not an employee!")
+        return render_template('home.html')
 
-#    print(user1.name, type(user1))
-#    print(user2, type(user2))
-#    if (user1.role != "Delivery"):
-#        print("Git outta hea")
-#        return render_template('home.html')
+    if (current_user.role != "Delivery"):
+        print("You aren't a delivery boi")
+        return render_template('home.html')
     return render_template('delivery_page.html')
 
 @app.route('/manager_page_hire', methods = ['GET', 'POST'])
@@ -458,15 +476,15 @@ def manager_page_fire():
     return render_template('manager_page_fire.html')
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
-#@login_required
+@login_required
 def manager_page():
-    # confirms the user accessing this page is the manager
-    # This doesnt work like i thought because theres still an issue with user_loader.
-    # If a customer logs in with ID = 1, that customer can access this page.
-    #user = employees.query.filter_by(id="1").first()
-    #if (current_user.get_id() != str(user.id)):
-       # print(current_user.get_id())
-       # return render_template('home.html')
+    # confirms the user accessing this page is the manager. Can be changed to filter by role="Manager" but too lazy.
+
+    user = employees.query.filter_by(id="1").first()
+    if (current_user.get_id() != str(user.id)):
+        print(current_user.get_id())
+        print("You aren't the manager")
+        return render_template('home.html')
     
     return render_template('manager_page.html')
 
@@ -490,8 +508,17 @@ def chef_page_rm():
 
 
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
-#@login_required
+@login_required
 def chef_page():
+    try:
+        print(current_user.role)
+    except:
+        print("You are not an employee!")
+        return render_template('home.html')
+
+    if (current_user.role != "Chef"):
+        print("You aren't a cook")
+        return render_template('home.html')
     dished = dish.query.all()
     if request.method == "POST":
         if request.form.get('dish') == '' or request.form.get('description') == '' or request.form.get('bizID') == '' :
