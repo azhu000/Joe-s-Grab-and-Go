@@ -234,7 +234,7 @@ def login():
             if(user.password == password):
                 login_user(user)
                 print("Logged in successfully!")
-                return redirect(url_for('menus'))
+                return redirect(url_for('customer_page'))
             else:
                 print("Incorrect credentials!")
         else:
@@ -415,7 +415,7 @@ def customer_page():
         return render_template('home.html')
     history = orders.query.filter_by(custID=user)
     
-    print(history)
+    #print(history)
     items = orderLineItem.query.all()
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
