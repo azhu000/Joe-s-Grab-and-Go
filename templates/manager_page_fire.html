@@ -1,5 +1,6 @@
 <!-- HTML - Hypertext Markup Language -->
 <!DOCTYPE html> <!--Doctype Explanation-->
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -175,9 +176,33 @@ section {
           </ul>
         </nav>
     <br>
-    <center> <br><br><br><br><b>THIS IS THE MANAGER PAGE :D </b></center>
-    <p><a class="w-100 btn btn-lg btn-primary" href="{{url_for('manager_page_hire')}}" role="button">Hire/Fire</a>
-    </body>
+    <center> <br><br><br><br><b>Fire Employees :D </b></center>
+
+    <main class="form-signin">
+      <form method="POST">
+        <br>
+        <br>
+        <br>
+             
+        <br>
+        <div class="form-floating">
+          <input type="id" class="form-control" id="floatingInput" name="id" placeholder="Enter Id of Employee to be Removed"/>
+          <label for="floatingInput">Enter ID</label>
+        </div>
+        <br>   
+        
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Remove Employees</button>
+        <br>
+        <br>
+        <p><a class="w-100 btn btn-lg btn-primary" href="{{url_for('manager_page_hire')}}" role="button">Go to Hire Employees?</a>
+        <p><a class="w-100 btn btn-lg btn-primary" href="{{url_for('manager_page')}}" role="button">Go to Admin Page?</a>
+        
+        
+      </form>
+    </main>
+ 
+      
+</body>
 
     <center>
         <footer><br>Contact Information down here</footer> 
@@ -185,6 +210,7 @@ section {
             <br>Telephone: 1-(212)-345-1234
             <br>Email Address: thebestrestaurant@resturants.com
             <p></p>
-      
+            
       </center>
-      </html>
+
+</html>
