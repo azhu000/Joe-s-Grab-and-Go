@@ -243,9 +243,7 @@ def login():
             else:
                 # print("Incorrect credentials!")
                 correct_creds = False
-
                 alert_user = "You have entered the incorrect credentials. "
-                
                 return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
         else:
             user = employees.query.filter_by(email=email).first()
@@ -264,7 +262,9 @@ def login():
                         print("Logged in successfully!")
                         return redirect(url_for('delivery_page'))
                 else:
-                    print("Incorrect credentials!")
+                    correct_creds = False
+                    alert_user = "You have entered the incorrect credentials. "
+                    return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
             else:
                 print("No such username exists, try again")
     return render_template('login.html')    
