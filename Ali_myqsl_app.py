@@ -319,7 +319,7 @@ def menus():
     return render_template('menu.html')
 
 #Completely untested Route.
-@app.route('/VIPmenu')
+@app.route('/VIPmenu', methods = ['GET', 'POST'])
 def VIP():
     dished = dish.query.all()
     price = menuDishes.query.filter_by(VIP='1')
@@ -339,6 +339,7 @@ def VIP():
             print("You are not a VIP")
             return redirect(url_for('menu_popular'))
     if request.method == 'POST':
+        
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
