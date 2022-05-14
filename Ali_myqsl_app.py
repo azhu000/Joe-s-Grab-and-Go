@@ -47,6 +47,7 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 menu_tags = ["Appetizers", "Entrees", "Soup & Salad", "Dessert", "Beverages"]
+vip_tags = ["Special Boi menuuuuuu les goo"]
 
 # loads the user id which is stored
 # This does not work like it should. It checks for the ID of the user and if it exists in customer
@@ -99,6 +100,8 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
+    wallet = db.Column(db.Integer, nullable = True)
+    isVIP = db.Column(db.Integer, nullable = False)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
@@ -135,6 +138,7 @@ class menuDishes(db.Model):
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
     price = db.Column(db.String(20), nullable = False)
+    VIP = db.Column(db.Integer, nullable = False, default = 0)
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
 class dishRating(db.Model):
@@ -314,21 +318,39 @@ def menus():
     #all_dishes = menu.query.all()
     return render_template('menu.html')
 
-@app.route('VIPmenu')
+#Completely untested Route.
+@app.route('/VIPmenu')
 def VIP():
+    dished = dish.query.all()
+    price = menuDishes.query.filter_by(VIP='1')
+    lens = len(vip_tags)
     try:
         user = int(current_user.get_id())
     except:
         print("You are not registered as a customer")
         return redirect(url_for('login'))
+    print(current_user.get_id())
     if(employees.query.get(user)):
         pass
     if(customers.query.get(user)):
         cust = customers.query.get(user)
         if (cust.isVIP == 0):
+            print(cust.name)
             print("You are not a VIP")
             return redirect(url_for('menu_popular'))
-    return render_template('VIPmenu.html')
+    if request.method == 'POST':
+        quantity = request.form.get('quantity')
+        dishes = request.form.get('dishid')
+        cost = request.form.get('price')
+        new_order = orders(custID=user, total=cost, bizID='1')
+        db.session.add(new_order)
+        num = orders.query.order_by(orders.id.desc()).first()
+        new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
+        db.session.add(new_orderline)
+        db.session.commit()
+        print("Added to cart")
+        return redirect(url_for('VIPmenu'))
+    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags)
 
 
 #Currently not in use.
