@@ -396,6 +396,11 @@ def menu_popular():
     # Issue here is that "adding to cart" is being read as its own order. 
 
     if request.method == "POST":
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
         user = int(current_user.get_id())
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
