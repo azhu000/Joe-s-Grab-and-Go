@@ -314,8 +314,24 @@ def menus():
     #all_dishes = menu.query.all()
     return render_template('menu.html')
 
-# Successfully able to return information from multiple tables in a single route.
-# To specify a single item in the table, you can do something like the dishing variable.
+@app.route('VIPmenu')
+def VIP():
+    try:
+        user = int(current_user.get_id())
+    except:
+        print("You are not registered as a customer")
+        return redirect(url_for('login'))
+    if(employees.query.get(user)):
+        pass
+    if(customers.query.get(user)):
+        cust = customers.query.get(user)
+        if (cust.isVIP == 0):
+            print("You are not a VIP")
+            return redirect(url_for('menu_popular'))
+    return render_template('VIPmenu.html')
+
+
+#Currently not in use.
 @app.route('/dishes')
 def menudish():
     all_dishes = menuDishes.query.all()
@@ -401,15 +417,14 @@ def menu_popular():
         except:
             print("You are not registered as a customer")
             return redirect(url_for('login'))
-        user = int(current_user.get_id())
+        print(user)
+        print(type(user))
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
         new_order = orders(custID=user, total=cost, bizID='1')
         db.session.add(new_order)
         num = orders.query.order_by(orders.id.desc()).first()
-        print(num)
-        print(type(num))
         new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
         db.session.add(new_orderline)
         db.session.commit()
@@ -418,6 +433,7 @@ def menu_popular():
 
     return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
 
+#Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
 @login_required
 def cart():
