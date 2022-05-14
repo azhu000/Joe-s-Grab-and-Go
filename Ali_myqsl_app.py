@@ -395,18 +395,21 @@ def menu_popular():
     # Needs customerID, dishID, dish price, quantity of dish. 
     # Issue here is that "adding to cart" is being read as its own order. 
 
-    #if request.method == "POST":
-    #    user = int(current_user.get_id())
-    #    quantity = request.form.get('quantity')
-    #    dishes = request.form.get('dish')
-    #    new_order = orders(name = dishes, custID=user, bizID='1')
-    #    new_orderline = orderLineItem(quantity=quantity, subtotal=d, DishOrdered=dishes)
-    #    db.session.add(new_order)
-    #    db.session.commit()
-    #    print("Order has been placed")
-    #    return redirect(url_for('menu_popular'))
-    #return render_template('menu_popular.html',price=price,dish=dished)
-
+    if request.method == "POST":
+        user = int(current_user.get_id())
+        quantity = request.form.get('quantity')
+        dishes = request.form.get('dishid')
+        cost = request.form.get('price')
+        new_order = orders(custID=user, total=cost, bizID='1')
+        db.session.add(new_order)
+        num = orders.query.order_by(orders.id.desc()).first()
+        print(num)
+        print(type(num))
+        new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
+        db.session.add(new_orderline)
+        db.session.commit()
+        print("Added to cart")
+        return redirect(url_for('menu_popular'))
 
     return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
 
