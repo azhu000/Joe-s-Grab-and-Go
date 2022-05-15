@@ -50,11 +50,11 @@ INSERT INTO orderLineItem VALUES (3, 1, "7.99", NOT NULL, "4.99", 2, 11);
 INSERT INTO orderLineItem VALUES (4, 1, "7.99", NOT NULL, "11.99", 2, 14);
 INSERT INTO orderLineItem VALUES (5, 1, "7.99", NOT NULL, "8.50", 3, 18);
 
-INSERT INTO dishRating VALUES (1, 5, "Wheres the tip jar that grilled chee smacked", 2, 15);
-INSERT INTO dishRating VALUES (2, 4, "not bad, needed more salt", 2, 4);
-INSERT INTO dishRating VALUES (3, 4, "wheres da lamb sauce", 1, 20);
-INSERT INTO dishRating VALUES (4, 5, "Pizza was fire", 4, 8);
-INSERT INTO dishRating VALUES (5, 3, "Pizza was meh", 3, 8);
+INSERT INTO dishRating VALUES (1, 5, "Wheres the tip jar that grilled chee smacked", 22, 15);
+INSERT INTO dishRating VALUES (2, 4, "not bad, needed more salt", 22, 4);
+INSERT INTO dishRating VALUES (3, 4, "wheres da lamb sauce", 21, 20);
+INSERT INTO dishRating VALUES (4, 5, "Pizza was fire", 24, 8);
+INSERT INTO dishRating VALUES (5, 3, "Pizza was meh", 23, 8);
 
 
 INSERT INTO menuDishes VALUES(1,8,"$10.00",0);
