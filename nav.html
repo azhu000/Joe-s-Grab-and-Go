@@ -1,0 +1,29 @@
+<nav class="navbar sticky-top">        
+    <nav role="navigation">
+        <ul id="main-menu">
+          <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
+          <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+            <ul id="sub-menu">
+              <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
+                <li><a href="#appetizers" aria-label="subemnu">Appetizers</a></li>
+                <li><a href="#entree" aria-label="subemnu">Entrees</a></li>
+                <li><a href="#soups" aria-label="subemnu">Soup/Salad</a></li>
+                <li><a href="#dessert" aria-label="subemnu">Dessert</a></li>
+                <li><a href="#drinks" aria-label="subemnu">Beverages</a></li>
+            </ul>
+          </li>
+          <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
+            <ul id="sub-menu">
+              <li><a href="{{url_for('cart')}}" aria-label="subemnu">Cart</a></li>
+              <li><a href="{{url_for('order')}}" aria-label="submenu">Order History</a></li>
+            </ul>
+            <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
+              <ul id="sub-menu">
+                <li><a href="{{url_for('login')}}" aria-label="submenu">Log-in</a></li>
+                <li><a href="{{url_for('register')}}" aria-label="submenu">Register</a></li>
+              </ul>
+            </li>
+            <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
+        </ul>
+      </nav>
+    </nav>
