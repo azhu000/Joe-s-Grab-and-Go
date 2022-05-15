@@ -191,17 +191,7 @@ section {
     </div>
     <div>
       <br>
-    
-    {% for h in history%}
-    <center>{{h.id}}.  {{h.total}}  {{h.customers.name}}      </center>
-    {%for i in items%}
-    {% if i.orderID == h.id %}
-    <center>{{i.quantity}}.   {{i.dish.name}}  ${{i.total}} {{i.DishOrdered}}  </center>
-    
 
-    {%endif%}
-    {%endfor%}
-    {%endfor%}
     <br>
 
     <div class="row"> <!-- Order HIstory 1 -->
