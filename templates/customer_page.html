@@ -179,7 +179,10 @@ section {
         <center><h2><b><u>Customer Information</u></b></h2></center>
       </div>
       <div class="card-body">
-        <center><h3><b>Your balance is: ${{user_balance}}</b></h3></center>
+        <center> VIP Status: {{custVip}}  </center>
+        <center> Your balance is: ${{user_balance}}  </center>
+        <center> Number of Orders for {{users_name}}. Id is {{user}} : {{lenCust}}  </center>
+        <center> Total Money Spent for {{users_name}}. Id is {{user}}: ${{custTotal}}  </center>
       </div>
       {%if vip_bool == 1%}
       <div>
