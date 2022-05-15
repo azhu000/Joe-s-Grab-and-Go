@@ -498,6 +498,8 @@ def chef_page():
 def contact():
     return render_template('contact_us.html')
 
+num = orderLineItem.query.filter_by(orderID = 3).first()
+print(num.orderID)
 
 if __name__ == '__main__':
     app.run(debug=True)
