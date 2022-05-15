@@ -526,23 +526,28 @@ def cart():
 @login_required
 def customer_page():
     user = int(current_user.get_id())
-
     users_name = str(current_user.name)
     user_balance = float(current_user.wallet)
+    vip_bool = 0
     try:
          (customers.query.get(user))
     except:
         return render_template('home.html')
     history = orders.query.filter_by(custID=user)
     
-    
+    if(customers.query.get(user)):
+        cust = customers.query.get(user)
+        if (cust.isVIP == 0):
+            vip_bool = 0
+        else:
+            vip_bool = 1
     
     #print(history)
     items = orderLineItem.query.all()
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
     
-    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance)
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
