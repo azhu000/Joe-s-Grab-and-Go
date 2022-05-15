@@ -204,13 +204,14 @@ section {
      <div class ="container"> 
        <div class="row"> <!-- Order HIstory 1 -->
     {% for h in history%}
+    <div class = "col-3"> 
       {%for i in items%}
       {% if i.orderID == h.id %}
     
-      <div class = "col-3"> 
+      
 
         <div class="card">
-            <img src={{i.dish.url}} class="card-img-top" alt="Food Image" >
+            <img src={{i.dish.url}} class="card-img-top" width="350" height = "200" alt="Food Image" >
             <div class="card-body">
               <h5 class="card-title"> Order Id: {{h.id}} </h5>
               <h5> Dish: {{i.dish.name}} </h5>
