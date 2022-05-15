@@ -133,7 +133,7 @@
 
       </div>
     
-      <nav role="navigation">
+      <nav class = "sticky-top"role="navigation">
         <ul id="main-menu">
           <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
           <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
@@ -142,12 +142,8 @@
             </ul>
           </li>
     
-          <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i><b>Order</b></a>
-            <ul id="sub-menu">
-              <li><a href="{{url_for('cart')}}" aria-label="submenu"><b>Cart</b></a></li>
-              <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
-    
-            </ul>
+          <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+
             <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
               <ul id="sub-menu">
                 <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
@@ -217,11 +213,11 @@
 </body>
 
 <center>
-  <footer><br>Contact Information down here</footer> 
-      <br>Address: 1234 Main Street
-      <br>Telephone: 1-(212)-777-1234
+  <footer class = "sticky-bottom"><br>Contact Information down here 
+      <br>Address: 1234 Main Street New York, NY, 10044
+      <br>Telephone: 1-(212)-345-1234
       <br>Email Address: thebestrestaurant@resturants.com
       <p></p>
-
+</footer>
 </center>
 </html>

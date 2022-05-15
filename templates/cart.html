@@ -115,7 +115,7 @@ li a:hover, .dropdown:hover .dropbtn {
         <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
   </div>
 
-  <nav role="navigation">
+  <nav class = "sticky-top" role="navigation">
     <ul id="main-menu">
       <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
       <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
@@ -124,12 +124,7 @@ li a:hover, .dropdown:hover .dropbtn {
         </ul>
       </li>
 
-      <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i><b>Order</b></a>
-        <ul id="sub-menu">
-          <li><a href="{{url_for('cart')}}" aria-label="submenu"><b>Cart</b></a></li>
-          <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
-
-        </ul>
+      <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
         {%if current_customer == 0%}
 
         <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
@@ -144,7 +139,6 @@ li a:hover, .dropdown:hover .dropbtn {
         <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
           <ul id="sub-menu">
             <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
-            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Balance</b></a></li>
           </ul>
         </li>
         {%endif%}
@@ -207,4 +201,12 @@ li a:hover, .dropdown:hover .dropbtn {
       
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
+    <center>
+      <footer class = "sticky-bottom"><br>Contact Information down here 
+          <br>Address: 1234 Main Street New York, NY, 10044
+          <br>Telephone: 1-(212)-345-1234
+          <br>Email Address: thebestrestaurant@resturants.com
+          <p></p>
+    </footer>
+    </center>
     </html>

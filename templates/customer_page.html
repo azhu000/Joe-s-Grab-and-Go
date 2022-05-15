@@ -145,7 +145,7 @@ section {
         <h2><center>Order Food to  Your Door :D</center></h2> 
         <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
         </div>
-        <nav role="navigation">
+        <nav class = "sticky-top" role="navigation">
           <ul id="main-menu">
             <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
             <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
@@ -153,17 +153,11 @@ section {
                 <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
               </ul>
             </li>
-            <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i><b>Order</b></a>
-              <ul id="sub-menu">
-                <li><a href="{{url_for('cart')}}" aria-label="subemnu"><b>Cart</b></a></li>
-                <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
-              </ul>
-        
+            <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
   
           <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
             <ul id="sub-menu">
               <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
-              <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Balance</b></a></li>
             </ul>
           </li>
 
@@ -173,13 +167,30 @@ section {
 
     <br>
 
-    <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center>
-    <div>
-      <center> VIP Status: {{custVip}}  </center>
-      <center> Your balance is: ${{user_balance}}  </center>
-      <center> Number of Orders for {{users_name}}. Id is {{user}} : {{lenCust}}  </center>
-      <center> Total Money Spent for {{users_name}}. Id is {{user}}: ${{custTotal}}  </center>
+    <div class="card" style="width: 30rem;">
+      <div class="card-header">
+        <center><h2><b><u>Customer Information</u></b></h2></center>
+      </div>
+      <div class="card-body">
+        <center> VIP Status: {{custVip}}  </center>
+        <center> Your balance is: ${{user_balance}}  </center>
+        <center> Number of Orders for {{users_name}}. Id is {{user}} : {{lenCust}}  </center>
+        <center> Total Money Spent for {{users_name}}. Id is {{user}}: ${{custTotal}}  </center>
+      </div>
+      {%if vip_bool == 1%}
+      <div>
+        <center><h4><b>You <u>ARE</u> a VIP customer!</b></h4></center>
+      </div>
+      <br>
+      {%elif vip_bool == 0 %}
+      <div>
+        <center><h4><b>You <u>ARE NOT</u> a VIP customer!</b></h4></center>
+      </div>
+      {%endif%}
+      </div>
     </div>
+    <div>
+      <br>
     
     {% for h in history%}
     <center>{{h.id}}.  {{h.total}}  {{h.customers.name}}      </center>
@@ -191,14 +202,402 @@ section {
     {%endif%}
     {%endfor%}
     {%endfor%}
-    
+    <br>
 
+    <div class="row"> <!-- Order HIstory 1 -->
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <img src="https://olo-images-live.imgix.net/54/54f9a1045adb4071995815f97697970e.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=2ac8e9f2737fa23ef343774de6091728" class="card-img-top" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title">OrderID 1</h5>
+              <p class="card-text">
+                <br> <b>Order Date</b>: 05/15/2022
+                <br> <b>Total Amount:</b>: $50 </p>
+              <!-- Button trigger modal for order-->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">
+                  View Detail
+              </button>
+              
     
+    <!-- Modal for view dishes -->
+    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">OrderID 1</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="text-center">
+              <img src="https://olo-images-live.imgix.net/54/54f9a1045adb4071995815f97697970e.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=2ac8e9f2737fa23ef343774de6091728" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+              </div>
+              <br> <h4><b>Order detail </h4></b>:
+              <br>
+              <br> <b>Order date</b>: 05/15/2022
+  
+            
+              <table class="table"><!-- this is the review table. hard coded atm-->
+                <thead class = "table-light">
+                  <tr> 
+                    <th scope="col">#</th>
+                    <th scope="col">UserID</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Review</th>
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>You can try all the type of appitizers in a dish!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Anson</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>You should try this!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Ali</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>The best appitizer I've ever had :D</td>
+    
+                  </tr>
+                </tbody>
+              </table> <!-- end of table -->
+          </div>
+          <div class="modal-footer">
+    
+            
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+          </div>
+        </div>
+        <!-- Modal for add review -->
+        <div class="modal fade" id="modal1review" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Add your review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Submit"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Rate:</label>
+                    <div class="dropdown">
+                      <select class="form-select" aria-label="Default select example">
+                        <option selected>Rate your delivery service</option>
+                        <option value="1">&#9733;</option>
+                        <option value="2">&#9733;&#9733;</option>
+                        <option value="3">&#9733;&#9733;&#9733;</option>
+                        <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                        <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Review:</label>
+                    <textarea class="form-control" id="review-text"></textarea>
+                  </div>
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-dark" type="button">Submit</button>
+                    
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#modal1" data-bs-toggle="modal">back to view</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+    </div> <!-- dish 2-->
+      <div class="col">
+        <div class="card" style="width: 18rem;">
+            <img src="https://olo-images-live.imgix.net/cd/cd6a3b2ae59d4cbdabcee5ccbc76874b.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=566a06b1f7f88235bc66bc09bae0f733" class="card-img-top" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title">DOUBLE CRUNCH BONE-IN WINGS</h5>
+              <p class="card-text">
+                <br> <b>Price</b>: $ 12
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                        <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal2">
+                Order
+                </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">DOUBLE CRUNCH BONE-IN WINGS</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="text-center">
+              <img src="https://olo-images-live.imgix.net/cd/cd6a3b2ae59d4cbdabcee5ccbc76874b.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=566a06b1f7f88235bc66bc09bae0f733" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+              </div>
+              <br> <b>FoodDetail</b>: Twice battered and fried, these crisp outside, tender inside wings are tossed in a choice of: -Classic Hot Buffalo sauce -Honey BBQ sauce -Sweet Asian chile sauce Served with Bleu cheese or ranch dressing.
+    
+              <br> <b>Price</b>: $ 12
+              <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <br> <b>Review &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      </b><!-- Button trigger modal fro review --><button type="button" class="btn btn-dark " data-bs-toggle="modal" data-bs-target="#modal1review">
+                Add Review
+              </button>
+              <table class="table"><!-- this is the review table. hard coded atm-->
+                <thead class = "table-light">
+                  <tr> 
+                    <th scope="col">#</th>
+                    <th scope="col">UserID</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Review</th>
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>Best chicken wing in NYC!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Anson</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>You should try this!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Ali</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>The best appitizer I've ever had :D</td>
+    
+                  </tr>
+                </tbody>
+              </table> <!-- end of table -->
+          </div>
+          <div class="modal-footer">
+            <p><h5><b>Quantity:</b></h5></p>
+            <div class="dropdown">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="3">4</option>
+                <option value="3">5</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+          </div>
+      </div>
+    </div>
+      <div class="col"> <!-- dish 3 -->
+        <div class="card" style="width: 18rem;">
+          <img src="https://olo-images-live.imgix.net/92/924a7b49593846b190c478d1f56c6aa3.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=a21e282623f3de1a3538bd2b31fe146c" class="card-img-top" alt="Food Image" >
+          <div class="card-body">
+            <h5 class="card-title">SPINACH & ARTICHOKE DIP</h5>
+            <p class="card-text">
+                <br> <b>Price</b>: $ 10
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+            </p>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal3">
+              Order
+              </button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">SPINACH & ARTICHOKE DIP</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="text-center">
+              <img src="https://olo-images-live.imgix.net/92/924a7b49593846b190c478d1f56c6aa3.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=a21e282623f3de1a3538bd2b31fe146c" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+              </div>
+              <br> <b>FoodDetail</b>: Creamy spinach and artichoke dip topped with melted Parmesan cheese. Served with freshly made white corn tortilla chips and our chipotle lime salsa.
+    
+              <br> <b>Price</b>: $ 10
+              <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+              <br> <b>Review &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      </b><!-- Button trigger modal fro review --><button type="button" class="btn btn-dark " data-bs-toggle="modal" data-bs-target="#modal1review">
+                Add Review
+              </button>
+              <table class="table"><!-- this is the review table. hard coded atm-->
+                <thead class = "table-light">
+                  <tr> 
+                    <th scope="col">#</th>
+                    <th scope="col">UserID</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Review</th>
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>Best chip & dip in NYC!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Anson</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>You should try this!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Ali</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>The best appitizer I've ever had :D</td>
+    
+                  </tr>
+                </tbody>
+              </table> <!-- end of table -->
+          </div>
+          <div class="modal-footer">
+            <p><h5><b>Quantity:</b></h5></p>
+            <div class="dropdown">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="3">4</option>
+                <option value="3">5</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-primary">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+          </div>
+      </div>
+    </div>
+    
+      <div class="col"> <!-- dish 4-->
+        <div class="card" style="width: 18rem;">
+            <img src="https://olo-images-live.imgix.net/f9/f950a2b905a2481f80d0de8d97874f45.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=6e30496d0840560eaa85eccf7566eede" class="card-img-top" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title">GRILLED CHICKEN WONTON TACOS</h5>
+              <p class="card-text">
+                
+                <br> <b>Price</b>: $ 15
+                <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;
+              </p>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal4">
+                Order
+                </button>
+      
+      <!-- Modal -->
+      <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">GRILLED CHICKEN WONTON TACOS</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                <img src="https://olo-images-live.imgix.net/f9/f950a2b905a2481f80d0de8d97874f45.jpg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=6e30496d0840560eaa85eccf7566eede" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+                </div>
+                <br> <b>FoodDetail</b>: A deliciously different way to taco. Tangy grilled chicken, sweet Asian chile sauce and dumpling sauce stuffed into crispy wonton shells and topped with a crunchy slaw and cilantro mix.
+    
+                <br> <b>Price</b>: $ 15
+                <br> <b>Rate</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                <br> <b>Review &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      </b><!-- Button trigger modal fro review --><button type="button" class="btn btn-dark " data-bs-toggle="modal" data-bs-target="#modal1review">
+                  Add Review
+                </button>
+                <table class="table"><!-- this is the review table. hard coded atm-->
+                  <thead class = "table-light">
+                    <tr> 
+                      <th scope="col">#</th>
+                      <th scope="col">UserID</th>
+                      <th scope="col">Rate</th>
+                      <th scope="col">Review</th>
+      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                      <td>Best taco in NYC!</td>
+      
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Anson</td>
+                      <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                      <td>You should try this!</td>
+      
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Ali</td>
+                      <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                      <td>The best appitizer I've ever had :D</td>
+      
+                    </tr>
+                  </tbody>
+                </table> <!-- end of table -->
+            </div>
+            <div class="modal-footer">
+              <p><h5><b>Quantity:</b></h5></p>
+            <div class="dropdown">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="3">4</option>
+                <option value="3">5</option>
+              </select>
+            </div>
+              <button type="button" class="btn btn-primary">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+          </div>
+      </div>
+    </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  </body>
+
     <center>
-        <footer><br>Contact Information down here</footer> 
+        <footer class = "sticky-bottom">
+            <br>Contact Information down here 
             <br>Address: 1234 Main Street New York, NY, 10044
             <br>Telephone: 1-(212)-345-1234
             <br>Email Address: thebestrestaurant@resturants.com
-            <p></p>
-      
+      </footer>
       </center>
