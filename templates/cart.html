@@ -128,16 +128,28 @@ li a:hover, .dropdown:hover .dropbtn {
           <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
 
         </ul>
+        {%if current_customer == 0%}
+
         <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
           <ul id="sub-menu">
             <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
             <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
           </ul>
         </li>
+
+        {%elif current_customer == 1%}
+
+        <li><a href="#"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+          <ul id="sub-menu">
+            <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Balance</b></a></li>
+          </ul>
+        </li>
+        {%endif%}
+
         <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
     </ul>
   </nav>
-
 
 <div class="header">
   <h2>My Cart<i class="fa fa-fw fa-shopping-cart"></i></h2>
