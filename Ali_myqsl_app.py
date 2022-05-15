@@ -30,7 +30,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -520,7 +520,9 @@ def cart():
 @login_required
 def customer_page():
     user = int(current_user.get_id())
+
     users_name = str(current_user.name)
+    user_balance = float(current_user.wallet)
     try:
          (customers.query.get(user))
     except:
@@ -534,7 +536,7 @@ def customer_page():
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
     
-    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user)
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
