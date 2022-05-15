@@ -143,6 +143,11 @@ section {
     <div class="header">
         <h1><b>Joe's Grab and Go</b></h1>
         <h2>Order Food to  Your Door :D</h2>
+        {%if current_customer == 0%}
+        <div> <b>You are not logged in.</b></div>
+        {%elif current_customer == 1%}
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
+        {%endif%}
         </div>
 
         <nav role="navigation">
@@ -171,7 +176,7 @@ section {
 
         {%elif current_customer == 1%}
 
-        <li><a href="#"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+        <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
           <ul id="sub-menu">
             <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
             <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Balance</b></a></li>
