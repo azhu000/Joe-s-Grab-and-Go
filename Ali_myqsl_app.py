@@ -30,7 +30,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -485,6 +485,12 @@ def menu_popular():
 @app.route('/wallet', methods = ['GET', 'POST'])
 @login_required
 def wallet():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
     if request.method == "POST":
         try:
             user = int(current_user.get_id())
@@ -499,7 +505,7 @@ def wallet():
         userid.wallet = float(new_amount)
         db.session.commit()
 
-    return render_template('wallet.html')
+    return render_template('wallet.html', user=user, users_name=users_name, current_customer=current_customer)
 
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
