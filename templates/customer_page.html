@@ -147,20 +147,9 @@ section {
         <nav role="navigation">
           <ul id="main-menu">
             <li><a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
-            <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+            <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
               <ul id="sub-menu">
-                <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-                <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-                <li><a href="{{url_for('menu_popular')}}#appetizers" aria-label="subemnu">Appetizers</a></li>
-                <li><a href="{{url_for('menu_popular')}}#entree" aria-label="subemnu">Entrees</a></li>
-                <li><a href="{{url_for('menu_popular')}}#soups" aria-label="subemnu">Soup & Salad</a></li>
-                <li><a href="{{url_for('menu_popular')}}#dessert" aria-label="subemnu">Dessert</a></li>
-                <li><a href="{{url_for('menu_popular')}}#drinks" aria-label="subemnu">Beverages</a></li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
-              <ul id="sub-menu">
-                <li><a href="#" aria-label="subemnu">Reviews</a></li>
+                <li><a href="{{url_for('VIP')}}" aria-label="subemnu">VIP Menu</a></li>
               </ul>
             </li>
             <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
@@ -178,9 +167,19 @@ section {
           </ul>
         </nav>
     <br>
-    <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center
-    </body
+    <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center>
+    
+    {% for h in history%}
+    <center>{{h.id}}.  {{h.total}}  {{h.customers.name}}      </center>
+    {%for i in items%}
+    {% if i.orderID == h.id %}
+    <center>{{i.quantity}}.   {{i.dish.name}}  {{i.total}}  </center>
+    
+    {%endif%}
+    {%endfor%}
+    {%endfor%}
 
+    
     <center>
         <footer><br>Contact Information down here</footer> 
             <br>Address: 1234 Main Street New York, NY, 10044

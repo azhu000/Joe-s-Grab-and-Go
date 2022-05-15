@@ -2,6 +2,7 @@
 #from ctypes import addressof
 
 from ast import Delete
+from doctest import TestResults
 from functools import wraps
 from unicodedata import name
 import bcrypt
@@ -44,6 +45,9 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+menu_tags = ["Appetizers", "Entrees", "Soup & Salad", "Dessert", "Beverages"]
+vip_tags = ["Special Boi menuuuuuu les goo"]
 
 # loads the user id which is stored
 # This does not work like it should. It checks for the ID of the user and if it exists in customer
@@ -96,6 +100,8 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
+    wallet = db.Column(db.Integer, nullable = True)
+    isVIP = db.Column(db.Integer, nullable = False)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
@@ -117,12 +123,13 @@ class dish(db.Model):
     name = db.Column(db.String(45), primary_key=True, nullable = False, unique = True)
     description = db.Column(db.String(255), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
+    url = db.Column(db.String(255), nullable = False)
     menudish = db.relationship('menuDishes', backref='dish')
     rating = db.relationship('dishRating', backref='dish')
     orderline = db.relationship('orderLineItem', backref='dish')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | description: {2}".format(self.id, self.name, self.description)
+        return "id: {0} | name: {1} | description: {2} | url: {3}".format(self.id, self.name, self.description, self.url)
 
         
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
@@ -131,6 +138,7 @@ class menuDishes(db.Model):
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
     price = db.Column(db.String(20), nullable = False)
+    VIP = db.Column(db.Integer, nullable = False, default = 0)
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
 class dishRating(db.Model):
@@ -223,7 +231,10 @@ def home():
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    correct_creds = True
+    
     if request.method == 'POST':
+
         email = request.form.get('email')
         password = request.form.get('password')
         user = customers.query.filter_by(email=email).first()
@@ -231,9 +242,13 @@ def login():
             if(user.password == password):
                 login_user(user)
                 print("Logged in successfully!")
-                return redirect(url_for('menus'))
+                counter = 0
+                return redirect(url_for('customer_page'))
             else:
-                print("Incorrect credentials!")
+                # print("Incorrect credentials!")
+                correct_creds = False
+                alert_user = "You have entered the incorrect credentials. "
+                return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
         else:
             user = employees.query.filter_by(email=email).first()
             if user:
@@ -251,7 +266,9 @@ def login():
                         print("Logged in successfully!")
                         return redirect(url_for('delivery_page'))
                 else:
-                    print("Incorrect credentials!")
+                    correct_creds = False
+                    alert_user = "You have entered the incorrect credentials. "
+                    return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
             else:
                 print("No such username exists, try again")
     return render_template('login.html')    
@@ -297,11 +314,47 @@ def dishes():
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
 @app.route('/menu')
 def menus():
+    print(current_user.name)
     #all_dishes = menu.query.all()
     return render_template('menu.html')
 
-# Successfully able to return information from multiple tables in a single route.
-# To specify a single item in the table, you can do something like the dishing variable.
+#Completely untested Route.
+@app.route('/VIPmenu', methods = ['GET', 'POST'])
+def VIP():
+    dished = dish.query.all()
+    price = menuDishes.query.filter_by(VIP='1')
+    lens = len(vip_tags)
+    try:
+        user = int(current_user.get_id())
+    except:
+        print("You are not registered as a customer")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(user)):
+        pass
+    if(customers.query.get(user)):
+        cust = customers.query.get(user)
+        if (cust.isVIP == 0):
+            print(cust.name)
+            print("You are not a VIP")
+            return redirect(url_for('menu_popular'))
+    if request.method == 'POST':
+        
+        quantity = request.form.get('quantity')
+        dishes = request.form.get('dishid')
+        cost = request.form.get('price')
+        new_order = orders(custID=user, total=cost, bizID='1')
+        db.session.add(new_order)
+        num = orders.query.order_by(orders.id.desc()).first()
+        new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
+        db.session.add(new_orderline)
+        db.session.commit()
+        print("Added to cart")
+        return redirect(url_for('VIPmenu'))
+    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags)
+
+
+#Currently not in use.
 @app.route('/dishes')
 def menudish():
     all_dishes = menuDishes.query.all()
@@ -317,6 +370,7 @@ def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
     return render_template('index.html',popular=popular)
 
+#Currently not being used.
 @app.route('/rating')
 def dishlist():
     all_dishes = dishRating.query.all()
@@ -324,7 +378,7 @@ def dishlist():
 ############################################################
 
 
-#upon successful login, this is the page that will be displayed
+#Currently not being used. 
 @app.route('/dashboard', methods = ['GET', 'POST'])
 @login_required
 def dashboard():
@@ -371,40 +425,75 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    #menus = menu.query.all()
     dished = dish.query.all()
     price = menuDishes.query.all()
-    return render_template('menu_popular.html',price=price,dish=dished)
+    lens = len(menu_tags)
 
+    # This method below will handle the orders that come in from the menu. 
+    # It needs to update two tables, "orders" and "orderLineItem".
+    # Needs customerID, dishID, dish price, quantity of dish. 
+    # Issue here is that "adding to cart" is being read as its own order. 
+
+    if request.method == "POST":
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
+        print(user)
+        print(type(user))
+        quantity = request.form.get('quantity')
+        dishes = request.form.get('dishid')
+        cost = request.form.get('price')
+        new_order = orders(custID=user, total=cost, bizID='1')
+        db.session.add(new_order)
+        num = orders.query.order_by(orders.id.desc()).first()
+        new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
+        db.session.add(new_orderline)
+        db.session.commit()
+        print("Added to cart")
+        return redirect(url_for('menu_popular'))
+
+    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
+
+#Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
-#@login_required
+@login_required
 def cart():
     return render_template('cart.html')
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
-#@login_required
+@login_required
 def customer_page():
-    #current_user.is_authenticated()
+    user = int(current_user.get_id())
+    try:
+         (customers.query.get(user))
+    except:
+        return render_template('home.html')
+    history = orders.query.filter_by(custID=user)
     
-    return render_template('customer_page.html')
+    #print(history)
+    items = orderLineItem.query.all()
+    #item = orderLineItem.query.filter_by(orderID='1')
+    #print(items[0])
+    
+    return render_template('customer_page.html',history=history,items=items)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
-#@login_required
+@login_required
 def delivery_page():
     user2 = employees.query.filter_by(role="Delivery").first()
     print(current_user.name)
     print(user2.role)
-#    try:
-#        print(current_user.role)
-#    except:
-#        print("no role to be found")
-#        return render_template('home.html')
+    try:
+        print(current_user.role)
+    except:
+        print("You are not an employee!")
+        return render_template('home.html')
 
-#    print(user1.name, type(user1))
-#    print(user2, type(user2))
-#    if (user1.role != "Delivery"):
-#        print("Git outta hea")
-#        return render_template('home.html')
+    if (current_user.role != "Delivery"):
+        print("You aren't a delivery boi")
+        return render_template('home.html')
     return render_template('delivery_page.html')
 
 @app.route('/manager_page_hire', methods = ['GET', 'POST'])
@@ -444,15 +533,15 @@ def manager_page_fire():
     return render_template('manager_page_fire.html')
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
-#@login_required
+@login_required
 def manager_page():
-    # confirms the user accessing this page is the manager
-    # This doesnt work like i thought because theres still an issue with user_loader.
-    # If a customer logs in with ID = 1, that customer can access this page.
-    #user = employees.query.filter_by(id="1").first()
-    #if (current_user.get_id() != str(user.id)):
-       # print(current_user.get_id())
-       # return render_template('home.html')
+    # confirms the user accessing this page is the manager. Can be changed to filter by role="Manager" but too lazy.
+
+    user = employees.query.filter_by(id="1").first()
+    if (current_user.get_id() != str(user.id)):
+        print(current_user.get_id())
+        print("You aren't the manager")
+        return render_template('home.html')
     
     return render_template('manager_page.html')
 
@@ -476,8 +565,17 @@ def chef_page_rm():
 
 
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
-#@login_required
+@login_required
 def chef_page():
+    try:
+        print(current_user.role)
+    except:
+        print("You are not an employee!")
+        return render_template('home.html')
+
+    if (current_user.role != "Chef"):
+        print("You aren't a cook")
+        return render_template('home.html')
     dished = dish.query.all()
     if request.method == "POST":
         if request.form.get('dish') == '' or request.form.get('description') == '' or request.form.get('bizID') == '' :
