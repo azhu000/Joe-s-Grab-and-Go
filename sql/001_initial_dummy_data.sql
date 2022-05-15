@@ -40,15 +40,19 @@ INSERT INTO customers VALUES (24, "Angelica","ahhh@1.2", "3",'0',0);
 INSERT INTO customers VALUES (25, "Brady", "8@superbowl.rings","easy" ,'0',1);
 INSERT INTO customers VALUES (26, "DATBOI", "bigboi@aol.com", "password",'0', 0);
 
-INSERT INTO orders VALUES (1, "$24.50", NULL, 23, 1); 
-INSERT INTO orders VALUES (2, "$11.00", NULL, 22, 1);
-INSERT INTO orders VALUES (3, "$4.19", NULL, 24, 1);
+INSERT INTO orders VALUES (1, '24.50', NULL, 23, 1); 
+INSERT INTO orders VALUES (2, '11.00', NULL, 22, 1);
+INSERT INTO orders VALUES (3, '4.19', NULL, 24, 1);
+INSERT INTO orders VALUES (4, '18.00', NULL, 25, 1);
+INSERT INTO orders VALUES (5, '123.00', NULL, 26, 1);
 
 INSERT INTO orderLineItem VALUES (1, 1, "7.99", NOT NULL, "7.99", 1, 14);
 INSERT INTO orderLineItem VALUES (2, 2, "7.99", NOT NULL, "7.99", 1, 1);
 INSERT INTO orderLineItem VALUES (3, 1, "7.99", NOT NULL, "4.99", 2, 11);
 INSERT INTO orderLineItem VALUES (4, 1, "7.99", NOT NULL, "11.99", 2, 14);
 INSERT INTO orderLineItem VALUES (5, 1, "7.99", NOT NULL, "8.50", 3, 18);
+INSERT INTO orderLineItem VALUES (6, 1, "18.00", NOT NULL, "18.00", 4, 16);
+INSERT INTO orderLineItem VALUES (7, 1, "123.00", NOT NULL, "123.00", 5, 17);
 
 INSERT INTO dishRating VALUES (1, 5, "Wheres the tip jar that grilled chee smacked", 22, 15);
 INSERT INTO dishRating VALUES (2, 4, "not bad, needed more salt", 22, 4);

@@ -112,7 +112,7 @@ DROP TABLE IF EXISTS `orders` ;
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `total` VARCHAR(45) NOT NULL,
+  `total` FLOAT(16,2) NOT NULL,
   `DeliveryTime` VARCHAR(45) NULL,
   `custID` INT NOT NULL,
   `bizID` INT NOT NULL,
