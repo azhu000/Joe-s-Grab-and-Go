@@ -40,9 +40,9 @@ INSERT INTO customers VALUES (24, "Angelica","ahhh@1.2", "3",'0',0);
 INSERT INTO customers VALUES (25, "Brady", "8@superbowl.rings","easy" ,'0',1);
 INSERT INTO customers VALUES (26, "DATBOI", "bigboi@aol.com", "password",'0', 0);
 
-INSERT INTO orders VALUES (1, '24.50', NULL, 23, 1); 
-INSERT INTO orders VALUES (2, '11.00', NULL, 22, 1);
-INSERT INTO orders VALUES (3, '4.19', NULL, 24, 1);
+INSERT INTO orders VALUES (1, '24.50', NULL, 25, 1); 
+INSERT INTO orders VALUES (2, '11.00', NULL, 25, 1);
+INSERT INTO orders VALUES (3, '4.19', NULL, 25, 1);
 INSERT INTO orders VALUES (4, '18.00', NULL, 25, 1);
 INSERT INTO orders VALUES (5, '123.00', NULL, 26, 1);
 
