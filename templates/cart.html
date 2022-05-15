@@ -111,10 +111,8 @@ li a:hover, .dropdown:hover .dropbtn {
   <div class="header">
   <h1><b>Joe's Grab and Go</b></h1>
   <h2>Order Food to  Your Door :D</h2>
-  
 
         <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
-
   </div>
 
   <nav role="navigation">
@@ -140,9 +138,6 @@ li a:hover, .dropdown:hover .dropbtn {
             <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
           </ul>
         </li>
-<<<<<<< HEAD
-        <li><a href="{{url_for('logout')}}"><i class="fa fa-fw fa-user"></i><b>Logout</b></a>
-=======
 
         {%elif current_customer == 1%}
 
@@ -154,7 +149,6 @@ li a:hover, .dropdown:hover .dropbtn {
         </li>
         {%endif%}
 
->>>>>>> b6efb76da683b28413dca74e722d0aa3840970f5
         <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
     </ul>
   </nav>
