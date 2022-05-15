@@ -175,14 +175,17 @@ section {
 
     <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center>
     <div>
-      <center> Your balance is: {{user_balance}}  </center>
+      <center> VIP Status: {{custVip}}  </center>
+      <center> Your balance is: ${{user_balance}}  </center>
+      <center> Number of Orders for {{users_name}}. Id is {{user}} : {{lenCust}}  </center>
+      <center> Total Money Spent for {{users_name}}. Id is {{user}}: ${{custTotal}}  </center>
     </div>
     
     {% for h in history%}
     <center>{{h.id}}.  {{h.total}}  {{h.customers.name}}      </center>
     {%for i in items%}
     {% if i.orderID == h.id %}
-    <center>{{i.quantity}}.   {{i.dish.name}}  {{i.total}}  </center>
+    <center>{{i.quantity}}.   {{i.dish.name}}  ${{i.total}} {{i.DishOrdered}}  </center>
     
 
     {%endif%}

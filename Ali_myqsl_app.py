@@ -30,7 +30,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -539,10 +539,32 @@ def customer_page():
     
     #print(history)
     items = orderLineItem.query.all()
+    #Functionality for giving a customer VIP
+    #query all the orderlineitem according to orderID which is specific to a user
+    CustHistory = orders.query.filter_by(custID=user).all()
+    lenCust = len(CustHistory)
+    total = 0
+
+    custVIP = customers.query.filter_by(id = user).first()
+    custVip = custVIP.isVIP
+
+    for o in CustHistory:
+        total += float(o.total)
+    custTotal = total
+    #check if they are VIP
+    if lenCust >= 5 or custTotal >= 100:
+        cust = customers.query.filter_by(id = user).first()
+        if cust.isVIP == 0:
+        #if they are not VIP, give them VIP
+            cust.isVIP = 1
+            db.session.commit()
+            return render_template('customer_page.html')
+ 
+   
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
     
-    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance)
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, lenCust=lenCust, custTotal=custTotal,custVip=custVip)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
