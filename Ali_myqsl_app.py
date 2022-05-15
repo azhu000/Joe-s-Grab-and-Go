@@ -100,7 +100,7 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
-    wallet = db.Column(db.Integer, nullable = True)
+    wallet = db.Column(db.Float(16,2), nullable = True)
     isVIP = db.Column(db.Integer, nullable = False)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
@@ -423,6 +423,8 @@ def register():
     #returns the register.html file
     return render_template('register.html')#, '''form=form''')
 
+
+
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
     dished = dish.query.all()
@@ -455,6 +457,26 @@ def menu_popular():
         return redirect(url_for('menu_popular'))
 
     return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
+
+#adding money to wallet route
+@app.route('/wallet', methods = ['GET', 'POST'])
+@login_required
+def wallet():
+    if request.method == "POST":
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
+        amount = request.form.get('amount')
+        userid = customers.query.filter_by(id = user).first()
+        current_amount = float(userid.wallet)
+        new_amount = current_amount + float(amount)
+    
+        userid.wallet = float(new_amount)
+        db.session.commit()
+
+    return render_template('wallet.html')
 
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])

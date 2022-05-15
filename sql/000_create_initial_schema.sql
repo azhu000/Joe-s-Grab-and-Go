@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `wallet` VARCHAR(255) NULL DEFAULT 0,
+  `wallet` FLOAT(16,2) NOT NULL DEFAULT 0,
   `isVIP` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE);
