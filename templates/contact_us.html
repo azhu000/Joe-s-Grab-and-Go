@@ -143,6 +143,11 @@ section {
     <div class="header">
         <h1><b>Joe's Grab and Go</b></h1>
         <h2>Order Food to  Your Door :D</h2>
+        {%if current_customer == 0%}
+        <div> <b>You are not logged in.</b></div>
+        {%elif current_customer == 1%}
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
+        {%endif%}
         </div>
 
         <nav role="navigation">
@@ -160,13 +165,24 @@ section {
                 <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
       
               </ul>
-              <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
-                <ul id="sub-menu">
-                  <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
-                  <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
-                </ul>
-              </li>
-              <li><a href="{{url_for('logout')}}"><i class="fa fa-fw fa-user"></i><b>Logout</b></a>
+              {%if current_customer == 0%}
+
+        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+          <ul id="sub-menu">
+            <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+          </ul>
+        </li>
+
+        {%elif current_customer == 1%}
+
+        <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+          <ul id="sub-menu">
+            <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Balance</b></a></li>
+          </ul>
+        </li>
+        {%endif%}
               <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
           </ul>
         </nav>

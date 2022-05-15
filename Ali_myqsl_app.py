@@ -225,8 +225,16 @@ class LoginForm(FlaskForm):
 #this is the base routing "url" this is the standard home page
 @app.route('/')
 def home():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     #the home function returns the home.html file
-    return render_template('home.html')
+    return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name)
 
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
@@ -324,6 +332,12 @@ def VIP():
     dished = dish.query.all()
     price = menuDishes.query.filter_by(VIP='1')
     lens = len(vip_tags)
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     try:
         user = int(current_user.get_id())
     except:
@@ -351,7 +365,7 @@ def VIP():
         db.session.commit()
         print("Added to cart")
         return redirect(url_for('VIPmenu'))
-    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags)
+    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags, current_customer = current_customer, user=user, users_name=users_name)
 
 
 #Currently not in use.
@@ -388,6 +402,7 @@ def dashboard():
 @app.route('/logout', methods = ['GET', 'POST'])
 @login_required
 def logout():
+    
     logout_user()
     return redirect(url_for('login'))
 
@@ -427,9 +442,17 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
+    user = 0
+    users_name = ""
     dished = dish.query.all()
     price = menuDishes.query.all()
     lens = len(menu_tags)
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
 
     # This method below will handle the orders that come in from the menu. 
     # It needs to update two tables, "orders" and "orderLineItem".
@@ -456,7 +479,7 @@ def menu_popular():
         print("Added to cart")
         return redirect(url_for('menu_popular'))
 
-    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags)
+    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name)
 
 #adding money to wallet route
 @app.route('/wallet', methods = ['GET', 'POST'])
@@ -481,25 +504,37 @@ def wallet():
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
 @login_required
+
 def cart():
-    return render_template('cart.html')
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    return render_template('cart.html', current_customer=current_customer, user=user, users_name=users_name)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
 @login_required
 def customer_page():
     user = int(current_user.get_id())
+    users_name = str(current_user.name)
     try:
          (customers.query.get(user))
     except:
         return render_template('home.html')
     history = orders.query.filter_by(custID=user)
     
+    
+    
     #print(history)
     items = orderLineItem.query.all()
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
     
-    return render_template('customer_page.html',history=history,items=items)
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
@@ -616,7 +651,15 @@ def chef_page():
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
-    return render_template('contact_us.html')
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    return render_template('contact_us.html', current_customer = current_customer, user=user, users_name=users_name )
 
 num = orderLineItem.query.filter_by(orderID = 3).first()
 print(num.orderID)
