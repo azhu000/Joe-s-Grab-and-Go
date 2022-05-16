@@ -138,6 +138,20 @@ section {
   padding-left: 20px;
   padding-right: 20px;
 }
+.col {
+  flex: 0 0 0%;
+  
+}
+
+.row {
+  justify-content:center;
+}
+#id {
+  width: 50%;
+}
+.form-signin {
+  width: 20%;
+}
 </style>
 
 <body>
@@ -178,16 +192,37 @@ section {
           </ul>
         </nav>
     <br>
-    <center> <br><br><br><br><b>THIS IS THE CHEF PAGE :D </b></center>
+    <center> <br><b>THIS IS THE CHEF PAGE :D </b></center>
+    <br>
     {% for dishes in dished %}
-        <center>{{dishes}}</center>
+    {%if ((loop.length - loop.revindex)%4 == 0)%}
+
+    {%set number = ((loop.length - loop.revindex)/4) | int %}
+    <div class="row"> 
+      <br>
+    {%endif%}
+        <div class="col">
+          <div class="card" style="width: 18rem;">
+            <img src={{dishes.url}} class="card-img-top" width = "350" height = "250" alt="Food Image" width="250" height = "200">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text">
+              <b>ID:</b> {{dishes.id}}<br>
+              <b>Name:</b> {{dishes.name}}<br>
+              <b>Description:</b> {{dishes.description}}<br>
+                
+              </div>
+              
+            </div>
+            <p></P>
+        </div>
+        <br>
     {% endfor %}
+      </div>
     
     <main class="form-signin">
       <form method="POST">
-        <br>
-        <br>
-        <br>
+      
              
         <br>
         <div class="form-floating">
