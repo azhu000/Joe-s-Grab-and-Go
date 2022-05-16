@@ -179,9 +179,13 @@ section {
         <center><h2><b><u>Customer Information</u></b></h2></center>
       </div>
       <div class="card-body">
-        <center> VIP Status: {{custVip}}  </center>
+        {%if custVip == 0%}
+        <center> VIP Status: False  </center>
+        {%else%} 
+        <center> VIP Status: True  </center>
+        {%endif%}
         <center> Your balance is: ${{user_balance}}  </center>
-        <center> Number of Orders for {{users_name}}. Id is {{user}} : {{lenCust}}  </center>
+        <center> Number of Orders for {{users_name}}. Id is {{user}}: {{lenCust}}  </center>
         <center> Total Money Spent for {{users_name}}. Id is {{user}}: ${{custTotal}}  </center>
       </div>
       {%if vip_bool == 1%}
@@ -199,7 +203,8 @@ section {
     <div>
       <br>
 
-    <div><center><h2><b>Order History</b></h2></center>
+    <div><center><h2><b><u>Order History</u></b></h2></center>
+      <br>
       
      <div class ="container"> 
        <div class="row"> <!-- Order HIstory 1 -->
@@ -217,7 +222,7 @@ section {
               <h5> Dish: {{i.dish.name}} </h5>
               <h5> Quantity: {{i.quantity}} </h5>
               <p class="card-text">
-                <br> <b>Total Amount:</b>: {{h.total}} </p>
+                <br> <b>Total Amount:</b> ${{h.total}} </p>
               <!-- Button trigger modal for order-->
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{i.dish.id}}">
                   View Detail 
@@ -225,6 +230,7 @@ section {
             </div>
           </div>
           <p></p>
+          <br>
 
           <!-- Modal for view dishes -->
     <div class="modal fade" id="modal_{{i.dish.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -241,7 +247,7 @@ section {
               <br> <h4><b>Order details: </h4></b>:
               <h5> Dish: {{i.dish.name}} </h5>
               <h5> Quantity: {{i.quantity}} </h5>
-              <b>Total Amount: {{h.total}}</b>
+              <b>Total Amount: ${{h.total}}</b>
               <p></p>
 
             <!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{i.dish.id}}review">
@@ -337,29 +343,6 @@ section {
       </div>
     {%endfor%}
     
-
-    <br>
-    <div><center><h2><b>Recommended Dishes</b></h2></center>
-      <br>
-      <div class="row"> <!-- Order HIstory 1 -->
-        <div class="col">
-          <div class="card" style="width: 18rem;">
-              <img src="https://olo-images-live.imgix.net/54/54f9a1045adb4071995815f97697970e.jpeg?auto=format%2Ccompress&q=60&cs=tinysrgb&w=1200&h=800&fit=fill&fm=png32&bg=transparent&s=2ac8e9f2737fa23ef343774de6091728" class="card-img-top" alt="Food Image" >
-              <div class="card-body">
-                <h5 class="card-title">OrderID 1</h5>
-                <p class="card-text">
-                  <br> <b>Order Date</b>: 05/15/2022
-                  <br> <b>Total Amount:</b>: $50 </p>
-                <!-- Button trigger modal for order-->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">
-                    View Detail
-                </button>
-              </div>
-            </div>
-          </div>
-          <p></p>
-  
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
   </body>
