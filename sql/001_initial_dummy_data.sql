@@ -1,9 +1,9 @@
 INSERT INTO businesses (Name, Address, Phone) VALUES ( "Moe's Tavern", '555 5th Avenue', '(212)-867-5309');
-INSERT INTO employees VALUES (1, "Tracy", "abc@123.com" , "",'Manager', 1);
-INSERT INTO employees VALUES (2, "Stefan", "joe@shmoe.org" ,"Bobbyscar@yahoo.com" , 'Chef', 1);
-INSERT INTO employees VALUES (3, "Rachel", "a@b.c" ,"3",'Chef', 1);
-INSERT INTO employees VALUES (4, "Bob", "hi@there.com" ,"4",'Delivery', 1);
-INSERT INTO employees VALUES (5, "Jeffrey", "blah@blah.edu" ,"5", 'Delivery', 1);
+INSERT INTO employees VALUES (1, "Tracy", "abc@123.com" , "",'Manager', 1,0);
+INSERT INTO employees VALUES (2, "Stefan", "joe@shmoe.org" ,"Bobbyscar@yahoo.com" , 'Chef', 1,0);
+INSERT INTO employees VALUES (3, "Rachel", "a@b.c" ,"3",'Chef', 1,0);
+INSERT INTO employees VALUES (4, "Bob", "hi@there.com" ,"4",'Delivery', 1,0);
+INSERT INTO employees VALUES (5, "Jeffrey", "blah@blah.edu" ,"5", 'Delivery', 1,0);
 
 INSERT INTO dish VALUES (1, "Caesar Salad", 'a tossed salad made of romaine, garlic, anchovies, and croutons and dressed with olive oil, coddled egg, lemon juice, and grated cheese. ', 1,'https://www.seriouseats.com/thmb/ugNLQE6hZcoZx0Tzu780h1L3lfc=/3750x3750/smart/filters:no_upscale()/the-best-caesar-salad-recipe-06-40e70f549ba2489db09355abd62f79a9.jpg');
 INSERT INTO dish VALUES (2, "Flaming Moe", 'The signature specialty drink of Springfield', 1,'https://images.squarespace-cdn.com/content/v1/56b92fd6f8508249cabeff0a/1492450769102-27IA53NVPAV9FW1R20F2/flaming-moe-drink.jpg');
@@ -33,13 +33,13 @@ INSERT INTO menu VALUES (3, 3, 1);
 INSERT INTO menu VALUES (4, 2, 1);
 INSERT INTO menu VALUES (5, 2, 1);
 
-INSERT INTO customers VALUES (21, "Jolene", "why@dahell.com", "amihere",'0' ,0,0);
-INSERT INTO customers VALUES (22, "Nathaniel", "jimmytwoshoes@aol.com","jimmy",'0' ,1,0);
-INSERT INTO customers VALUES (23, "Tom", "Tom@Tom.Tom", "Tom",'0',0,0);
-INSERT INTO customers VALUES (24, "Angelica","ahhh@1.2", "3",'0',0,0);
-INSERT INTO customers VALUES (25, "Brady", "8@superbowl.rings","easy" ,'0',1,0);
-INSERT INTO customers VALUES (26, "DATBOI", "bigboi@aol.com", "password",'0', 0,0);
-INSERT INTO customers VALUES (27, "DABOI", "biboi@aol.com", "passed",'0', 0,3);
+INSERT INTO customers VALUES (21, "Jolene", "why@dahell.com", "amihere",'0' ,0,0,0);
+INSERT INTO customers VALUES (22, "Nathaniel", "jimmytwoshoes@aol.com","jimmy",'0' ,1,0,0);
+INSERT INTO customers VALUES (23, "Tom", "Tom@Tom.Tom", "Tom",'0',0,0,0);
+INSERT INTO customers VALUES (24, "Angelica","ahhh@1.2", "3",'0',0,0,0);
+INSERT INTO customers VALUES (25, "Brady", "8@superbowl.rings","easy" ,'0',1,0,0);
+INSERT INTO customers VALUES (26, "DATBOI", "bigboi@aol.com", "password",'0', 0,0,0);
+INSERT INTO customers VALUES (27, "DABOI", "biboi@aol.com", "passed",'0', 0,3,0);
 
 INSERT INTO orders VALUES (1, '24.50', NULL,0 ,21, 1); 
 INSERT INTO orders VALUES (2, '16.00', NULL,0 ,21, 1);
