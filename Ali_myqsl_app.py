@@ -151,8 +151,9 @@ class dishRating(db.Model):
     
 class orders(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
-    total = db.Column(db.String(45),  nullable = False)
+    total = db.Column(db.Float,  nullable = False)
     DeliveryTime = db.Column(db.String(45), nullable = True)
+    Active = db.Column(db.Integer, nullable = False)
     custID = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     orderline = db.relationship('orderLineItem', backref='orders')
@@ -160,10 +161,10 @@ class orders(db.Model):
 class orderLineItem(db.Model):
     __tablename__ = 'orderLineItem'
     id = db.Column(db.Integer, primary_key=True, nullable = False)
-    quantity = db.Column(db.String(45),  nullable = False)
-    subtotal = db.Column(db.String(45),  nullable = False)
+    quantity = db.Column(db.Float,  nullable = False)
+    subtotal = db.Column(db.Float,  nullable = False)
     discount = db.Column(db.String(45),  nullable = True)
-    total = db.Column(db.String(45),  nullable = False)
+    total = db.Column(db.Float,  nullable = False)
     orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
     DishOrdered = db.Column(db.Integer, db.ForeignKey('dish.id'),  nullable = False)
 
@@ -527,7 +528,7 @@ def menu_popular():
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
-        new_order = orders(custID=user, total=cost, bizID='1')
+        new_order = orders(custID=user, total=cost,Active='1', bizID='1')
         db.session.add(new_order)
         num = orders.query.order_by(orders.id.desc()).first()
         new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
@@ -590,7 +591,11 @@ def cart():
     user = 0
     users_name = ""
     is_employee = 0
-    
+    #
+    #order.query.filter_by(Active='1')
+    #
+
+
     try:
         employee_check = int(current_user.get_id())
     except:
@@ -655,7 +660,7 @@ def customer_page():
          (customers.query.get(user))
     except:
         return render_template('home.html')
-    history = orders.query.filter_by(custID=user)
+    history = orders.query.filter_by(custID=user,Active='0')
     
     if(customers.query.get(user)):
         cust = customers.query.get(user)
@@ -668,7 +673,7 @@ def customer_page():
     items = orderLineItem.query.all()
     #Functionality for giving a customer VIP
     #query all the orderlineitem according to orderID which is specific to a user
-    CustHistory = orders.query.filter_by(custID=user).all()
+    CustHistory = orders.query.filter_by(custID=user,Active='0').all()
     lenCust = len(CustHistory)
     total = 0
 

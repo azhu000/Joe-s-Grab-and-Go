@@ -114,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `total` FLOAT(16,2) NOT NULL,
   `DeliveryTime` VARCHAR(45) NULL,
+  `Active` TINYINT NOT NULL DEFAULT 1,
   `custID` INT NOT NULL,
   `bizID` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -138,10 +139,10 @@ DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `quantity` VARCHAR(45) NOT NULL,
-  `subtotal` VARCHAR(45) NOT NULL,
+  `quantity` FLOAT(16,2) NOT NULL,
+  `subtotal` FLOAT(16,2) NOT NULL,
   `discount` VARCHAR(45) NULL,
-  `total` VARCHAR(45) NOT NULL,
+  `total` FLOAT(16,2) NOT NULL,
   `orderID` INT NOT NULL,
   `DishOrdered` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -193,7 +194,7 @@ DROP TABLE IF EXISTS `menuDishes` ;
 CREATE TABLE IF NOT EXISTS `menuDishes` (
   `id` INT NOT NULL,
   `MenuDishID` INT NOT NULL,
-  `price` VARCHAR(45) NOT NULL,
+  `price` FLOAT(16,2) NOT NULL,
   `VIP` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `MenuDishID`),
   CONSTRAINT `fk_MenuDishID`
