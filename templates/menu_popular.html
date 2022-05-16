@@ -167,17 +167,141 @@ li a:hover, .dropdown:hover .dropbtn {
   <div> <h1><center><b><u>Popular</u></b></center></h1></div>
   <br>
   <div class="row">
+
   {% for rand in rando%}
 
   <div class="col">
     <div class="card" style="width: 18rem;">
-        <img src="{{rand.url}}" class="card-img-top" alt="Food Image" width="250" height = "200">
+        <img src="{{rand.dish.url}}" class="card-img-top" alt="Food Image" width="250" height = "200">
         <div class="card-body">
-          <h5 class="card-title">{{rand.name}}</h5>
+          <h5 class="card-title">{{rand.dish.name}}</h5>
           <p class="card-text">
+            <br> <b>Price</b>: {{rand.price}}
             <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
-          
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{rand.dish.id}}">
+            More Info
+          </button>
         
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modal_{{rand.dish.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{rand.dish.name}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="text-center">
+                  <img src="{{rand.dish.url}}" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+                  </div>
+                  <br> <b>Description: </b>: {{rand.dish.description}}
+                  <br>
+                  <br> <b>Price</b>: {{rand.price}}
+                  <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                  <br> <b>Review</b>: This is sooooooo good!</p>   
+                  </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{rand.dish.id}}review">
+                    Add Review
+                  </button>
+                  <p></p>
+
+                  
+                  <table class="table"><!-- this is the review table. hard coded atm-->
+                    <thead class = "table-light">
+                      <tr> 
+                        <th scope="col">#</th>
+                        <th scope="col">UserID</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Review</th>
+        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        <td>You can try all the type of appetizers in a dish!</td>
+        
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Anson</td>
+                        <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        <td>You should try this!</td>
+        
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Ali</td>
+                        <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        <td>The best appetizer I've ever had :D</td>
+        
+                      </tr>
+                    </tbody>
+                  </table> <!-- end of table -->
+                  
+              </div>
+              <div class="modal-footer">
+                <form method="POST">
+                <p><h5><b>Quantity:</b></h5></p>
+                <div class="dropdown">
+                  <select type="quantity" class="form-select" name="quantity" aria-label="Default select example">
+                    <option selected>0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="3">4</option>
+                    <option value="3">5</option>
+                  </select>
+                </div>
+                <br> <b><input type="hidden" name="dishid" value="{{ rand.dish.id }}"></b>
+                <br> <b><input type="hidden" name="price" value="{{ rand.price }}"></b>
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+              </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modal{{rand.dish.id}}review" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Your Dish Rating</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Submit"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Rating:</label>
+                    <div class="dropdown">
+                      <select class="form-select" aria-label="Default select example">
+                        <option selected>Rate your dishes</option>
+                        <option value="1">&#9733;</option>
+                        <option value="2">&#9733;&#9733;</option>
+                        <option value="3">&#9733;&#9733;&#9733;</option>
+                        <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                        <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Review:</label>
+                    <textarea class="form-control" id="review-text"></textarea>
+                  </div>
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-dark" type="button">Submit</button>
+                    
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{rand.dish.id}}">Back</button>
+              </div>
             </div>
           </div>
         </div>
