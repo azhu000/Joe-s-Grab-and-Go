@@ -129,6 +129,9 @@
         width:825px;
         height:600px;
       }
+      #disqus_thread{
+        width: 63.5%;
+      }
       
       </style>
     <div class="header">
@@ -204,6 +207,8 @@
             </a>
           </div>
 
+          
+
           <div class="card " style="width: 22rem;">
             <br>
             <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/2039/2039060.png" alt="Card image cap">
@@ -222,6 +227,7 @@
             
         </div>
         <br>
+        
 
         <center><div class="card" style="width: 78rem;">
           <center><div class="card-body">
@@ -236,13 +242,15 @@
             </p></center>
           </div></center>
         </div></center>
-        <br>
+        <br><br><br>
+        <div id="disqus_thread"></div>
       </center>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     </body>
+    <br><br><br>
     <center> <footer>
         <!-- these three buttons are basically the same button, with the other two buttons just opening/closing the first button again.-->
         <ul>
@@ -261,4 +269,21 @@
             <p></P>
         </ul>
     </footer> </center>
+    <script type="text/javascript">
+      /**
+      *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+      *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+      /*
+      var disqus_config = function () {
+      this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+      this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+      };
+      */
+      (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = 'https://http-127-0-0-1-5000-6.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+      })();
+  </script>
 </html>

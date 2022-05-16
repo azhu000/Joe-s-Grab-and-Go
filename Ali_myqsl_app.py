@@ -677,6 +677,14 @@ def manager_page():
 
 @app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
 def chef_page_rm():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     dished = dish.query.all()
     if request.method == "POST":
         if request.form.get('id') == '':
@@ -690,12 +698,20 @@ def chef_page_rm():
                 return redirect(url_for('chef_page_rm'))
             except:
                 print("Deletion Failed")
-    return render_template('chef_page_rm.html', dished = dished)
+    return render_template('chef_page_rm.html', dished = dished, user=user,current_customer=current_customer,users_name=users_name)
 
 
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
 @login_required
 def chef_page():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     try:
         print(current_user.role)
     except:
@@ -719,7 +735,7 @@ def chef_page():
             print("New Dish added")
             return redirect(url_for('chef_page'))
 
-    return render_template('chef_page.html', dished = dished)
+    return render_template('chef_page.html', dished = dished, user=user, users_name=users_name,current_customer=current_customer)
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
