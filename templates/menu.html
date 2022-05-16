@@ -146,36 +146,31 @@ section {
 
   <nav role="navigation">
     <ul id="main-menu">
-      <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i>Home</a></li>
-      <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+      <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
+      <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
         <ul id="sub-menu">
-          <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-                <li><a href="{{url_for('menu_popular')}}#appetizers" aria-label="subemnu">Appetizers</a></li>
-                <li><a href="{{url_for('menu_popular')}}#entree" aria-label="subemnu">Entrees</a></li>
-                <li><a href="{{url_for('menu_popular')}}#soups" aria-label="subemnu">Soup & Salad</a></li>
-                <li><a href="{{url_for('menu_popular')}}#dessert" aria-label="subemnu">Dessert</a></li>
-                <li><a href="{{url_for('menu_popular')}}#drinks" aria-label="subemnu">Beverages</a></li>
+          <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
         </ul>
       </li>
-      <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
+
+      <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i><b>Order</b></a>
         <ul id="sub-menu">
-          <li><a href="#" aria-label="subemnu">Reviews</a></li>
+          <li><a href="{{url_for('cart')}}" aria-label="submenu"><b>Cart</b></a></li>
+          <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
+
         </ul>
-      </li>
-      <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
-        <ul id="sub-menu">
-          <li><a href="{{url_for('cart')}}" aria-label="subemnu">Cart</a></li>
-          <li><a href="#" aria-label="submenu">Order History</a></li>
-        </ul>
-        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
+        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
           <ul id="sub-menu">
-            <li><a href="{{url_for('login')}}" aria-label="submenu">Log-in</a></li>
-            <li><a href="{{url_for('register')}}" aria-label="submenu">Register</a></li>
+            <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
           </ul>
         </li>
-        <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
+        <li><a href="{{url_for('logout')}}"><i class="fa fa-fw fa-user"></i><b>Logout</b></a>
+        <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
     </ul>
   </nav>
+
+  
   <div class="row"> 
     <div class="column">
       <div class="container">

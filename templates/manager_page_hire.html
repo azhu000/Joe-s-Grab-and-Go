@@ -1,5 +1,6 @@
 <!-- HTML - Hypertext Markup Language -->
 <!DOCTYPE html> <!--Doctype Explanation-->
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -143,13 +144,9 @@ section {
     <div class="header">
         <h1><b>Joe's Grab and Go</b></h1>
         <h2>Order Food to  Your Door :D</h2>
-        {%if current_customer == 0%}
-        <div> <b>You are not logged in.</b></div>
-        {%elif current_customer == 1%}
         <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
-        {%endif%}
         </div>
-
+        
         <nav class = "sticky-top" role="navigation">
           <ul id="main-menu">
             <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
@@ -160,44 +157,86 @@ section {
             </li>
       
             <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
-            
               {%if current_customer == 0%}
-
-        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
-          <ul id="sub-menu">
-            <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
-            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
-          </ul>
-        </li>
-
-        {%elif current_customer == 1%}
-
-        {%if is_employee == 1%}
-        <li><a href="{{url_for('manager_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
-        {%elif is_employee == 2%}
-        <li><a href="{{url_for('chef_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
-        {%elif is_employee == 3%}
-        <li><a href="{{url_for('delivery_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
-        {%else%} 
-        <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
-        {%endif%}
-          <ul id="sub-menu">
-            <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
-          </ul>
-        </li>
-        {%endif%}
+      
+              <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+                  <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+                </ul>
+              </li>
+      
+              {%elif current_customer == 1%}
+      
+              <li><a href="{{url_for('manager_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+                </ul>
+              </li>
+              {%endif%}
+      
               <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
           </ul>
         </nav>
-        
     <br>
-    <iframe width="1000" height="475" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=1000&amp;height=700&amp;hl=en&amp;q=1234%20Main%20Street%20New%20York+(Joe's%20Grab%20N'%20Go)&amp;t=&amp;z=18&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe> <a href='https://www.add-map.net/'>how do i add google maps to my website</a> <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=71ff153b423d9745af3faa0f9f566056dfaba041'></script>    </body>
+    <center> <br><br><br><br><b>Hire Page</b></center>
+   
+    <main class="form-signin">
+      <form method="POST">
+        <br>
+        <br>
+        <br>
+             
+        <br>
+        <div class="form-floating">
+          <input type="dish" class="form-control" id="floatingInput" name="name" placeholder="Name of employee to add"/>
+          <label for="floatingInput">Name of employee to add</label>
+        </div>
+        <br> 
+        <div class="form-floating">
+          <input type="description" class="form-control" id="floatingInput" name="email" placeholder="Employee Email"/>
+          <label for="floatingInput">Employee Email</label>
+        </div>
+        <br>
+        <div class="form-floating">
+          <input type="bizID" class="form-control" id="floatingInput" name="password" placeholder="Employee Password"/>
+          <label for="floatingInput">Employee Password</label>
+        </div>
+        <br>
+        <div class="form-floating">
+          <input type="bizID" class="form-control" id="floatingInput" name="role" placeholder="Employee Role"/>
+          <label for="floatingInput">Employee Role</label>
+        </div>
+        <br> 
+        <div class="form-floating">
+          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
+          <label for="floatingInput">bizID</label>
+        </div>
+        <br> 
 
-    <center>
-      <footer class = "fixed-bottom"><br>Contact Information down here 
-          <br>Address: 1234 Main Street New York, NY, 10044
-          <br>Telephone: 1-(212)-345-1234
-          <br>Email Address: thebestrestaurant@resturants.com
-          <p></p>
-    </footer>
-    </center>
+        
+        <div>
+        
+        <button class="w-100 btn btn-lg btn-success" type="submit">Hire Employee</button>
+        <br>
+        <br>
+        <p><a class="w-100 btn btn-lg btn-primary" href="{{url_for('manager_page_fire')}}" role="button">Go to Fire Employees?</a>
+        <p><a class="w-100 btn btn-lg btn-primary" href="{{url_for('manager_page')}}" role="button">Go to Admin Page</a>
+        
+        
+      </form>
+    </main>
+ 
+      
+</body>
+
+<center>
+  <footer class = "sticky-bottom"><br>Contact Information down here 
+      <br>Address: 1234 Main Street New York, NY, 10044
+      <br>Telephone: 1-(212)-345-1234
+      <br>Email Address: thebestrestaurant@resturants.com
+      <p></p>
+</footer>
+</center>
+
+</html>

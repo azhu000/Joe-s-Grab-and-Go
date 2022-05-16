@@ -119,21 +119,16 @@
             }
           }
     
-    
-    
-    
-    
     </style>
     <body>
     
       <div class="header">
       <h1><b>Joe's Grab and Go</b></h1>
       <h2>Order Food to  Your Door :D</h2>
-      <div><b>You are not logged in.</b></div>
-
+      <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
       </div>
     
-      <nav class = "sticky-top"role="navigation">
+      <nav class = "sticky-top" role="navigation">
         <ul id="main-menu">
           <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
           <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
@@ -143,13 +138,32 @@
           </li>
     
           <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+            {%if current_customer == 0%}
 
-            <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
-              <ul id="sub-menu">
-                <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
-                <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
-              </ul>
-            </li>
+        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+          <ul id="sub-menu">
+            <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+          </ul>
+        </li>
+
+        {%elif current_customer == 1%}
+
+        {%if is_employee == 1%}
+        <li><a href="{{url_for('manager_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+        {%elif is_employee == 2%}
+        <li><a href="{{url_for('chef_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+        {%elif is_employee == 3%}
+        <li><a href="{{url_for('delivery_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+        {%else%} 
+        <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+        {%endif%}
+          <ul id="sub-menu">
+            <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+          </ul>
+        </li>
+        {%endif%}
+
             <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
         </ul>
       </nav>
@@ -161,49 +175,19 @@
       <body class="text-center">
         
     <main class="form-signin">
-      <form method="POST">
+      <form method = "POST" >
         <br>
         <br>
         <br>
-        <h1 class="h2 mb-3 fw-normal"><b>Create Your Account</b></h1>
-        <h3 class="h5 mb-3 fw-normal">Don't have an account? Create one now.</h3>
-      
-        
+        <h1 class="h2 mb-3 fw-normal"><b>Wallet</b></h1>
+        <h3 class="h5 mb-3 fw-normal">Add money to your wallet</h3>
         <br>
         <div class="form-floating">
-          <input type="name" class="form-control" id="floatingInput" name="name" placeholder="John Smith"/>
-          <label for="floatingPassword">Name</label>
+          <input type="amount" class="form-control" id="floatingInput" name="amount" placeholder="eg. 400.27">
+          <label for="floatingInput">Amount</label>
         </div>
-        <br> 
-        <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" name="email" placeholder="name@example.com"/>
-          <label for="floatingInput">Email address</label>
-        </div>
-        <br>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password"/>
-          <label for="floatingPassword">Password</label>
-        </div>
-        <br> 
-
-        
-        <div>
-        <!--
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Usertype</option>
-          <option value="1">Customer</option>
-          <option value="2">Employee</option>
-          <option value="3">Manager</option>
-        </select>
-        <br>
-    -->
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
-        <p>Do you have an account? <a class="btn btn-link" href="{{url_for('login')}}" role="button">Login</a>
+        <br>   
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Submit Amount</button>
 
         
       </form>
@@ -211,7 +195,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
-
 <center>
   <footer class = "sticky-bottom"><br>Contact Information down here 
       <br>Address: 1234 Main Street New York, NY, 10044

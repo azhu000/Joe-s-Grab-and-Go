@@ -137,55 +137,221 @@ section {
   padding-left: 20px;
   padding-right: 20px;
 }
+.col {
+  flex: 0 0 0%;
+}
+
+.row {
+  justify-content:center;
+}
 </style>
 
 <body>
     <div class="header">
         <h1><b>Joe's Grab and Go</b></h1>
-        <h2>Order Food to  Your Door :D</h2>
+        <h2><center>Order Food to  Your Door :D</center></h2> 
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
         </div>
-        <nav role="navigation">
+        <nav class = "sticky-top" role="navigation">
           <ul id="main-menu">
-            <li><a href="index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
-            <li><a href="{{url_for('menus')}}"><i class="fa fa-fw fa-search"></i>Menu</a>
+            <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
+            <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
               <ul id="sub-menu">
-                <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-                <li><a href="{{url_for('menu_popular')}}" aria-label="subemnu">Popular</a></li>
-                <li><a href="{{url_for('menu_popular')}}#appetizers" aria-label="subemnu">Appetizers</a></li>
-                <li><a href="{{url_for('menu_popular')}}#entree" aria-label="subemnu">Entrees</a></li>
-                <li><a href="{{url_for('menu_popular')}}#soups" aria-label="subemnu">Soup & Salad</a></li>
-                <li><a href="{{url_for('menu_popular')}}#dessert" aria-label="subemnu">Dessert</a></li>
-                <li><a href="{{url_for('menu_popular')}}#drinks" aria-label="subemnu">Beverages</a></li>
+                <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
               </ul>
             </li>
-            <li><a href="#"><i class="fa fa-fw fa-thumbs-up"></i>Review</a>
-              <ul id="sub-menu">
-                <li><a href="#" aria-label="subemnu">Reviews</a></li>
-              </ul>
-            </li>
-            <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
-              <ul id="sub-menu">
-                <li><a href="{{url_for('cart')}}" aria-label="subemnu">Cart</a></li>
-                <li><a href="#" aria-label="submenu">Order History</a></li>
-              </ul>
-              <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i>Log-in/Register</a>
-                <ul id="sub-menu">
-                  <li><a href="{{url_for('login')}}" aria-label="submenu">Log-in</a></li>
-                  <li><a href="{{url_for('register')}}" aria-label="submenu">Register</a></li>
-                </ul>
-              </li>
-              <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i>Contact Us</a></li>
+            <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+  
+          <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+            <ul id="sub-menu">
+              <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+            </ul>
+          </li>
+
+              <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
           </ul>
         </nav>
+
     <br>
-    <center> <br><br><br><br><b>THIS IS THE CUSTOMER PAGE :D </b></center
-    </body
+
+    <div class="card" style="width: 30rem;">
+      <div class="card-header">
+        <center><h2><b><u>Customer Information</u></b></h2></center>
+      </div>
+      <div class="card-body">
+        {%if custVip == 0%}
+        <center> VIP Status: False  </center>
+        {%else%} 
+        <center> VIP Status: True  </center>
+        {%endif%}
+        <center> Your balance is: ${{user_balance}}  </center>
+        <center> Number of Orders for {{users_name}}. Id is {{user}}: {{lenCust}}  </center>
+        <center> Total Money Spent for {{users_name}}. Id is {{user}}: ${{custTotal}}  </center>
+      </div>
+      {%if vip_bool == 1%}
+      <div>
+        <center><h4><b>You <u>ARE</u> a VIP customer!</b></h4></center>
+      </div>
+      <br>
+      {%elif vip_bool == 0 %}
+      <div>
+        <center><h4><b>You <u>ARE NOT</u> a VIP customer!</b></h4></center>
+      </div>
+      {%endif%}
+      </div>
+    </div>
+    <div>
+      <br>
+
+    <div><center><h2><b><u>Order History</u></b></h2></center>
+      <br>
+      
+     <div class ="container"> 
+       <div class="row"> <!-- Order HIstory 1 -->
+    {% for h in history%}
+    <div class = "col-3"> 
+      {%for i in items%}
+      {% if i.orderID == h.id %}
+    
+      
+
+        <div class="card">
+            <img src={{i.dish.url}} class="card-img-top" width="350" height = "200" alt="Food Image" >
+            <div class="card-body">
+              <h5 class="card-title"> Order Id: {{h.id}} </h5>
+              <h5> Dish: {{i.dish.name}} </h5>
+              <h5> Quantity: {{i.quantity}} </h5>
+              <p class="card-text">
+                <br> <b>Total Amount:</b> ${{h.total}} </p>
+              <!-- Button trigger modal for order-->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{i.dish.id}}">
+                  View Detail 
+              </button>
+            </div>
+          </div>
+          <p></p>
+          <br>
+
+          <!-- Modal for view dishes -->
+    <div class="modal fade" id="modal_{{i.dish.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Order ID: {{h.id}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="text-center">
+              <img src="{{i.dish.url}}" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
+              </div>
+              <br> <h4><b>Order details: </h4></b>:
+              <h5> Dish: {{i.dish.name}} </h5>
+              <h5> Quantity: {{i.quantity}} </h5>
+              <b>Total Amount: ${{h.total}}</b>
+              <p></p>
+
+            <!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{i.dish.id}}review">
+              Add Review
+            </button>
+            <p></p>
+  
+            
+              <table class="table"><!-- this is the review table. hard coded atm-->
+                <thead class = "table-light">
+                  <tr> 
+                    <th scope="col">#</th>
+                    <th scope="col">UserID</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Review</th>
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>You can try all the type of appitizers in a dish!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Anson</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>You should try this!</td>
+    
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Ali</td>
+                    <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                    <td>The best appitizer I've ever had :D</td>
+    
+                  </tr>
+                </tbody>
+              </table> <!-- end of table -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- Modal for add review -->
+        <div class="modal fade" id="modal{{i.dish.id}}review" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Add your review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Submit"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Rate:</label>
+                    <div class="dropdown">
+                      <select class="form-select" aria-label="Default select example">
+                        <option selected>Rate your delivery service</option>
+                        <option value="1">&#9733;</option>
+                        <option value="2">&#9733;&#9733;</option>
+                        <option value="3">&#9733;&#9733;&#9733;</option>
+                        <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                        <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="message-text" class="col-form-label">Review:</label>
+                    <textarea class="form-control" id="review-text"></textarea>
+                  </div>
+                  <div class="d-grid gap-2">
+                    <button class="btn btn-dark" type="button">Submit</button>
+                    
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#modal_{{i.dish.id}}" data-bs-toggle="modal">Back</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    {%endif%}
+    {%endfor%}
+      </div>
+    {%endfor%}
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  </body>
 
     <center>
-        <footer><br>Contact Information down here</footer> 
+        <footer class = "sticky-bottom">
+            <br>Contact Information down here 
             <br>Address: 1234 Main Street New York, NY, 10044
             <br>Telephone: 1-(212)-345-1234
             <br>Email Address: thebestrestaurant@resturants.com
-            <p></p>
-      
+      </footer>
       </center>

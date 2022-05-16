@@ -114,14 +114,11 @@ li a:hover, .dropdown:hover .dropbtn {
   <h1><b>Joe's Grab and Go</b></h1>
   <h2>Order Food to  Your Door :D</h2>
   {%if current_customer == 0%}
-      <div> <b>You are not logged in.</b></div>
-    {%elif current_customer == 1%}
-
-    <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
-    
+        <div> <b>You are not logged in.</b></div>
+        {%elif current_customer == 1%}
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
         {%endif%}
   </div>
-
 
   <nav class = "sticky-top" role="navigation">
     <ul id="main-menu">
@@ -159,23 +156,24 @@ li a:hover, .dropdown:hover .dropbtn {
           </ul>
         </li>
         {%endif%}
-
         <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
     </ul>
   </nav>
 
-  {%for prices in price%}
 
-    {%if ((loop.length - loop.revindex)%4 == 0)%}
 
-    {%set number = ((loop.length - loop.revindex)/4) | int %}
-    <div class="header">
-    <center><h1><b><u>{{menu_tags[number]}}</u></b></h1></center>
-    </div>
-    <div class="row"> 
+
+{%for prices in price%}
+
+  {%if ((loop.length - loop.revindex)%4 == 0)%}
+  {%set number = ((loop.length - loop.revindex)/4) | int %}
+  <div class="header">
+    <center><h1><b><u>{{vip_tags[number]}}</u></b></h1></center>
+  </div>
+  <div class="row"> 
     {%endif%}
-
-        <div class="col">
+    
+    <div class="col">
           <div class="card" style="width: 18rem;">
               <img src="{{prices.dish.url}}" class="card-img-top" alt="Food Image" width="250" height = "200">
               <div class="card-body">
@@ -183,16 +181,16 @@ li a:hover, .dropdown:hover .dropbtn {
                 <p class="card-text">
                   <br> <b>Price</b>: {{prices.price}}
                   <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{prices.dish.id}}">
-                  More Info
-                </button>
-              
-                  </div>
+                  <!-- Button trigger modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{prices.dish.id}}">
+                    More Info
+                  </button>
+                  
                 </div>
               </div>
-
-              <!-- Modal -->
+            </div>
+            
+            <!-- Modal -->
               <div class="modal fade" id="modal_{{prices.dish.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                   <div class="modal-content">
@@ -201,19 +199,19 @@ li a:hover, .dropdown:hover .dropbtn {
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="text-center">
+                      <div class="text-center">
                         <img src="{{prices.dish.url}}" class="rounded mx-auto d-block" alt="Food Image"width="400" height="300">
-                        </div>
-                        <br> <b>Description: </b>: {{prices.dish.description}}
-                        <br>
-                        <br> <b>Price</b>: {{prices.price}}
-                        <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
-                        <br> <b>Review</b>: This is sooooooo good!</p>   
-                        </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{prices.dish.id}}review">
-                          Add Review
+                      </div>
+                      <br> <b>Description: </b>: {{prices.dish.description}}
+                      <br>
+                      <br> <b>Price</b>: {{prices.price}}
+                      <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+                      <br> <b>Review</b>: This is sooooooo good!</p>   
+                    </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{prices.dish.id}}review">
+                      Add Review
                         </button>
                         <p></p>
-
+                        
                         
                         <table class="table"><!-- this is the review table. hard coded atm-->
                           <thead class = "table-light">
@@ -222,7 +220,7 @@ li a:hover, .dropdown:hover .dropbtn {
                               <th scope="col">UserID</th>
                               <th scope="col">Rate</th>
                               <th scope="col">Review</th>
-              
+                              
                             </tr>
                           </thead>
                           <tbody>
@@ -231,30 +229,31 @@ li a:hover, .dropdown:hover .dropbtn {
                               <td>Mark</td>
                               <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
                               <td>You can try all the type of appetizers in a dish!</td>
-              
+                              
                             </tr>
                             <tr>
                               <th scope="row">2</th>
                               <td>Anson</td>
                               <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
                               <td>You should try this!</td>
-              
+                              
                             </tr>
                             <tr>
                               <th scope="row">2</th>
                               <td>Ali</td>
                               <td>&#9733;&#9733;&#9733;&#9733;&#9733;</td>
                               <td>The best appetizer I've ever had :D</td>
-              
+                              
                             </tr>
                           </tbody>
                         </table> <!-- end of table -->
                         
-                    </div>
-                    <div class="modal-footer">
-                      <p><h5><b>Quantity:</b></h5></p>
+                      </div>
+                      <div class="modal-footer">
+                      <form method="POST">
+                        <p><h5><b>Quantity:</b></h5></p>
                       <div class="dropdown">
-                        <select class="form-select" aria-label="Default select example">
+                        <select type="quantity" class="form-select" name="quantity" aria-label="Default select example">
                           <option selected>0</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -263,12 +262,15 @@ li a:hover, .dropdown:hover .dropbtn {
                           <option value="3">5</option>
                         </select>
                       </div>
+                      <br> <b><input type="hidden" name="dishid" value="{{ prices.dish.id }}"></b>
+                      <br> <b><input type="hidden" name="price" value="{{ prices.price }}"></b>
                       <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                     </div>
                   </div>
                 </div>
               </div>
-
+              
               <div class="modal fade" id="modal{{prices.dish.id}}review" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
@@ -307,10 +309,9 @@ li a:hover, .dropdown:hover .dropbtn {
                   </div>
                 </div>
               </div>
-    
 {%endfor%} 
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
 <center>
@@ -321,5 +322,4 @@ li a:hover, .dropdown:hover .dropbtn {
       <p></p>
 </footer>
 </center>
-
 </html>

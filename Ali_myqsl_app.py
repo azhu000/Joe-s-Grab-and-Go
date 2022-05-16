@@ -2,6 +2,7 @@
 #from ctypes import addressof
 
 from ast import Delete
+from doctest import TestResults
 from functools import wraps
 from unicodedata import name
 import bcrypt
@@ -29,7 +30,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -44,6 +45,9 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+menu_tags = ["Appetizers", "Entrees", "Soup & Salad", "Dessert", "Beverages"]
+vip_tags = ["Special Boi menuuuuuu les goo"]
 
 # loads the user id which is stored
 # This does not work like it should. It checks for the ID of the user and if it exists in customer
@@ -96,6 +100,8 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
+    wallet = db.Column(db.Float(16,2), nullable = True)
+    isVIP = db.Column(db.Integer, nullable = False)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
@@ -117,12 +123,13 @@ class dish(db.Model):
     name = db.Column(db.String(45), primary_key=True, nullable = False, unique = True)
     description = db.Column(db.String(255), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
+    url = db.Column(db.String(255), nullable = False)
     menudish = db.relationship('menuDishes', backref='dish')
     rating = db.relationship('dishRating', backref='dish')
     orderline = db.relationship('orderLineItem', backref='dish')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | description: {2}".format(self.id, self.name, self.description)
+        return "id: {0} | name: {1} | description: {2} | url: {3}".format(self.id, self.name, self.description, self.url)
 
         
 #Likely requires ForeignKeyConstraint due to composite primary key made of foreign keys. Compiles for now.
@@ -131,6 +138,7 @@ class menuDishes(db.Model):
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
     price = db.Column(db.String(20), nullable = False)
+    VIP = db.Column(db.Integer, nullable = False, default = 0)
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
 class dishRating(db.Model):
@@ -217,13 +225,41 @@ class LoginForm(FlaskForm):
 #this is the base routing "url" this is the standard home page
 @app.route('/')
 def home():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+        
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
     #the home function returns the home.html file
-    return render_template('home.html')
+    return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    correct_creds = True
+    
     if request.method == 'POST':
+
         email = request.form.get('email')
         password = request.form.get('password')
         user = customers.query.filter_by(email=email).first()
@@ -231,9 +267,13 @@ def login():
             if(user.password == password):
                 login_user(user)
                 print("Logged in successfully!")
-                return redirect(url_for('menus'))
+                counter = 0
+                return redirect(url_for('customer_page'))
             else:
-                print("Incorrect credentials!")
+                # print("Incorrect credentials!")
+                correct_creds = False
+                alert_user = "You have entered the incorrect credentials. "
+                return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
         else:
             user = employees.query.filter_by(email=email).first()
             if user:
@@ -251,7 +291,9 @@ def login():
                         print("Logged in successfully!")
                         return redirect(url_for('delivery_page'))
                 else:
-                    print("Incorrect credentials!")
+                    correct_creds = False
+                    alert_user = "You have entered the incorrect credentials. "
+                    return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
             else:
                 print("No such username exists, try again")
     return render_template('login.html')    
@@ -297,11 +339,71 @@ def dishes():
 # 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
 @app.route('/menu')
 def menus():
+    print(current_user.name)
     #all_dishes = menu.query.all()
     return render_template('menu.html')
 
-# Successfully able to return information from multiple tables in a single route.
-# To specify a single item in the table, you can do something like the dishing variable.
+#Completely untested Route.
+@app.route('/VIPmenu', methods = ['GET', 'POST'])
+def VIP():
+    dished = dish.query.all()
+    price = menuDishes.query.filter_by(VIP='1')
+    lens = len(vip_tags)
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    try:
+        user = int(current_user.get_id())
+    except:
+        print("You are not registered as a customer")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(user)):
+        pass
+    if(customers.query.get(user)):
+        cust = customers.query.get(user)
+        if (cust.isVIP == 0):
+            print(cust.name)
+            print("You are not a VIP")
+            return redirect(url_for('menu_popular'))
+        
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+            
+    if request.method == 'POST':
+        
+        quantity = request.form.get('quantity')
+        dishes = request.form.get('dishid')
+        cost = request.form.get('price')
+        new_order = orders(custID=user, total=cost, bizID='1')
+        db.session.add(new_order)
+        num = orders.query.order_by(orders.id.desc()).first()
+        new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
+        db.session.add(new_orderline)
+        db.session.commit()
+        print("Added to cart")
+        return redirect(url_for('VIPmenu'))
+    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
+
+
+#Currently not in use.
 @app.route('/dishes')
 def menudish():
     all_dishes = menuDishes.query.all()
@@ -317,6 +419,7 @@ def popular():
     popular = dishRating.query.order_by(dishRating.rating.desc())
     return render_template('index.html',popular=popular)
 
+#Currently not being used.
 @app.route('/rating')
 def dishlist():
     all_dishes = dishRating.query.all()
@@ -324,7 +427,7 @@ def dishlist():
 ############################################################
 
 
-#upon successful login, this is the page that will be displayed
+#Currently not being used. 
 @app.route('/dashboard', methods = ['GET', 'POST'])
 @login_required
 def dashboard():
@@ -334,6 +437,7 @@ def dashboard():
 @app.route('/logout', methods = ['GET', 'POST'])
 @login_required
 def logout():
+    
     logout_user()
     return redirect(url_for('login'))
 
@@ -369,58 +473,332 @@ def register():
     #returns the register.html file
     return render_template('register.html')#, '''form=form''')
 
+
+
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
+    user = 0
+    users_name = ""
     dished = dish.query.all()
-    return render_template('menu_popular.html',dish=dished)
+    price = menuDishes.query.all()
+    lens = len(menu_tags)
+    
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
 
+    
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+
+    # This method below will handle the orders that come in from the menu. 
+    # It needs to update two tables, "orders" and "orderLineItem".
+    # Needs customerID, dishID, dish price, quantity of dish. 
+    # Issue here is that "adding to cart" is being read as its own order. 
+
+    if request.method == "POST":
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
+        print(user)
+        print(type(user))
+        quantity = request.form.get('quantity')
+        dishes = request.form.get('dishid')
+        cost = request.form.get('price')
+        new_order = orders(custID=user, total=cost, bizID='1')
+        db.session.add(new_order)
+        num = orders.query.order_by(orders.id.desc()).first()
+        new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
+        db.session.add(new_orderline)
+        db.session.commit()
+        print("Added to cart")
+        return redirect(url_for('menu_popular'))
+
+    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
+
+#adding money to wallet route
+@app.route('/wallet', methods = ['GET', 'POST'])
+@login_required
+def wallet():
+    user = 0
+    users_name = ""
+    
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+    
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    if request.method == "POST":
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
+        amount = request.form.get('amount')
+        userid = customers.query.filter_by(id = user).first()
+        current_amount = float(userid.wallet)
+        new_amount = current_amount + float(amount)
+    
+        userid.wallet = float(new_amount)
+        db.session.commit()
+
+    return render_template('wallet.html', user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
+
+#Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
-#@login_required
+@login_required
+
 def cart():
-    return render_template('cart.html')
+    user = 0
+    users_name = ""
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+            
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    return render_template('cart.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
+
+@app.route('/checkout', methods = ['GET', 'POST'])
+@login_required
+def checkout():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+        
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+    return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
-#@login_required
+@login_required
 def customer_page():
-    #current_user.is_authenticated()
+    user = int(current_user.get_id())
+    users_name = str(current_user.name)
+    user_balance = float(current_user.wallet)
+    vip_bool = 0
+    try:
+         (customers.query.get(user))
+    except:
+        return render_template('home.html')
+    history = orders.query.filter_by(custID=user)
     
-    return render_template('customer_page.html')
+    if(customers.query.get(user)):
+        cust = customers.query.get(user)
+        if (cust.isVIP == 0):
+            vip_bool = 0
+        else:
+            vip_bool = 1
+    
+    #print(history)
+    items = orderLineItem.query.all()
+    #Functionality for giving a customer VIP
+    #query all the orderlineitem according to orderID which is specific to a user
+    CustHistory = orders.query.filter_by(custID=user).all()
+    lenCust = len(CustHistory)
+    total = 0
+
+    custVIP = customers.query.filter_by(id = user).first()
+    custVip = custVIP.isVIP
+
+    for o in CustHistory:
+        total += float(o.total)
+    custTotal = total
+    #check if they are VIP
+    if lenCust >= 5 or custTotal >= 100:
+        cust = customers.query.filter_by(id = user).first()
+        if cust.isVIP == 0:
+        #if they are not VIP, give them VIP
+            cust.isVIP = 1
+            db.session.commit()
+            return render_template('customer_page.html')
+ 
+   
+    #item = orderLineItem.query.filter_by(orderID='1')
+    #print(items[0])
+    
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool,lenCust=lenCust, custTotal=custTotal,custVip=custVip)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
-#@login_required
+@login_required
 def delivery_page():
     user2 = employees.query.filter_by(role="Delivery").first()
     print(current_user.name)
     print(user2.role)
-#    try:
-#        print(current_user.role)
-#    except:
-#        print("no role to be found")
-#        return render_template('home.html')
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    try:
+        print(current_user.role)
+    except:
+        print("You are not an employee!")
+        return render_template('home.html')
 
-#    print(user1.name, type(user1))
-#    print(user2, type(user2))
-#    if (user1.role != "Delivery"):
-#        print("Git outta hea")
-#        return render_template('home.html')
-    return render_template('delivery_page.html')
+    if (current_user.role != "Delivery"):
+        print("You aren't a delivery boi")
+        return render_template('home.html')
+    return render_template('delivery_page.html', user=user,current_customer=current_customer,users_name=users_name)
+
+@app.route('/manager_page_hire', methods = ['GET', 'POST'])
+def manager_page_hire():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    if request.method == "POST":
+        if request.form.get('name') == '' or request.form.get('email') == '' or request.form.get('password') == '' or request.form.get('role') == '' or request.form.get('bizID') == '':
+            print("Nothing Posted")
+        else:
+            name = request.form.get('name')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            role = request.form.get('role')
+            bizID = request.form.get('bizID')
+            new_employee = employees(name = name, email = email, password = password, role = role, bizID = bizID)
+            db.session.add(new_employee)
+            db.session.commit()
+            print('Employee Added')
+            return redirect(url_for('manager_page_hire'))
+
+    return render_template('manager_page_hire.html', user=user,current_customer=current_customer, users_name=users_name)
+
+@app.route('/manager_page_fire', methods = ['GET', 'POST'])
+def manager_page_fire():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    if request.method == "POST":
+        if request.form.get('id') == '':
+            print("Need a non empty ID")
+        else:
+            ids = request.form.get('id')
+            try:
+                employees.query.filter(employees.id == ids).delete()
+                db.session.commit()
+                print("Firing Successful")
+                return redirect(url_for('manager_page_fire'))
+            except:
+                print("Firing Failed")
+
+    return render_template('manager_page_fire.html',user=user, users_name=users_name, current_customer=current_customer)
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
-#@login_required
+@login_required
 def manager_page():
-    # confirms the user accessing this page is the manager
-    # This doesnt work like i thought because theres still an issue with user_loader.
-    # If a customer logs in with ID = 1, that customer can access this page.
+    # confirms the user accessing this page is the manager. Can be changed to filter by role="Manager" but too lazy.
+    users = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        users = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+        
     user = employees.query.filter_by(id="1").first()
     if (current_user.get_id() != str(user.id)):
         print(current_user.get_id())
+        print("You aren't the manager")
         return render_template('home.html')
     
-    return render_template('manager_page.html')
+    return render_template('manager_page.html', users_name=users_name,current_customer=current_customer,users=users)
 
 
 @app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
 def chef_page_rm():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     dished = dish.query.all()
     if request.method == "POST":
         if request.form.get('id') == '':
@@ -434,12 +812,29 @@ def chef_page_rm():
                 return redirect(url_for('chef_page_rm'))
             except:
                 print("Deletion Failed")
-    return render_template('chef_page_rm.html', dished = dished)
+    return render_template('chef_page_rm.html', dished = dished, user=user,current_customer=current_customer,users_name=users_name)
 
 
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
-#@login_required
+@login_required
 def chef_page():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    try:
+        print(current_user.role)
+    except:
+        print("You are not an employee!")
+        return render_template('home.html')
+
+    if (current_user.role != "Chef"):
+        print("You aren't a cook")
+        return render_template('home.html')
     dished = dish.query.all()
     if request.method == "POST":
         if request.form.get('dish') == '' or request.form.get('description') == '' or request.form.get('bizID') == '' :
@@ -454,12 +849,39 @@ def chef_page():
             print("New Dish added")
             return redirect(url_for('chef_page'))
 
-    return render_template('chef_page.html', dished = dished)
+    return render_template('chef_page.html', dished = dished, user=user, users_name=users_name,current_customer=current_customer)
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
-    return render_template('contact_us.html')
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+    
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+    return render_template('contact_us.html', current_customer = current_customer, user=user, users_name=users_name ,is_employee=is_employee)
 
+num = orderLineItem.query.filter_by(orderID = 3).first()
+print(num.orderID)
 
 if __name__ == '__main__':
     app.run(debug=True)
