@@ -144,32 +144,40 @@ section {
     <div class="header">
         <h1><b>Joe's Grab and Go</b></h1>
         <h2>Order Food to  Your Door :D</h2>
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}.</b></div>
         </div>
 
-        <nav class = "sticky-top"role="navigation">
-    <ul id="main-menu">
-      <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
-      <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
-        <ul id="sub-menu">
-          <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
-        </ul>
-      </li>
-
-      <li><a href="#"><i class="fa fa-fw fa-shopping-cart"></i><b>Order</b></a>
-        <ul id="sub-menu">
-          <li><a href="{{url_for('cart')}}" aria-label="submenu"><b>Cart</b></a></li>
-          <li><a href="#" aria-label="submenu"><b>Order History</b></a></li>
-
-        </ul>
-        <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
-          <ul id="sub-menu">
-            <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
-            <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+        <nav class = "sticky-top" role="navigation">
+          <ul id="main-menu">
+            <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
+            <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
+              <ul id="sub-menu">
+                <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
+              </ul>
+            </li>
+      
+            <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+              {%if current_customer == 0%}
+      
+              <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+                  <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+                </ul>
+              </li>
+      
+              {%elif current_customer == 1%}
+      
+              <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+                </ul>
+              </li>
+              {%endif%}
+      
+              <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
           </ul>
-        </li>
-        <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
-    </ul>
-  </nav>
+        </nav>
 
     <br>
     <center> <br><br><br><br><b>Fire Employees :D </b></center>
@@ -187,7 +195,7 @@ section {
         </div>
         <br>   
         
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Remove Employees</button>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Remove Employees</button>
         <br>
         <br>
         <p><a class="w-100 btn btn-lg btn-primary" href="{{url_for('manager_page_hire')}}" role="button">Go to Hire Employees?</a>

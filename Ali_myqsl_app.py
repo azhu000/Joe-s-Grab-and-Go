@@ -603,6 +603,14 @@ def delivery_page():
 
 @app.route('/manager_page_hire', methods = ['GET', 'POST'])
 def manager_page_hire():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     if request.method == "POST":
         if request.form.get('name') == '' or request.form.get('email') == '' or request.form.get('password') == '' or request.form.get('role') == '' or request.form.get('bizID') == '':
             print("Nothing Posted")
@@ -618,10 +626,18 @@ def manager_page_hire():
             print('Employee Added')
             return redirect(url_for('manager_page_hire'))
 
-    return render_template('manager_page_hire.html')
+    return render_template('manager_page_hire.html', user=user,current_customer=current_customer, users_name=users_name)
 
 @app.route('/manager_page_fire', methods = ['GET', 'POST'])
 def manager_page_fire():
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     if request.method == "POST":
         if request.form.get('id') == '':
             print("Need a non empty ID")
@@ -635,20 +651,28 @@ def manager_page_fire():
             except:
                 print("Firing Failed")
 
-    return render_template('manager_page_fire.html')
+    return render_template('manager_page_fire.html',user=user, users_name=users_name, current_customer=current_customer)
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 @login_required
 def manager_page():
     # confirms the user accessing this page is the manager. Can be changed to filter by role="Manager" but too lazy.
-
+    users = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        users = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
+        
     user = employees.query.filter_by(id="1").first()
     if (current_user.get_id() != str(user.id)):
         print(current_user.get_id())
         print("You aren't the manager")
         return render_template('home.html')
     
-    return render_template('manager_page.html')
+    return render_template('manager_page.html', users_name=users_name,current_customer=current_customer,users=users)
 
 
 @app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
