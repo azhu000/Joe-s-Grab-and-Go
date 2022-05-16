@@ -30,7 +30,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -222,6 +222,7 @@ class LoginForm(FlaskForm):
 
 
 
+
 #this is the base routing "url" this is the standard home page
 @app.route('/')
 def home():
@@ -252,6 +253,8 @@ def home():
             is_employee = 3
     #the home function returns the home.html file
     return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
+
+
 
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
