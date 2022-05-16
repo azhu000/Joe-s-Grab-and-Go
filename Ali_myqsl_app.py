@@ -102,6 +102,7 @@ class customers(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable = False, unique = True)
     wallet = db.Column(db.Float(16,2), nullable = True)
     isVIP = db.Column(db.Integer, nullable = False)
+    warning = db.Column(db.Integer, nullable = False)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
@@ -302,6 +303,24 @@ def login():
                 print("No such username exists, try again")
     return render_template('login.html')    
 
+def warn():
+    userID = int(current_user.get_id())
+    currUser = customers.query.filter_by(id = userID).first()
+    if currUser.isVIP == 1 and currUser.warning >= 2:
+        currUser.isVIP = 0
+        currUser.warning = 0
+        db.session.commit()
+        print("VIP Status lost")
+        return render_template('login.html')
+    elif currUser.warning >= 3:
+        try:
+            customers.query.filter(customers.id == userID).delete()
+            db.session.commit()
+            print("De-Registered")
+            return render_template('login.html')
+        except:
+            print("Deletion Failed")
+    return None
     
     #form = LoginForm()
     #This is what will happen when you press submit
@@ -481,6 +500,7 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
+    warn()
     user = 0
     users_name = ""
     dished = dish.query.all()
