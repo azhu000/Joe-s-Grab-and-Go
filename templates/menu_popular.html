@@ -252,9 +252,10 @@ li a:hover, .dropdown:hover .dropbtn {
                         
                     </div>
                     <div class="modal-footer">
+                      <form method="POST">
                       <p><h5><b>Quantity:</b></h5></p>
                       <div class="dropdown">
-                        <select class="form-select" aria-label="Default select example">
+                        <select type="quantity" class="form-select" name="quantity" aria-label="Default select example">
                           <option selected>0</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -263,7 +264,10 @@ li a:hover, .dropdown:hover .dropbtn {
                           <option value="3">5</option>
                         </select>
                       </div>
+                      <br> <b><input type="hidden" name="dishid" value="{{ prices.dish.id }}"></b>
+                      <br> <b><input type="hidden" name="price" value="{{ prices.price }}"></b>
                       <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
                     </div>
                   </div>
                 </div>
