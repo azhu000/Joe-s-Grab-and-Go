@@ -522,16 +522,16 @@ def menu_popular():
     user = 0
     users_name = ""
     dished = dish.query.all()
-    randish = menuDishes.query.all()
-    print(type(dished))
+    price = menuDishes.query.all()
     randoms = [0, 1, 2]
     for i in randoms:
-        randoms[i] = random.choice(randish)
+        randoms[i] = random.choice(price)
+        while ((i>0) and (randoms[i] == randoms[i-1])):
+            randoms[i] = random.choice(price)
+        while ((i>1) and (randoms[i] == randoms[i-2])):
+            randoms[i] = random.choice(price)
         print(randoms[i])
-        if (randoms[i] == randoms[i-1]) and (i>0):
-            randoms[i] = random.choice(randish)
     
-    price = menuDishes.query.all()
     lens = len(menu_tags)
     is_employee = user_check()
         
