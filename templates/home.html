@@ -211,6 +211,7 @@
 
           <div class="card " style="width: 22rem;">
             <br>
+            {%if current_customer == 0%}
             <img class="card-img-top" src="https://cdn-icons-png.flaticon.com/512/2039/2039060.png" alt="Card image cap">
             <center><div class="card-body ">
               
@@ -220,7 +221,16 @@
               <p></p>
               <h5><b>Already Registered?</b></h5>
               <a href="{{url_for('login')}}" class="btn btn-secondary">Sign In</a>
-
+              {%elif current_customer == 1%}
+              <img class="card-img-top" src="https://icon-library.com/images/welcome-icon/welcome-icon-11.jpg" alt="Card image cap">
+              <center><div class="card-body ">
+              <h2 class="card-title"><b>Feeling Hungry?</b>
+              </h2>
+              <a href="{{url_for('menu_popular')}}" class="btn btn-primary">Order Now!</a>
+              <p></p>
+              <h5><b>View Your Profile</b></h5>
+              <a href="{{url_for('customer_page')}}" class="btn btn-secondary">View Profile</a>
+              {%endif%}
 
             </div></center>
           </div>
