@@ -590,6 +590,14 @@ def delivery_page():
     user2 = employees.query.filter_by(role="Delivery").first()
     print(current_user.name)
     print(user2.role)
+    user = 0
+    users_name = ""
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+    else: 
+        current_customer = 0
     try:
         print(current_user.role)
     except:
@@ -599,7 +607,7 @@ def delivery_page():
     if (current_user.role != "Delivery"):
         print("You aren't a delivery boi")
         return render_template('home.html')
-    return render_template('delivery_page.html')
+    return render_template('delivery_page.html', user=user,current_customer=current_customer,users_name=users_name)
 
 @app.route('/manager_page_hire', methods = ['GET', 'POST'])
 def manager_page_hire():
