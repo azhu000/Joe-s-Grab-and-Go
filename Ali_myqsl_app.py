@@ -4,6 +4,8 @@
 from ast import Delete
 from doctest import TestResults
 from functools import wraps
+import random
+from re import I
 from unicodedata import name
 import bcrypt
 from click import password_option
@@ -30,7 +32,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -89,6 +91,7 @@ class employees(db.Model, UserMixin):
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
+    isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
 
@@ -100,9 +103,10 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
-    wallet = db.Column(db.Float(16,2), nullable = True)
-    isVIP = db.Column(db.Integer, nullable = False)
-    warning = db.Column(db.Integer, nullable = False)
+    wallet = db.Column(db.Float(16,2), nullable = True, default = 0)
+    isVIP = db.Column(db.Integer, nullable = True, default = 0)
+    warning = db.Column(db.Integer, nullable = True, default = 0)
+    isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
@@ -138,7 +142,7 @@ class menuDishes(db.Model):
     __tablename__ = 'menuDishes'
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
-    price = db.Column(db.String(20), nullable = False)
+    price = db.Column(db.Float, nullable = False)
     VIP = db.Column(db.Integer, nullable = False, default = 0)
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
@@ -237,22 +241,9 @@ def home():
     else: 
         current_customer = 0
         
-    is_employee = 0
+    is_employee = user_check()
     
-    try:
-        employee_check = int(current_user.get_id())
-    except:
-        print("You are not registered as an employee")
-        return redirect(url_for('login'))
-    print(current_user.get_id())
-    if(employees.query.get(employee_check)):
-        emp = employees.query.get(employee_check)
-        if (emp.role == 'Manager'):
-            is_employee = 1
-        elif (emp.role == 'Chef'):
-            is_employee = 2
-        elif (emp.role == 'Delivery'):
-            is_employee = 3
+    
     #the home function returns the home.html file
     return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
@@ -262,12 +253,17 @@ def home():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     correct_creds = True
-    
+    blacklisted = False
     if request.method == 'POST':
 
         email = request.form.get('email')
         password = request.form.get('password')
         user = customers.query.filter_by(email=email).first()
+        if user:
+            if(user.isBlacklisted == 1):
+                alert_user = "You do not have access to this site"
+                blacklisted = True
+                return render_template('login.html', alert_user = alert_user,blacklisted = blacklisted)
         if user:
             if(user.password == password):
                 login_user(user)
@@ -311,17 +307,39 @@ def warn():
         currUser.warning = 0
         db.session.commit()
         print("VIP Status lost")
-        return render_template('login.html')
+        return redirect(url_for('login'))
     elif currUser.warning >= 3:
         try:
-            customers.query.filter(customers.id == userID).delete()
+            currUser.isBlacklisted = 1
             db.session.commit()
+            logout_user()
             print("De-Registered")
-            return render_template('login.html')
+            return True
         except:
             print("Deletion Failed")
     return None
     
+
+def user_check():
+    is_employee = 0
+    if(current_user.is_authenticated):
+        try:
+            employee_check = int(current_user.get_id())
+        except:
+            print("You are not registered as an employee")
+            return redirect(url_for('login'))
+        print(current_user.get_id())
+        if(employees.query.get(employee_check)):
+            emp = employees.query.get(employee_check)
+            if (emp.role == 'Manager'):
+                is_employee = 1
+            elif (emp.role == 'Chef'):
+                is_employee = 2
+            elif (emp.role == 'Delivery'):
+                is_employee = 3
+        else:
+            is_employee = 4
+    return is_employee
     #form = LoginForm()
     #This is what will happen when you press submit
     #if form.validate_on_submit():
@@ -500,31 +518,22 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    warn()
+    #warn()
     user = 0
     users_name = ""
     dished = dish.query.all()
+    print(type(dished))
+    randoms = [0, 1, 2]
+    for i in randoms:
+        randoms[i] = random.choice(dished)
+        print(randoms[i])
+        if (randoms[i] == randoms[i-1]) and (i>0):
+            randoms[i] = random.choice(dished)
+    
     price = menuDishes.query.all()
     lens = len(menu_tags)
-    
-    is_employee = 0
-    
-    try:
-        employee_check = int(current_user.get_id())
-    except:
-        print("You are not registered as an employee")
-        return redirect(url_for('login'))
-    print(current_user.get_id())
-    if(employees.query.get(employee_check)):
-        emp = employees.query.get(employee_check)
-        if (emp.role == 'Manager'):
-            is_employee = 1
-        elif (emp.role == 'Chef'):
-            is_employee = 2
-        elif (emp.role == 'Delivery'):
-            is_employee = 3
-
-    
+    is_employee = user_check()
+        
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
@@ -545,9 +554,20 @@ def menu_popular():
             return redirect(url_for('login'))
         print(user)
         print(type(user))
+        guy = customers.query.get(user)
+        print(type(guy))
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
+        print(guy.wallet)
+        if(guy.wallet < float(cost)):
+            guy.warning += float(1.0)
+            db.session.commit()
+            if (warn() == True):
+                print("youre broke you poor lil shit")
+                return redirect(url_for('login'))
+            else:
+                return redirect(url_for('menu_popular'))
         new_order = orders(custID=user, total=cost,Active='1', bizID='1')
         db.session.add(new_order)
         num = orders.query.order_by(orders.id.desc()).first()
@@ -557,7 +577,7 @@ def menu_popular():
         print("Added to cart")
         return redirect(url_for('menu_popular'))
 
-    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('menu_popular.html',rando=randoms,price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 #adding money to wallet route
 @app.route('/wallet', methods = ['GET', 'POST'])
@@ -684,6 +704,7 @@ def customer_page():
     
     if(customers.query.get(user)):
         cust = customers.query.get(user)
+        warnings = cust.warning
         if (cust.isVIP == 0):
             vip_bool = 0
         else:
@@ -716,7 +737,7 @@ def customer_page():
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
     
-    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool,lenCust=lenCust, custTotal=custTotal,custVip=custVip)
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool,lenCust=lenCust, custTotal=custTotal,custVip=custVip,warnings = warnings)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
@@ -892,20 +913,23 @@ def contact():
     
     is_employee = 0
     
-    try:
-        employee_check = int(current_user.get_id())
-    except:
-        print("You are not registered as an employee")
-        return redirect(url_for('login'))
-    print(current_user.get_id())
-    if(employees.query.get(employee_check)):
-        emp = employees.query.get(employee_check)
-        if (emp.role == 'Manager'):
-            is_employee = 1
-        elif (emp.role == 'Chef'):
-            is_employee = 2
-        elif (emp.role == 'Delivery'):
-            is_employee = 3
+    if(current_user.is_authenticated):
+        try:
+            employee_check = int(current_user.get_id())
+        except:
+            print("You are not registered as an employee")
+            return redirect(url_for('login'))
+        print(current_user.get_id())
+        if(employees.query.get(employee_check)):
+            emp = employees.query.get(employee_check)
+            if (emp.role == 'Manager'):
+                is_employee = 1
+            elif (emp.role == 'Chef'):
+                is_employee = 2
+            elif (emp.role == 'Delivery'):
+                is_employee = 3
+        else:
+            is_employee = 4
     return render_template('contact_us.html', current_customer = current_customer, user=user, users_name=users_name ,is_employee=is_employee)
 
 num = orderLineItem.query.filter_by(orderID = 3).first()
