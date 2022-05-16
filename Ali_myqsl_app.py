@@ -233,8 +233,25 @@ def home():
         users_name = str(current_user.name)
     else: 
         current_customer = 0
+        
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
     #the home function returns the home.html file
-    return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name)
+    return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 #this is the routing for the login page
 @app.route('/login', methods = ['GET', 'POST'])
@@ -352,6 +369,24 @@ def VIP():
             print(cust.name)
             print("You are not a VIP")
             return redirect(url_for('menu_popular'))
+        
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+            
     if request.method == 'POST':
         
         quantity = request.form.get('quantity')
@@ -365,7 +400,7 @@ def VIP():
         db.session.commit()
         print("Added to cart")
         return redirect(url_for('VIPmenu'))
-    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags, current_customer = current_customer, user=user, users_name=users_name)
+    return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 
 #Currently not in use.
@@ -447,6 +482,25 @@ def menu_popular():
     dished = dish.query.all()
     price = menuDishes.query.all()
     lens = len(menu_tags)
+    
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+
+    
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
@@ -479,7 +533,7 @@ def menu_popular():
         print("Added to cart")
         return redirect(url_for('menu_popular'))
 
-    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name)
+    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 #adding money to wallet route
 @app.route('/wallet', methods = ['GET', 'POST'])
@@ -487,6 +541,24 @@ def menu_popular():
 def wallet():
     user = 0
     users_name = ""
+    
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+    
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
@@ -505,7 +577,7 @@ def wallet():
         userid.wallet = float(new_amount)
         db.session.commit()
 
-    return render_template('wallet.html', user=user, users_name=users_name, current_customer=current_customer)
+    return render_template('wallet.html', user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
 
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
@@ -514,13 +586,30 @@ def wallet():
 def cart():
     user = 0
     users_name = ""
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+            
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
     else: 
         current_customer = 0
-    return render_template('cart.html', current_customer=current_customer, user=user, users_name=users_name)
+    return render_template('cart.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
@@ -533,7 +622,24 @@ def checkout():
         users_name = str(current_user.name)
     else: 
         current_customer = 0
-    return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer)
+        
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+    return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
 @login_required
@@ -755,7 +861,24 @@ def contact():
         users_name = str(current_user.name)
     else: 
         current_customer = 0
-    return render_template('contact_us.html', current_customer = current_customer, user=user, users_name=users_name )
+    
+    is_employee = 0
+    
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+    return render_template('contact_us.html', current_customer = current_customer, user=user, users_name=users_name ,is_employee=is_employee)
 
 num = orderLineItem.query.filter_by(orderID = 3).first()
 print(num.orderID)
