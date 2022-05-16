@@ -163,9 +163,24 @@ li a:hover, .dropdown:hover .dropbtn {
         <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
     </ul>
   </nav>
+  <br>
+  <div> <h1><center><b><u>Popular</u></b></center></h1></div>
+  <br>
+  <div class="row">
   {% for rand in rando%}
 
-
+  <div class="col">
+    <div class="card" style="width: 18rem;">
+        <img src="{{rand.url}}" class="card-img-top" alt="Food Image" width="250" height = "200">
+        <div class="card-body">
+          <h5 class="card-title">{{rand.name}}</h5>
+          <p class="card-text">
+            <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          
+        
+            </div>
+          </div>
+        </div>
 
 
   {%endfor%}
