@@ -956,7 +956,7 @@ def manager_page_fire():
         else:
             ids = request.form.get('id')
             try:
-                employees.query.filter(employees.id == ids).delete()
+                employees.query.filter_by(id = user).first()
                 db.session.commit()
                 print("Firing Successful")
                 return redirect(url_for('manager_page_fire'))
