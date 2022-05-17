@@ -157,34 +157,47 @@
         <div class="header">
             <h1><b>Joe's Grab and Go</b></h1>
             <h2>Order Food to  Your Door :D</h2>
-            <div><b>You are logged in as {{users_name}}. Id is: {{user}}. Chef.</b></div>
+            <div><b>You are logged in as {{users_name}}. Id is: {{users}}.</b></div>
             </div>
-            <nav role="navigation">
+            <nav class = "sticky-top" role="navigation">
                 <ul id="main-menu">
-                    <li><a href="/CSC322-SWE-Group-Project/templates/index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
-                    <li><a href="/CSC322-SWE-Group-Project/templates/menu.html"><i class="fa fa-fw fa-search"></i>Menu</a>
-                        <ul id="sub-menu">
-                            <li><a href="menu_detail.html" aria-label="subemnu">Popular</a></li>
-                            <li><a href="menu_detail.html" aria-label="subemnu">Healthy</a></li>
-                            <li><a href="menu_detail.html" aria-label="subemnu">Kids</a></li>
-                            <li><a href="menu_detail.html" aria-label="subemnu">Sessert</a></li>
-                        </ul>
+                  <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
+                  <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
+                    <ul id="sub-menu">
+                      <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
+                    </ul>
+                  </li>
+            
+                  <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+                    {%if current_customer == 0%}
+            
+                    <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+                      <ul id="sub-menu">
+                        <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+                        <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+                      </ul>
                     </li>
-                    <li><a href="/CSC322-SWE-Group-Project/templates/cart.html"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
-                        <ul id="sub-menu">
-                            <li><a href="/CSC322-SWE-Group-Project/templates/cart.html" aria-label="subemnu">Cart</a></li>
-                            <li><a href="/CSC322-SWE-Group-Project/templates/order.html" aria-label="subemnu">Order History</a></li>
-                        </ul>
+            
+                    {%elif current_customer == 1%}
+            
+                    {%if is_employee == 1%}
+                    <li><a href="{{url_for('manager_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                    {%elif is_employee == 2%}
+                    <li><a href="{{url_for('chef_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                    {%elif is_employee == 3%}
+                    <li><a href="{{url_for('delivery_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                    {%else%} 
+                    <li><a href="{{url_for('customer_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                    {%endif%}
+                      <ul id="sub-menu">
+                        <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+                      </ul>
                     </li>
-                    <li><a href="/CSC322-SWE-Group-Project/templates/login.html"><i class="fa fa-fw fa-user"></i>Login/Register</a></li>
-                    <li><a href="/CSC322-SWE-Group-Project/templates/contact-us.html"><i class="fa fa-fw fa-envelope"></i>Contact</a>
-                        <ul id="sub-menu">
-                            <li><a href="about-us.html" aria-label="subemnu">About Us</a></li>
-                            <li><a href="contact-us.html" aria-label="subemnu">Contact Info</a></li>
-                        </ul>
-                    </li>
+                    {%endif%}
+            
+                    <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
                 </ul>
-            </nav>
+              </nav>
             <p></p>
         <h2> Order Compliments</h2>
         <h5> Please share your feedback.</h5>
