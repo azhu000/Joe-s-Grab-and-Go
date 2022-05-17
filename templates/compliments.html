@@ -1,59 +1,264 @@
 <!-- HTML - Hypertext Markup Language -->
 <!DOCTYPE html> <!--Doctype Explanation-->
 <html lang="en">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Favicons -->
-        <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-        <link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
-        <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-        <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
-        <meta name="theme-color" content="#7952b3">
-        <link rel="stylesheet" href="/CSC322-SWE-Group-Project/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <title>Restaurant</title>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/CSC322-SWE-Group-Project/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     </head>
-    <header class="header">
+
+<style>
+    * {box-sizing: border-box}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;  
+}
+
+.header {
+  text-align: center;
+  padding: 40px;
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: black;
+  z-index: 1;
+}
+
+ ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(40, 148, 112);
+}
+
+#main-menu > li {
+  float: left;
+  position: relative;
+}
+
+#main-menu > li > a {
+  font-size: 20px;
+  color: rgba(253, 252, 252, 0.85);
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  display: block;
+  width: 100%;
+  padding: 14px 36px;
+  border-right: 1px solid rgba(0,0,0,0.15);
+  
+}
+
+#main-menu > li:nth-child(1) > a {
+  border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu {
+  position: absolute;
+  background: #f8f8f6;
+  opacity: 0;
+  visibility: hidden;
+  width:100%;
+  text-align: center;
+  transition: all 0.15s ease-in;
+}
+
+#sub-menu > li {
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu > li >  a {
+  color: rgba(19, 18, 18, 0.6);
+  text-decoration: none;
+}
+
+#main-menu > li:hover #sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+#sub-menu > li >  a:hover {
+ text-decoration: underline;
+}
+
+section {
+  column-width: 15em;
+  background: #dadadf;
+  padding: 2em 12em;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+
+.column img {
+  margin-top: 12px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.container {
+  position: relative;
+  font-family: Arial;
+}
+
+.text-block {
+  position: absolute;
+  text-align: center;
+  bottom: 10px;
+  right: 20%;
+  left: 20%;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.col {
+  flex: 0 0 0%;
+  
+}
+
+.row {
+  justify-content:center;
+}
+#id {
+  width: 50%;
+}
+.form-signin {
+  width: 20%;
+}
+</style>
+
+<body>
+    <div class="header">
         <h1><b>Joe's Grab and Go</b></h1>
         <h2>Order Food to  Your Door :D</h2>
-    </header>
-        <nav role="navigation">
-            <ul id="main-menu">
-                <li><a href="/CSC322-SWE-Group-Project/templates/index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
-                <li><a href="/CSC322-SWE-Group-Project/templates/menu.html"><i class="fa fa-fw fa-search"></i>Menu</a>
-                    <ul id="sub-menu">
-                        <li><a href="/CSC322-SWE-Group-Project/templates/menu-popular.html" aria-label="subemnu">Popular</a></li>
-                        <li><a href="menu_detail.html" aria-label="subemnu">Healthy</a></li>
-                        <li><a href="menu_detail.html" aria-label="subemnu">Kids</a></li>
-                        <li><a href="menu_detail.html" aria-label="subemnu">Sessert</a></li>
-                    </ul>
-                </li>
-                <li><a href="/CSC322-SWE-Group-Project/templates/cart.html"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
-                    <ul id="sub-menu">
-                        <li><a href="/CSC322-SWE-Group-Project/templates/cart.html" aria-label="subemnu">Cart</a></li>
-                        <li><a href="/CSC322-SWE-Group-Project/templates/order.html" aria-label="subemnu">Order History</a></li>
-                    </ul>
-                </li>
-                <li><a href="/CSC322-SWE-Group-Project/templates/login.html"><i class="fa fa-fw fa-user"></i>Login/Register</a></li>
-                <li><a href="/CSC322-SWE-Group-Project/templates/contact-us.html"><i class="fa fa-fw fa-envelope"></i>Contact</a>
-                    <ul id="sub-menu">
-                        <li><a href="about-us.html" aria-label="subemnu">About Us</a></li>
-                        <li><a href="contact-us.html" aria-label="subemnu">Contact Info</a></li>
-                    </ul>
-                </li>
-            </ul>
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}. Chef.</b></div>
+        </div>
+        <nav class = "sticky-top" role="navigation">
+          <ul id="main-menu">
+            <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
+            <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
+              <ul id="sub-menu">
+                <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
+              </ul>
+            </li>
+      
+            <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+              {%if current_customer == 0%}
+      
+              <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+                  <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+                </ul>
+              </li>
+      
+              {%elif current_customer == 1%}
+      
+              <li><a href="{{url_for('chef_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+                </ul>
+              </li>
+              {%endif%}
+      
+              <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
+          </ul>
         </nav>
-    <body>
+    <br>
+    <center> <br><b>THIS IS THE CHEF PAGE :D </b></center>
+    <br>
+    {% for dishes in dished %}
+    {%if ((loop.length - loop.revindex)%4 == 0)%}
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
-    <footer>
-        <p>2022 © Copyright Joe's Grab & Go.</p>
-    </footer>
+    {%set number = ((loop.length - loop.revindex)/4) | int %}
+    <div class="row"> 
+      <br>
+    {%endif%}
+        <div class="col">
+          <div class="card" style="width: 18rem;">
+            <img src={{dishes.url}} class="card-img-top" width = "350" height = "250" alt="Food Image" width="250" height = "200">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text">
+              <b>ID:</b> {{dishes.id}}<br>
+              <b>Name:</b> {{dishes.name}}<br>
+              <b>Description:</b> {{dishes.description}}<br>
+                
+              </div>
+              
+            </div>
+            <p></P>
+        </div>
+        <br>
+    {% endfor %}
+      </div>
+    
+    <main class="form-signin">
+      <form method="POST">
+      
+             
+        <br>
+        <div class="form-floating">
+          <input type="dish" class="form-control" id="floatingInput" name="dish" placeholder="Enter the Dish to be Added"/>
+          <label for="floatingInput">Dish To be Added</label>
+        </div>
+        <br> 
+        <div class="form-floating">
+          <input type="description" class="form-control" id="floatingInput" name="description" placeholder="Enter Description of Dish"/>
+          <label for="floatingInput">Description</label>
+        </div>
+        <br>
+        <div class="form-floating">
+          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
+          <label for="floatingInput">bizID</label>
+        </div>
+        <br> 
+
+        
+        <div>
+        
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Add Dishes</button>
+        <p>Remove Dishes? <a class="btn btn-link" href="{{url_for('chef_page_rm')}}" role="button">Remove Dishes</a>
+        
+        
+      </form>
+    </main>
+
+</body>
+
+<center>
+  <footer class = "sticky-bottom"><br>Contact Information down here 
+      <br>Address: 1234 Main Street New York, NY, 10044
+      <br>Telephone: 1-(212)-345-1234
+      <br>Email Address: thebestrestaurant@resturants.com
+      <p></p>
+</footer>
+</center>
+
 </html>
