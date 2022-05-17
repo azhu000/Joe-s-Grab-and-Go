@@ -686,7 +686,6 @@ def wallet():
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
 @login_required
-
 def cart():
     user = 0
     users_name = ""
@@ -696,6 +695,13 @@ def cart():
     #
     alert_user = ""
     is_customer = True
+    curr_user = int(current_user.get_id())
+    in_cart = orders.query.filter_by(custID=curr_user,Active='1').all() #this is the selection query
+    print(in_cart)
+    items = orderLineItem.query.all()
+    
+    item_total = len(in_cart)
+
 
     try:
         employee_check = int(current_user.get_id())
@@ -723,7 +729,7 @@ def cart():
             
     else: 
         current_customer = 0
-    return render_template('cart.html',is_customer=is_customer,alert_user=alert_user, current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('cart.html',item_total=item_total,items=items,in_cart=in_cart,is_customer=is_customer,alert_user=alert_user, current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
