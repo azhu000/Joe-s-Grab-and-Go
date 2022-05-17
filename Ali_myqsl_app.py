@@ -337,6 +337,7 @@ def warn():
         if emplUser.warning >= 3:
             emplUser.isBlacklisted = 1
             print("Employee BlackListed")
+            db.session.commit()
             return True
     else:
         currUser = customers.query.filter_by(id = userID).first()
@@ -1068,6 +1069,7 @@ def chef_page():
 @login_required
 def complaint():
     user = int(current_user.get_id())
+    user_name = user.name
     if request.method == 'POST':
         comment = request.form.get('comment')
         victim = request.form.get('complainee')
@@ -1083,7 +1085,7 @@ def complaint():
         db.session.commit()
 
 
-    return render_template('complaints.html')
+    return render_template('complaints.html', user = user, user_name = user_name)
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
