@@ -100,9 +100,9 @@ class customers(db.Model, UserMixin):
     name = db.Column(db.String(20), nullable = False)
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
-    wallet = db.Column(db.Float(16,2), nullable = True)
-    isVIP = db.Column(db.Integer, nullable = False)
-    warning = db.Column(db.Integer, nullable = False)
+    wallet = db.Column(db.Float(16,2), nullable = True, default = 0)
+    isVIP = db.Column(db.Integer, nullable = False, default = 0)
+    warning = db.Column(db.Integer, nullable = False, default = 0)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
@@ -138,7 +138,7 @@ class menuDishes(db.Model):
     __tablename__ = 'menuDishes'
     id = db.Column(db.Integer,db.ForeignKey('menu.id'),primary_key=True, nullable = False)
     MenuDishID = db.Column(db.Integer,db.ForeignKey('dish.id') ,primary_key=True, nullable = False)
-    price = db.Column(db.String(20), nullable = False)
+    price = db.Column(db.Float, nullable = False)
     VIP = db.Column(db.Integer, nullable = False, default = 0)
     #__table_args__ = (db.ForeignKeyConstraint(id,MenuDishID))
 
@@ -321,7 +321,7 @@ def warn():
         except:
             print("Deletion Failed")
     return None
-    
+
     #form = LoginForm()
     #This is what will happen when you press submit
     #if form.validate_on_submit():
@@ -500,7 +500,7 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    warn()
+    #warn()
     user = 0
     users_name = ""
     dished = dish.query.all()
