@@ -100,7 +100,7 @@ class employees(db.Model, UserMixin):
     compliment = db.relationship('compliments', backref='employees')
 
     def __repr__(self):
-        return "id: {0} | name: {1} | role: {2}".format(self.id, self.name, self.role)
+        return "id: {0} | name: {1} | role: {2} | isBlacklisted: {3}".format(self.id, self.name, self.role, self.isBlacklisted)
 
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
@@ -578,6 +578,7 @@ def wallet():
             new_amount = current_amount + float(amount)
             userid.wallet = float(new_amount)
             db.session.commit()
+            return redirect(url_for('cart'))
 
     return render_template('wallet.html',alert_user=alert_user, is_customer=is_customer,user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
 
@@ -957,7 +958,8 @@ def chef_page():
             dishes = request.form.get('dish')
             description = request.form.get('description')
             bizID = request.form.get('bizID')
-            new_dish = dish(name = dishes, description = description, bizID = bizID)
+            url = request.form.get('url')
+            new_dish = dish(name = dishes, description = description, bizID = bizID,url = url)
             db.session.add(new_dish)
             db.session.commit()
             print("New Dish added")
