@@ -615,15 +615,6 @@ def menu_popular():
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
-        #print(guy.wallet)
-        if(guy.wallet < float(cost)):
-            guy.warning += float(1.0)
-            db.session.commit()
-            if (warn() == True):
-                print("youre broke you poor lil shit")
-                return redirect(url_for('login'))
-            else:
-                return redirect(url_for('menu_popular'))
         new_order = orders(custID=user, total=cost,Active='1', bizID='1')
         db.session.add(new_order)
         num = orders.query.order_by(orders.id.desc()).first()
@@ -745,6 +736,7 @@ def cart():
 def checkout():
     user = 0
     users_name = ""
+    items = orderLineItem.query.all()
     
     if current_user.is_authenticated == True:
         current_customer = 1
@@ -772,11 +764,36 @@ def checkout():
             is_employee = 3
     if request.method == 'POST':
         order = orders.query.filter_by(custID=user,Active='1').all()
-        print(order)
-        for i in order:
+        guy = customers.query.get(user)
+        print(guy.wallet)
+        ordxcc = len(order)
+        subtotal = 0
+        total_items = 0
+        for c in order:
+            for i in items:
+                if i.orderID == c.id:
+                    for q in range (0,i.quantity):
+                        total_items += 1
+                        subtotal = subtotal + c.total
+        if(guy.wallet < float(subtotal)):
+            guy.warning += float(1.0)
+            db.session.commit()
+            if (warn() == True):
+                print("youre broke you poor lil shit")
+                return redirect(url_for('login'))
+            else:
+                return redirect(url_for('checkout'))
+        else:
+            wallit = float(guy.wallet)
+            moneytotal = wallit - float(subtotal)
+            guy.wallet = moneytotal
+            db.session.commit()
+        print(type(order))
+        print(order[0].Active)
+        for i in range(0,ordxcc):
             order[i].Active = 0
+            db.session.commit()
             print(order[i].Active)
-            db.session.commmit()
         return redirect(url_for('menu_popular'))
     return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
