@@ -224,36 +224,6 @@ class LoginForm(FlaskForm):
         min = 2, max = 80)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Login")
 
-#######################################
-###   Testing some functions
-
-#
-#def superuser(func):
-#    @wraps(func)
-#    def super_checker(*args, **kwargs):
-#        if employees.name != 'Manager':
-#            return redirect(url_for('login'))
-#        return func(*args, **kwargs)
-#    return super_checker
-#
-###@app.route('/employees/<Name>')
-###@superuser
-###@login_required
-###def hire(Name):
-###    form = RegisterForm()
-###
-###    if form.validate_on_submit():
-###        hashed_password = bcrypt.generate_password_hash(form.password.data)
-###        new_user = employees(name=form.name.data, password=hashed_password)
-###        db.session.add(new_user)
-###        db.session.commit()
-###
-###    return render_template('employee.html',form=form)
-###    some form thingy for name of employee to hire.
-###    adds that new user to the database and commmits. 
-
-
-
 
 #this is the base routing "url" this is the standard home page
 @app.route('/')
@@ -299,7 +269,6 @@ def login():
                 counter = 0
                 return redirect(url_for('customer_page'))
             else:
-                # print("Incorrect credentials!")
                 correct_creds = False
                 alert_user = "You have entered the incorrect credentials. "
                 return render_template('login.html', alert_user = alert_user, correct_creds = correct_creds)
@@ -384,60 +353,18 @@ def user_check():
         else:
             is_employee = 4
     return is_employee
-    #form = LoginForm()
-    #This is what will happen when you press submit
-    #if form.validate_on_submit():
-        #it first checks for the username in the query of the database
-        #user = customers.query.filter_by(name=form.name.data).first()
-        #if username exists
-       # if user:
-            #checks if the passwords match
-          #  if bcrypt.check_password_hash(user.password, form.password.data):
-                #if passwords match, redirect to the dashboard page
-              #  login_user(user)
-              #  return redirect(url_for('dashboard'))
-    #Login function returns the login.html file
 
 
-#############################################################
-#more app routes for menus, dishes, etc. 
-#need to build templates for new routes. 
-
-# These routes use index.html, to which you have to change the table according to the names in each class.
-# I'm too lazy to bother making separate tables in html for each class even though
-# its literally copy and paste with like two changes.
-
-@app.route('/customers')
-def index():
-    all_customers = customers.query.all()
-    return render_template('index.html', cust=all_customers)
-
-# This uses jsonify to return more specific information from the database
-# Doesnt work since jsonify cannot return queries. It usually returns lists/dictionaries.
-# This means we would need to create our own serializer to fetch table data and convert into list/dicts. 
-@app.route('/dish')
-def dishes():
-    all_dishes = dish.query.all()
-    return render_template('index.html',dish=all_dishes)
-
-# This route just prints the numbers, not the referenced items.
-# 'menu' has a foreign key referencing employee.name, but employee.name isnt printed. (it works now) 
-@app.route('/menu')
-def menus():
-    print(current_user.name)
-    #all_dishes = menu.query.all()
-    return render_template('menu.html')
-
-#Completely untested Route.
+#Route for VIP menu, prevents unregistered users and non-VIP customers from viewing. Staff can view though.
 @app.route('/VIPmenu', methods = ['GET', 'POST'])
 def VIP():
-    if warn() == True:
-        return redirect(url_for('login'))
 
     dished = dish.query.all()
     price = menuDishes.query.filter_by(VIP='1')
     lens = len(vip_tags)
     if current_user.is_authenticated == True:
+        if warn() == True:
+            return redirect(url_for('login'))
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
@@ -500,36 +427,6 @@ def VIP():
     return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 
-#Currently not in use.
-@app.route('/dishes')
-def menudish():
-    all_dishes = menuDishes.query.all()
-    thing = dishRating.query.all()
-    dished = dish.query.all()
-    print(type(dished))
-    dishing = dish.query.filter_by(name="Flaming Moe").first()
-    order = orderLineItem.query.all()
-    return render_template('index.html',order=order,thing=thing,dish = all_dishes, dished = dished, dishing = dishing)
-
-@app.route('/dishes/popular') # im gonna completely ignore this route and not touch it and create a new one for popular dishes - Anthony
-def popular():
-    popular = dishRating.query.order_by(dishRating.rating.desc())
-    return render_template('index.html',popular=popular)
-
-#Currently not being used.
-@app.route('/rating')
-def dishlist():
-    all_dishes = dishRating.query.all()
-    return render_template('index.html',rating=all_dishes)
-############################################################
-
-
-#Currently not being used. 
-@app.route('/dashboard', methods = ['GET', 'POST'])
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
-
 #Logout page
 @app.route('/logout', methods = ['GET', 'POST'])
 @login_required
@@ -573,7 +470,7 @@ def register():
     return render_template('register.html')#, '''form=form''')
 
 
-
+#menu page. Anyone can view. Employees and visitors cannot order, get redirected accordingly.
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
     user = 0
@@ -598,31 +495,8 @@ def menu_popular():
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
-        #frequency = orders.query.filter_by(custID=user).all()
-        #freq = len(frequency)
-        #print(frequency)
-        #print(freq)
-        #if (freq < 3 ):
-        #else: # check frequency of dishes ordered, top 3 displayed here
-            #for i in randoms:
-                #freq = len(frequency)
-                #vari = random.randint(0,(freq-1))
-                #randoms[i] = frequency[vari]
-                #frequency.pop(vari)
-                #while ((i>0) and (randoms[i] == randoms[i-1])):
-                #    randoms[i] = random.choice(frequency)
-                #    while ((i>1) and (randoms[i] == randoms[i-2])):
-                #        randoms[i] = random.sample(frequency)
-                #print(randoms[i].id)
     else: 
         current_customer = 0
-    #ord = orderLineItem.query.filter_by(orderID=randoms[0].id).first()
-    #print(ord.id)
-
-    # This method below will handle the orders that come in from the menu. 
-    # It needs to update two tables, "orders" and "orderLineItem".
-    # Needs customerID, dishID, dish price, quantity of dish. 
-    # Issue here is that "adding to cart" is being read as its own order. 
     if request.method == "POST":
         try:
             user = int(current_user.get_id())
@@ -634,9 +508,7 @@ def menu_popular():
             print("you are not a customer, go buy somewhere else")
             return redirect(url_for('menu_popular'))
         
-        print(user)
         guy = customers.query.get(user)
-        print(guy)
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
@@ -900,8 +772,7 @@ def customer_page():
     custVip = custVIP.isVIP
     guy = customers.query.get(user)
     
-    #for o in CustHistory:
-    #    total += float(o.total)
+
     custTotal = float(guy.AmountSpent)
     #check if they are VIP
     if lenCust >= 5 or custTotal >= 100:
@@ -910,15 +781,11 @@ def customer_page():
         #if they are not VIP, give them VIP
             cust.isVIP = 1
             db.session.commit()
-            #return render_template('customer_page.html')
- 
-   
-    #item = orderLineItem.query.filter_by(orderID='1')
-    #print(items[0])
     
     return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool,lenCust=lenCust, custTotal=custTotal,custVip=custVip,warnings = warnings)
 
-@app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
+#delivery page, only delivery guy can view, others rerouted.
+@app.route('/delivery_page', methods = ['GET', 'POST'])
 @login_required
 def delivery_page():
     if warn() == True:
@@ -945,6 +812,7 @@ def delivery_page():
         return render_template('home.html')
     return render_template('delivery_page.html', user=user,current_customer=current_customer,users_name=users_name)
 
+#manager hire page, where he manually hires 
 @app.route('/manager_page_hire', methods = ['GET', 'POST'])
 def manager_page_hire():
     if warn() == True:
@@ -974,6 +842,7 @@ def manager_page_hire():
 
     return render_template('manager_page_hire.html', user=user,current_customer=current_customer, users_name=users_name)
 
+#fires the sucker that messed up. 
 @app.route('/manager_page_fire', methods = ['GET', 'POST'])
 def manager_page_fire():
     if warn() == True:
@@ -1003,7 +872,8 @@ def manager_page_fire():
 
     return render_template('manager_page_fire.html',list_employees=list_employees,user=user, users_name=users_name, current_customer=current_customer)
 
-@app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
+#homepage for the manager
+@app.route('/manager_page', methods = ['GET', 'POST'])
 @login_required
 def manager_page():
     if warn() == True:
@@ -1027,7 +897,8 @@ def manager_page():
     return render_template('manager_page.html', users_name=users_name,current_customer=current_customer,users=users)
 
 
-@app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
+#the chef's page remove function
+@app.route('/chef_page_rm', methods = ['GET', 'POST']) 
 def chef_page_rm():
     if warn() == True:
         return redirect(url_for('login'))
@@ -1055,7 +926,8 @@ def chef_page_rm():
     return render_template('chef_page_rm.html', dished = dished, user=user,current_customer=current_customer,users_name=users_name)
 
 
-@app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
+#the chef's page
+@app.route('/chef_page', methods = ['GET', 'POST']) 
 @login_required
 def chef_page():
     if warn() == True:
@@ -1093,6 +965,7 @@ def chef_page():
 
     return render_template('chef_page.html', dished = dished, user=user, users_name=users_name,current_customer=current_customer)
 
+#customers can file complaints for the chef and delivery drivers. Doesnt work for staff complaining about employee. No disputes either
 @app.route('/complaints', methods = ['GET','POST'])
 @login_required
 def complaint():
@@ -1149,6 +1022,7 @@ def complaint():
         db.session.commit()
     return render_template('complaints.html',worker=workerstobefired ,user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
+#customer gives compliments to staff besides manager. Removes a warning if one exists.
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
 def compliment():
@@ -1204,7 +1078,7 @@ def compliment():
     return render_template('compliments.html',workers = workerstobehired ,user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
 
-
+#contact us page
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
     user = 0
