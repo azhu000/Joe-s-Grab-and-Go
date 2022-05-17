@@ -33,7 +33,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -746,6 +746,10 @@ def checkout():
     is_Valid = True
     user = 0
     users_name = ""
+    user_balance = float(current_user.wallet) #checks user balance
+    enough_money = True
+    subtotal = 0
+    
     items = orderLineItem.query.all()
     
     if current_user.is_authenticated == True:
@@ -772,6 +776,19 @@ def checkout():
             is_employee = 2
         elif (emp.role == 'Delivery'):
             is_employee = 3
+    
+    order = orders.query.filter_by(custID=user,Active='1').all()
+    guy = customers.query.get(user)
+    print(guy.wallet)
+    for c in order:
+        for i in items:
+            if i.orderID == c.id:
+                for q in range (0,i.quantity):
+                    subtotal = subtotal + c.total
+    if (user_balance < subtotal):
+        enough_money = False;
+        alert_user = "You do not have enough money to make this purchase. If you continue, you will get a warning."
+        
     if request.method == 'POST':
         order = orders.query.filter_by(custID=user,Active='1').all()
         guy = customers.query.get(user)
@@ -785,6 +802,7 @@ def checkout():
                     for q in range (0,i.quantity):
                         total_items += 1
                         subtotal = subtotal + c.total
+        
         if(guy.wallet < float(subtotal)):
             guy.warning += float(1.0)
             db.session.commit()
@@ -806,7 +824,7 @@ def checkout():
         if (len(order) == 0):
             is_Valid = False
             alert_user = "You do not have a valid amount of items in your cart"
-            return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee, is_Valid=is_Valid, alert_user=alert_user)
+            return render_template('checkout.html', user_balance=user_balance,user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee, is_Valid=is_Valid, alert_user=alert_user)
         else:
             print(order[0].Active)
             for i in range(0,ordxcc):
@@ -814,7 +832,8 @@ def checkout():
                 db.session.commit()
                 print(order[i].Active)
             return redirect(url_for('menu_popular'))
-    return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
+        
+    return render_template('checkout.html', alert_user=alert_user,user_balance=user_balance,subtotal=subtotal,enough_money=enough_money,user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
 @login_required
