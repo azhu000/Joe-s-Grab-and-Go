@@ -248,7 +248,6 @@ li a:hover, .dropdown:hover .dropbtn {
               </div>
               <div class="modal-footer">
                 <form method="POST">
-                    <option selected>0</option>
                     <p><h5><b>Quantity:</b></h5></p>
                 <div class="dropdown">
                   <select type="quantity" class="form-select" name="quantity" aria-label="Default select example">
@@ -260,7 +259,7 @@ li a:hover, .dropdown:hover .dropbtn {
                   </select>
                 </div>
                 <br> <b><input type="hidden" name="dishid" value="{{ rand.dish.id }}"></b>
-                <br> <b><input type="hidden" name="price" value="{{ rand.price }}"></b>
+                 <b><input type="hidden" name="price" value="{{ rand.price }}"></b>
                 <button type="submit" class="btn btn-primary">Add to Cart</button>
               </form>
               </div>
@@ -409,7 +408,7 @@ li a:hover, .dropdown:hover .dropbtn {
                           <option value="3">5</option>
                         </select>
                       </div>
-                      <br> <b><input type="hidden" name="dishid" value="{{ prices.dish.id }}"></b>
+                       <b><input type="hidden" name="dishid" value="{{ prices.dish.id }}"></b>
                       <br> <b><input type="hidden" name="price" value="{{ prices.price }}"></b>
                       <button type="submit" class="btn btn-primary">Add to Cart</button>
                     </form>
