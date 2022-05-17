@@ -990,7 +990,7 @@ def compliment():
         new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
         db.session.add(new_compliment)
         db.session.commit()
-    #return render_template('complimentts.html')
+    #return render_template('compliments.html')
 
 
 
