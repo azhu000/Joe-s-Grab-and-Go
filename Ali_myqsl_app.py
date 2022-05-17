@@ -258,11 +258,11 @@ class LoginForm(FlaskForm):
 #this is the base routing "url" this is the standard home page
 @app.route('/')
 def home():
-    if warn() == True:
-        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
+        if warn() == True:
+            return redirect(url_for('login'))
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
@@ -576,8 +576,6 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    if warn() == True:
-        return redirect(url_for('login'))
     user = 0
     users_name = ""
     dished = dish.query.all()
@@ -595,6 +593,8 @@ def menu_popular():
         while ((i>1) and (randoms[i] == randoms[i-2])):
             randoms[i] = random.choice(price)
     if current_user.is_authenticated == True:
+        if warn() == True:
+            return redirect(url_for('login'))
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
@@ -1135,11 +1135,11 @@ def compliment():
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
-    if warn() == True:
-        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
+        if warn() == True:
+            return redirect(url_for('login'))
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
