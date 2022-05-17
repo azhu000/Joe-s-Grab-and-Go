@@ -303,6 +303,11 @@ def login():
         else:
             user = employees.query.filter_by(email=email).first()
             if user:
+                if(user.isBlacklisted == 1):
+                    alert_user = "You do not have access to this site"
+                    blacklisted = True
+                    return render_template('login.html', alert_user = alert_user,blacklisted = blacklisted)
+            if user:
                 if(user.password == password):
                     if (user.role == 'Chef'):
                         login_user(user)
@@ -956,7 +961,8 @@ def manager_page_fire():
         else:
             ids = request.form.get('id')
             try:
-                employees.query.filter(employees.id == ids).delete()
+                fired = employees.query.filter(employees.id == ids).first()
+                fired.isBlacklisted = 1
                 db.session.commit()
                 print("Firing Successful")
                 return redirect(url_for('manager_page_fire'))
