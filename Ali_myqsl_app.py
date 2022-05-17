@@ -1103,6 +1103,7 @@ def complaint():
     is_employee = 0
     is_customer = True
     alert_user = ""
+    workerstobefired = employees.query.filter(employees.role!="Manager").all()
     try:
         employee_check = int(current_user.get_id())
     except:
@@ -1146,7 +1147,7 @@ def complaint():
         empl = employees.query.filter_by(id = victim).first()
         empl.warning += float(1.0)
         db.session.commit()
-    return render_template('complaints.html', user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
+    return render_template('complaints.html',worker=workerstobefired ,user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
@@ -1158,6 +1159,9 @@ def compliment():
     is_employee = 0
     is_customer = True
     alert_user = ""
+    workerstobehired = employees.query.filter(employees.role!="Manager").all()
+    print(workerstobehired)
+    print(type(workerstobehired))
     try:
         employee_check = int(current_user.get_id())
     except:
@@ -1197,7 +1201,7 @@ def compliment():
         if empl.warning > 0:
             empl.warning -= float(1.0)
             db.session.commit()
-    return render_template('compliments.html',user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
+    return render_template('compliments.html',workers = workerstobehired ,user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
 
 
