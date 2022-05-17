@@ -214,10 +214,9 @@
                 <div class="dropdown">
                   <select type='complimentee'class="form-select" name='complimentee' aria-label="Default select example">
                     <option selected>Select Employee</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    {%for i in workers%}
+                      <option value="{{i.id}}">{{i.id}}</option>
+                    {%endfor%}
                   </select>
                 </div>
             </div>

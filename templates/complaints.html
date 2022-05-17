@@ -217,10 +217,10 @@ section {
                 <div class="dropdown">
                     <select type='complainee' class="form-select" name='complainee'aria-label="Default select example">
                     <option selected>Select Employee</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    {%for i in worker%}
+                      <option value="{{i.id}}">{{i.id}}</option>
+                    {%endfor%}
+                    
                     </select>
                 </div>
             </div>
