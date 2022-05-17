@@ -1099,7 +1099,37 @@ def complaint():
     if warn() == True:
         return redirect(url_for('login'))
     user = int(current_user.get_id())
-    user_name = user.name
+    user_name = str(current_user.name)
+    is_employee = 0
+    is_customer = True
+    alert_user = ""
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+            
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go add balance somewhere else")
+            is_customer = False
+            alert_user = "You are not a customer. You cannot add checkout or add balance."      
+    else: 
+        current_customer = 0
+
+    
     if request.method == 'POST':
         comment = request.form.get('comment')
         victim = request.form.get('complainee')
@@ -1113,7 +1143,7 @@ def complaint():
         empl = employees.query.filter_by(id = victim).first()
         empl.warning += float(1.0)
         db.session.commit()
-    return render_template('complaints.html', user = user, user_name = user_name)
+    return render_template('complaints.html', user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
@@ -1121,7 +1151,35 @@ def compliment():
     if warn() == True:
         return redirect(url_for('login'))
     user = int(current_user.get_id())
-    user_name = user.name
+    user_name = str(current_user.name)
+    is_employee = 0
+    is_customer = True
+    alert_user = ""
+    try:
+        employee_check = int(current_user.get_id())
+    except:
+        print("You are not registered as an employee")
+        return redirect(url_for('login'))
+    print(current_user.get_id())
+    if(employees.query.get(employee_check)):
+        emp = employees.query.get(employee_check)
+        if (emp.role == 'Manager'):
+            is_employee = 1
+        elif (emp.role == 'Chef'):
+            is_employee = 2
+        elif (emp.role == 'Delivery'):
+            is_employee = 3
+            
+    if current_user.is_authenticated == True:
+        current_customer = 1
+        user = int(current_user.get_id())
+        users_name = str(current_user.name)
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go add balance somewhere else")
+            is_customer = False
+            alert_user = "You are not a customer. You cannot add checkout or add balance."      
+    else: 
+        current_customer = 0
     if request.method == 'POST':
         comment = request.form.get('comment')
         friend = request.form.get('complimenter')
@@ -1129,7 +1187,7 @@ def compliment():
         new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
         db.session.add(new_compliment)
         db.session.commit()
-    return render_template('compliments.html',user = user, user_name = user_name)
+    return render_template('compliments.html',user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
 
 
