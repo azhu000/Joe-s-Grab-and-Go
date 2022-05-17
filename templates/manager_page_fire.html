@@ -181,6 +181,19 @@ section {
 
     <br>
     <center> <br><b>Fire Employees :D </b></center>
+        <p></p>
+        <div class="card" style="width: 25rem;">
+        <div class="card-header">
+          <center><h2><b><u>Current Employees</u></b></h2></center>
+        </div>
+        <div class="card-body">
+    <p></p>
+    {%for emps in list_employees%}
+        <center><div>{{emps}}</div></center>
+    {%endfor%}
+    <p></p>
+        </div>
+      </div>
 
     <main class="form-signin">
       <form method="POST">
@@ -207,7 +220,7 @@ section {
 </body>
 
 <center>
-  <footer class = "fixed-bottom"><br>Contact Information down here 
+  <footer class = "sticky-bottom"><br>Contact Information down here 
       <br>Address: 1234 Main Street New York, NY, 10044
       <br>Telephone: 1-(212)-345-1234
       <br>Email Address: thebestrestaurant@resturants.com
