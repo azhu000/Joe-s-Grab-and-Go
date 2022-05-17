@@ -702,7 +702,15 @@ def cart():
     items = orderLineItem.query.all()
     
     item_total = len(in_cart)
-    print(item_total)
+    subtotal = 0
+    total_items = 0
+    for c in in_cart:
+        for i in items:
+            if i.orderID == c.id:
+                for q in range (0,i.quantity):
+                    total_items += 1
+                    subtotal = subtotal + c.total
+
 
     try:
         employee_check = int(current_user.get_id())
@@ -726,11 +734,11 @@ def cart():
         if(customers.query.get(user) == None):
             print("you are not a customer, go add balance somewhere else")
             is_customer = False
-            alert_user = "You are not a customer. You cannot add balance."
+            alert_user = "You are not a customer. You cannot add checkout or add balance."
             
     else: 
         current_customer = 0
-    return render_template('cart.html',item_total=item_total,items=items,in_cart=in_cart,is_customer=is_customer,alert_user=alert_user, current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('cart.html',total_items=total_items,subtotal=subtotal,item_total=item_total,items=items,in_cart=in_cart,is_customer=is_customer,alert_user=alert_user, current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
