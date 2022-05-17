@@ -794,7 +794,7 @@ def checkout():
                 for q in range (0,i.quantity):
                     subtotal = subtotal + c.total
     if (user_balance < subtotal):
-        enough_money = False;
+        enough_money = False
         alert_user = "You do not have enough money to make this purchase. If you continue, you will get a warning."
         
     if request.method == 'POST':
