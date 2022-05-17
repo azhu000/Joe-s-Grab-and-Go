@@ -92,6 +92,7 @@ class employees(db.Model, UserMixin):
     email = db.Column(db.String(45), nullable = False, unique = True)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
+    warning = db.Column(db.Integer, nullable = False, default = 0)
     isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
@@ -947,6 +948,7 @@ def manager_page_hire():
 
 @app.route('/manager_page_fire', methods = ['GET', 'POST'])
 def manager_page_fire():
+    list_employees = employees.query.all()
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
@@ -969,7 +971,7 @@ def manager_page_fire():
             except:
                 print("Firing Failed")
 
-    return render_template('manager_page_fire.html',user=user, users_name=users_name, current_customer=current_customer)
+    return render_template('manager_page_fire.html',list_employees=list_employees,user=user, users_name=users_name, current_customer=current_customer)
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 @login_required
@@ -1064,9 +1066,11 @@ def complaint():
         victim = request.form.get('complainee')
         orderid = request.form.get('orderID')
         new_complaint = complaints(comment = comment, complainer = user, complainee = victim, orderID = orderid)
+        print(new_complaint)
+        print(type(new_complaint))
         db.session.add(new_complaint)
         db.session.commit()
-    #return render_template('complaints.html')
+    return render_template('complaints.html')
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
@@ -1079,7 +1083,7 @@ def compliment():
         new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
         db.session.add(new_compliment)
         db.session.commit()
-    #return render_template('compliments.html')
+    return render_template('compliments.html')
 
 
 

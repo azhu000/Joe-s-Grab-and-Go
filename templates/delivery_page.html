@@ -182,7 +182,6 @@ section {
     <div class="header">
       <h2>Active Order for Bidding</h2>
       </div>
-      <br>
       <div class="row"> <!-- Activate Odrder 1 -->
           <div class="col">
             <div class="card" style="width: 36rem;">
@@ -242,10 +241,85 @@ section {
         </div>
   
       </div>
+
+      <br>
+        <div class="table-container table-responsive-lg text-center">
+          <div> <h4><center><u>Order History</u> </center> </h4></div>
+          <p></p>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Order #</th>
+                    <th scope="col">Order Cost</th>
+                    <th scope="col">Delivery Fee</th>
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">#XD5679</th>
+                    <td>50</td>
+                    <td>23</td>
+                    <td>$24.92</td>
+                </tr>
+                <tr>
+                    <th scope="row">#OI7653</th>
+                    <td>35</td>
+                    <td>78</td>
+                    <td>$35.76</td>
+                </tr>
+                <tr>
+                    <th scope="row">#JP7653</th>
+                    <td>20</td>
+                    <td>10</td>
+                    <td>$45.02</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+        <div class="table-container table-responsive-lg text-center">
+          <div> <h4><center><u>Dispute Orders</u></center> </h4></div>
+          <p></p>
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr class="table-warning">
+                    <th scope="col">Order #</th>
+                    <th scope="col">Review</th>
+                    <th scope="col">Rate</th>
+                    <th scope="col">Reason for Dispute</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">#XD5679</th>
+                    <td>It was aight.</td>
+                    <td>5/5</td>
+                    <td><input type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <th scope="row">#OI7653</th>
+                    <td>It wasn't aight.</td>
+                    <td>5/5</td>
+                    <td><input type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <th scope="row">#JP7653</th>
+                    <td>Great food pictures.</td>
+                    <td>5/5</td>
+                    <td><input type="text" class="form-control"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="dispute-submit-button">
+                <input class="btn btn-primary float-right" type="submit" value="Submit">
+            </div>
+        </div>
     </body>
 
     <center>
-      <footer class = "fixed-bottom"><br>Contact Information down here 
+      <footer class = "sticky-bottom"><br>Contact Information down here 
           <br>Address: 1234 Main Street New York, NY, 10044
           <br>Telephone: 1-(212)-345-1234
           <br>Email Address: thebestrestaurant@resturants.com
