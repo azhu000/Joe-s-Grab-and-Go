@@ -948,6 +948,7 @@ def manager_page_hire():
 
 @app.route('/manager_page_fire', methods = ['GET', 'POST'])
 def manager_page_fire():
+    list_employees = employees.query.all()
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
@@ -970,7 +971,7 @@ def manager_page_fire():
             except:
                 print("Firing Failed")
 
-    return render_template('manager_page_fire.html',user=user, users_name=users_name, current_customer=current_customer)
+    return render_template('manager_page_fire.html',list_employees=list_employees,user=user, users_name=users_name, current_customer=current_customer)
 
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 @login_required
