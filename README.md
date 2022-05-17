@@ -1,6 +1,6 @@
 # CSC322-SWE-Group-Project
 Group project for CSC33200
-This template uses sqlite3 as the database for now
+This template uses MySQL as the database.
 You shoud run this command in the terminal to download all the packages/modules:
 pip install flask flask_sqlalchemy flask_login flask_bcrypt flask_wtf wtforms email_validator
 
