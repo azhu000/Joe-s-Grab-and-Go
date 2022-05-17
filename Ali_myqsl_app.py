@@ -830,7 +830,7 @@ def checkout():
                 order[i].Active = 0
                 db.session.commit()
                 print(order[i].Active)
-            return redirect(url_for('menu_popular'))
+            return redirect(url_for('customer_page'))
         
     return render_template('checkout.html', alert_user=alert_user,user_balance=user_balance,subtotal=subtotal,enough_money=enough_money,user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
