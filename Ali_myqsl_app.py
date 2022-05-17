@@ -173,7 +173,7 @@ class orders(db.Model):
 class orderLineItem(db.Model):
     __tablename__ = 'orderLineItem'
     id = db.Column(db.Integer, primary_key=True, nullable = False)
-    quantity = db.Column(db.Float,  nullable = False)
+    quantity = db.Column(db.Integer,  nullable = False)
     subtotal = db.Column(db.Float,  nullable = False)
     discount = db.Column(db.String(45),  nullable = True)
     total = db.Column(db.Float,  nullable = False)
@@ -701,7 +701,7 @@ def cart():
     items = orderLineItem.query.all()
     
     item_total = len(in_cart)
-
+    print(item_total)
 
     try:
         employee_check = int(current_user.get_id())

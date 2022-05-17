@@ -142,7 +142,7 @@ DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `quantity` FLOAT(16,2) NOT NULL,
+  `quantity` INT NOT NULL,
   `subtotal` FLOAT(16,2) NOT NULL,
   `discount` VARCHAR(45) NULL,
   `total` FLOAT(16,2) NOT NULL,
