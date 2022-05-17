@@ -178,11 +178,74 @@ section {
           </ul>
         </nav>
     <br>
-    <center> <br><br><br><br><b>THIS IS THE DELIVERY PAGE :D </b></center>
+    <center> <br><b>THIS IS THE DELIVERY PAGE :D </b></center>
+    <div class="header">
+      <h2>Active Order for Bidding</h2>
+      </div>
+      <br>
+      <div class="row"> <!-- Activate Odrder 1 -->
+          <div class="col">
+            <div class="card" style="width: 36rem;">
+                <h5 class="card-header text-center">Order#</h5>
+                <div class="card-body">
+                    
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><b>Order amount</b>: $ 50 </li>
+                        <li class="list-group-item"><b>Current Bid</b>: $ 5.00</li>
+                        <li class="list-group-item">
+                          <div class="mb-3">
+                              <label for="message-text" class="col-form-label"><b>Bidding:</b> </label>
+                              <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                  </div>
+                                  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text">.00</span>
+                          </div>
+                          </li>
+                          <li class="list-group-item">
+                          <div class="d-grid gap-2"> <!-- Button to submit biid-->
+                          <button class="btn btn-dark" type="button">Submit</button></li>
+                    </ul>
+                  </div>
+              </div>
+          </div>
+        
+     
+        <div class="col"><!-- Activate Odrder 2 -->
+          <div class="card" style="width: 36rem;">
+              <h5 class="card-header text-center">Order#</h5>
+              <div class="card-body">
+                  
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><b>Order amount</b>: $ 50 </li>
+                      <li class="list-group-item"><b>Current Bid</b>: $ 5.00</li>
+                      <li class="list-group-item">
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label"><b>Bidding:</b> </label>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                <div class="input-group-append">
+                                  <span class="input-group-text input-field">.00</span>
+                        </div>
+                        </li>
+                        <li class="list-group-item">
+                        <div class="d-grid gap-2"><!-- Button to submit biid-->
+                        <button class="btn btn-dark btn-bid-submit" type="button" onclick="handleButtonClick()">Submit</button></li>
+                  </ul>
+            </div>
+          </div>
+        </div>
+  
+      </div>
     </body>
 
     <center>
-      <footer class = "sticky-bottom"><br>Contact Information down here 
+      <footer class = "fixed-bottom"><br>Contact Information down here 
           <br>Address: 1234 Main Street New York, NY, 10044
           <br>Telephone: 1-(212)-345-1234
           <br>Email Address: thebestrestaurant@resturants.com

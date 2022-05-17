@@ -4,10 +4,13 @@
 from ast import Delete
 from doctest import TestResults
 from functools import wraps
+from getopt import gnu_getopt
+import random
+from re import I
 from unicodedata import name
 import bcrypt
 from click import password_option
-from flask import Flask, redirect, render_template, url_for, request, jsonify
+from flask import Flask, g, redirect, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
@@ -30,7 +33,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:john1715@localhost/test_schema"
+conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -89,8 +92,11 @@ class employees(db.Model, UserMixin):
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
+    isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
+    complaint = db.relationship('complaints', backref='employees')
+    compliment = db.relationship('compliments', backref='employees')
 
     def __repr__(self):
         return "id: {0} | name: {1} | role: {2}".format(self.id, self.name, self.role)
@@ -101,10 +107,14 @@ class customers(db.Model, UserMixin):
     email = db.Column(db.String(45), nullable = False)
     password = db.Column(db.String(255), nullable = False, unique = True)
     wallet = db.Column(db.Float(16,2), nullable = True, default = 0)
-    isVIP = db.Column(db.Integer, nullable = False, default = 0)
-    warning = db.Column(db.Integer, nullable = False, default = 0)
+    isVIP = db.Column(db.Integer, nullable = True, default = 0)
+    warning = db.Column(db.Integer, nullable = True, default = 0)
+    isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
+    AmountSpent = db.Column(db.Float(16,2), nullable = True, default = 0)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
+    complain = db.relationship('complaints', backref='customers')
+    compliment = db.relationship('compliments', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
 
     def __repr__(self):
@@ -128,6 +138,7 @@ class dish(db.Model):
     menudish = db.relationship('menuDishes', backref='dish')
     rating = db.relationship('dishRating', backref='dish')
     orderline = db.relationship('orderLineItem', backref='dish')
+    
 
     def __repr__(self):
         return "id: {0} | name: {1} | description: {2} | url: {3}".format(self.id, self.name, self.description, self.url)
@@ -158,16 +169,34 @@ class orders(db.Model):
     custID = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     orderline = db.relationship('orderLineItem', backref='orders')
+    complaint = db.relationship('complaints', backref='orders')
+    compliment = db.relationship('compliments', backref='orders')
 
 class orderLineItem(db.Model):
     __tablename__ = 'orderLineItem'
     id = db.Column(db.Integer, primary_key=True, nullable = False)
-    quantity = db.Column(db.Float,  nullable = False)
+    quantity = db.Column(db.Integer,  nullable = False)
     subtotal = db.Column(db.Float,  nullable = False)
     discount = db.Column(db.String(45),  nullable = True)
     total = db.Column(db.Float,  nullable = False)
     orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
     DishOrdered = db.Column(db.Integer, db.ForeignKey('dish.id'),  nullable = False)
+
+class complaints(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    comment = db.Column(db.String(255), nullable = False)
+    complainer = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
+    complainee = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
+    orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
+
+
+class compliments(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    comment = db.Column(db.String(255), nullable = False)
+    complimenter = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
+    complimentee = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
+    orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
+    
 
 
 #Registration Authentication setup
@@ -237,22 +266,9 @@ def home():
     else: 
         current_customer = 0
         
-    is_employee = 0
+    is_employee = user_check()
     
-    try:
-        employee_check = int(current_user.get_id())
-    except:
-        print("You are not registered as an employee")
-        return redirect(url_for('login'))
-    print(current_user.get_id())
-    if(employees.query.get(employee_check)):
-        emp = employees.query.get(employee_check)
-        if (emp.role == 'Manager'):
-            is_employee = 1
-        elif (emp.role == 'Chef'):
-            is_employee = 2
-        elif (emp.role == 'Delivery'):
-            is_employee = 3
+    
     #the home function returns the home.html file
     return render_template('home.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
@@ -262,12 +278,17 @@ def home():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     correct_creds = True
-    
+    blacklisted = False
     if request.method == 'POST':
 
         email = request.form.get('email')
         password = request.form.get('password')
         user = customers.query.filter_by(email=email).first()
+        if user:
+            if(user.isBlacklisted == 1):
+                alert_user = "You do not have access to this site"
+                blacklisted = True
+                return render_template('login.html', alert_user = alert_user,blacklisted = blacklisted)
         if user:
             if(user.password == password):
                 login_user(user)
@@ -311,17 +332,40 @@ def warn():
         currUser.warning = 0
         db.session.commit()
         print("VIP Status lost")
-        return render_template('login.html')
+        return redirect(url_for('login'))
     elif currUser.warning >= 3:
         try:
-            customers.query.filter(customers.id == userID).delete()
+            currUser.isBlacklisted = 1
+            currUser.wallet = 0
             db.session.commit()
+            logout_user()
             print("De-Registered")
-            return render_template('login.html')
+            return True
         except:
             print("Deletion Failed")
     return None
+    
 
+def user_check():
+    is_employee = 0
+    if(current_user.is_authenticated):
+        try:
+            employee_check = int(current_user.get_id())
+        except:
+            print("You are not registered as an employee")
+            return redirect(url_for('login'))
+        print(current_user.get_id())
+        if(employees.query.get(employee_check)):
+            emp = employees.query.get(employee_check)
+            if (emp.role == 'Manager'):
+                is_employee = 1
+            elif (emp.role == 'Chef'):
+                is_employee = 2
+            elif (emp.role == 'Delivery'):
+                is_employee = 3
+        else:
+            is_employee = 4
+    return is_employee
     #form = LoginForm()
     #This is what will happen when you press submit
     #if form.validate_on_submit():
@@ -411,18 +455,27 @@ def VIP():
             is_employee = 3
             
     if request.method == 'POST':
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
+        
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go buy somewhere else")
+            return redirect(url_for('VIP'))
         
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
-        new_order = orders(custID=user, total=cost, bizID='1')
+        new_order = orders(custID=user, total=cost, bizID='1', Active='1')
         db.session.add(new_order)
         num = orders.query.order_by(orders.id.desc()).first()
         new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
         db.session.add(new_orderline)
         db.session.commit()
         print("Added to cart")
-        return redirect(url_for('VIPmenu'))
+        return redirect(url_for('VIP'))
     return render_template('VIPmenu.html',price=price,dish=dished, lens = lens, vip_tags=vip_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 
@@ -505,46 +558,61 @@ def menu_popular():
     users_name = ""
     dished = dish.query.all()
     price = menuDishes.query.all()
+    ord = orderLineItem.query.all()
     lens = len(menu_tags)
-    
-    is_employee = 0
-    
-    try:
-        employee_check = int(current_user.get_id())
-    except:
-        print("You are not registered as an employee")
-        return redirect(url_for('login'))
-    print(current_user.get_id())
-    if(employees.query.get(employee_check)):
-        emp = employees.query.get(employee_check)
-        if (emp.role == 'Manager'):
-            is_employee = 1
-        elif (emp.role == 'Chef'):
-            is_employee = 2
-        elif (emp.role == 'Delivery'):
-            is_employee = 3
-
-    
+    is_employee = user_check()
+    randoms = [0, 1, 2]
+        
+    for i in randoms:
+        randoms[i] = random.choice(price)
+        print(randoms[i])
+        while ((i>0) and (randoms[i] == randoms[i-1])):
+            randoms[i] = random.choice(price)
+        while ((i>1) and (randoms[i] == randoms[i-2])):
+            randoms[i] = random.choice(price)
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
+        #frequency = orders.query.filter_by(custID=user).all()
+        #freq = len(frequency)
+        #print(frequency)
+        #print(freq)
+        #if (freq < 3 ):
+        #else: # check frequency of dishes ordered, top 3 displayed here
+            #for i in randoms:
+                #freq = len(frequency)
+                #vari = random.randint(0,(freq-1))
+                #randoms[i] = frequency[vari]
+                #frequency.pop(vari)
+                #while ((i>0) and (randoms[i] == randoms[i-1])):
+                #    randoms[i] = random.choice(frequency)
+                #    while ((i>1) and (randoms[i] == randoms[i-2])):
+                #        randoms[i] = random.sample(frequency)
+                #print(randoms[i].id)
     else: 
         current_customer = 0
+    #ord = orderLineItem.query.filter_by(orderID=randoms[0].id).first()
+    #print(ord.id)
 
     # This method below will handle the orders that come in from the menu. 
     # It needs to update two tables, "orders" and "orderLineItem".
     # Needs customerID, dishID, dish price, quantity of dish. 
     # Issue here is that "adding to cart" is being read as its own order. 
-
     if request.method == "POST":
         try:
             user = int(current_user.get_id())
         except:
             print("You are not registered as a customer")
             return redirect(url_for('login'))
+        
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go buy somewhere else")
+            return redirect(url_for('menu_popular'))
+        
         print(user)
-        print(type(user))
+        guy = customers.query.get(user)
+        print(guy)
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
@@ -557,7 +625,7 @@ def menu_popular():
         print("Added to cart")
         return redirect(url_for('menu_popular'))
 
-    return render_template('menu_popular.html',price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('menu_popular.html',rando=randoms,order=ord,price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 #adding money to wallet route
 @app.route('/wallet', methods = ['GET', 'POST'])
@@ -565,9 +633,9 @@ def menu_popular():
 def wallet():
     user = 0
     users_name = ""
-    
+    alert_user = ""
     is_employee = 0
-    
+    is_customer = True
     try:
         employee_check = int(current_user.get_id())
     except:
@@ -593,6 +661,11 @@ def wallet():
         except:
             print("You are not registered as a customer")
             return redirect(url_for('login'))
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go add balance somewhere else")
+            is_customer = False
+            alert_user = "You are not a customer. You cannot add balance."
+            return redirect(url_for('wallet'))
         amount = request.form.get('amount')
         userid = customers.query.filter_by(id = user).first()
         current_amount = float(userid.wallet)
@@ -601,12 +674,11 @@ def wallet():
         userid.wallet = float(new_amount)
         db.session.commit()
 
-    return render_template('wallet.html', user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
+    return render_template('wallet.html',alert_user=alert_user, is_customer=is_customer,user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
 
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
 @login_required
-
 def cart():
     user = 0
     users_name = ""
@@ -614,6 +686,22 @@ def cart():
     #
     #order.query.filter_by(Active='1')
     #
+    alert_user = ""
+    is_customer = True
+    curr_user = int(current_user.get_id())
+    in_cart = orders.query.filter_by(custID=curr_user,Active='1').all() #this is the selection query
+    print(in_cart)
+    items = orderLineItem.query.all()
+    
+    item_total = len(in_cart)
+    subtotal = 0
+    total_items = 0
+    for c in in_cart:
+        for i in items:
+            if i.orderID == c.id:
+                for q in range (0,i.quantity):
+                    total_items += 1
+                    subtotal = subtotal + c.total
 
 
     try:
@@ -635,22 +723,29 @@ def cart():
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go add balance somewhere else")
+            is_customer = False
+            alert_user = "You are not a customer. You cannot add checkout or add balance."
+            
     else: 
         current_customer = 0
-    return render_template('cart.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('cart.html',total_items=total_items,subtotal=subtotal,item_total=item_total,items=items,in_cart=in_cart,is_customer=is_customer,alert_user=alert_user, current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
 def checkout():
     user = 0
     users_name = ""
+    items = orderLineItem.query.all()
+    
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
     else: 
         current_customer = 0
-        
+    
     is_employee = 0
     
     try:
@@ -658,6 +753,7 @@ def checkout():
     except:
         print("You are not registered as an employee")
         return redirect(url_for('login'))
+        
     print(current_user.get_id())
     if(employees.query.get(employee_check)):
         emp = employees.query.get(employee_check)
@@ -667,6 +763,42 @@ def checkout():
             is_employee = 2
         elif (emp.role == 'Delivery'):
             is_employee = 3
+    if request.method == 'POST':
+        order = orders.query.filter_by(custID=user,Active='1').all()
+        guy = customers.query.get(user)
+        print(guy.wallet)
+        ordxcc = len(order)
+        subtotal = 0
+        total_items = 0
+        for c in order:
+            for i in items:
+                if i.orderID == c.id:
+                    for q in range (0,i.quantity):
+                        total_items += 1
+                        subtotal = subtotal + c.total
+        if(guy.wallet < float(subtotal)):
+            guy.warning += float(1.0)
+            db.session.commit()
+            if (warn() == True):
+                print("youre broke you poor lil shit")
+                return redirect(url_for('login'))
+            else:
+                return redirect(url_for('checkout'))
+        else:
+            wallit = float(guy.wallet)
+            moneytotal = wallit - float(subtotal)
+            payup = float(guy.AmountSpent)
+            broke = payup + float(subtotal)
+            guy.wallet = moneytotal
+            guy.AmountSpent = broke
+            db.session.commit()
+        print(type(order))
+        print(order[0].Active)
+        for i in range(0,ordxcc):
+            order[i].Active = 0
+            db.session.commit()
+            print(order[i].Active)
+        return redirect(url_for('menu_popular'))
     return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
@@ -684,6 +816,7 @@ def customer_page():
     
     if(customers.query.get(user)):
         cust = customers.query.get(user)
+        warnings = cust.warning
         if (cust.isVIP == 0):
             vip_bool = 0
         else:
@@ -699,10 +832,11 @@ def customer_page():
 
     custVIP = customers.query.filter_by(id = user).first()
     custVip = custVIP.isVIP
-
-    for o in CustHistory:
-        total += float(o.total)
-    custTotal = total
+    guy = customers.query.get(user)
+    
+    #for o in CustHistory:
+    #    total += float(o.total)
+    custTotal = float(guy.AmountSpent)
     #check if they are VIP
     if lenCust >= 5 or custTotal >= 100:
         cust = customers.query.filter_by(id = user).first()
@@ -716,7 +850,7 @@ def customer_page():
     #item = orderLineItem.query.filter_by(orderID='1')
     #print(items[0])
     
-    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool,lenCust=lenCust, custTotal=custTotal,custVip=custVip)
+    return render_template('customer_page.html',history=history,items=items, users_name = users_name, user=user,user_balance=user_balance, vip_bool=vip_bool,lenCust=lenCust, custTotal=custTotal,custVip=custVip,warnings = warnings)
 
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
@@ -879,6 +1013,34 @@ def chef_page():
 
     return render_template('chef_page.html', dished = dished, user=user, users_name=users_name,current_customer=current_customer)
 
+@app.route('/complaints', methods = ['GET','POST'])
+@login_required
+def complaint():
+    user = int(current_user.get_id())
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        victim = request.form.get('complainee')
+        orderid = request.form.get('orderID')
+        new_complaint = complaints(comment = comment, complainer = user, complainee = victim, orderID = orderid)
+        db.session.add(new_complaint)
+        db.session.commit()
+    #return render_template('complaints.html')
+
+@app.route('/compliments', methods = ['GET','POST'])
+@login_required
+def compliment():
+    user = int(current_user.get_id())
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        friend = request.form.get('complimenter')
+        orderid = request.form.get('orderID')
+        new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
+        db.session.add(new_compliment)
+        db.session.commit()
+    #return render_template('compliments.html')
+
+
+
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
     user = 0
@@ -892,20 +1054,23 @@ def contact():
     
     is_employee = 0
     
-    try:
-        employee_check = int(current_user.get_id())
-    except:
-        print("You are not registered as an employee")
-        return redirect(url_for('login'))
-    print(current_user.get_id())
-    if(employees.query.get(employee_check)):
-        emp = employees.query.get(employee_check)
-        if (emp.role == 'Manager'):
-            is_employee = 1
-        elif (emp.role == 'Chef'):
-            is_employee = 2
-        elif (emp.role == 'Delivery'):
-            is_employee = 3
+    if(current_user.is_authenticated):
+        try:
+            employee_check = int(current_user.get_id())
+        except:
+            print("You are not registered as an employee")
+            return redirect(url_for('login'))
+        print(current_user.get_id())
+        if(employees.query.get(employee_check)):
+            emp = employees.query.get(employee_check)
+            if (emp.role == 'Manager'):
+                is_employee = 1
+            elif (emp.role == 'Chef'):
+                is_employee = 2
+            elif (emp.role == 'Delivery'):
+                is_employee = 3
+        else:
+            is_employee = 4
     return render_template('contact_us.html', current_customer = current_customer, user=user, users_name=users_name ,is_employee=is_employee)
 
 num = orderLineItem.query.filter_by(orderID = 3).first()

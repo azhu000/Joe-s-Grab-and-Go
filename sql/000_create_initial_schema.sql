@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
   `bizID` INT NOT NULL,
+  `isBlacklisted` TINYINT NOT NULL DEFAULT 0,
   INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
@@ -97,9 +98,11 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `wallet` FLOAT(16,2) NOT NULL DEFAULT 0,
-  `isVIP` TINYINT NOT NULL DEFAULT 0,
+  `wallet` FLOAT(16,2) NULL DEFAULT 0,
+  `isVIP` TINYINT NULL DEFAULT 0,
   `warning` TINYINT NOT NULL DEFAULT 0,
+  `isBlacklisted` TINYINT NULL DEFAULT 0,
+  `AmountSpent` FLOAT(16,2) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE);
 
@@ -140,7 +143,7 @@ DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `quantity` FLOAT(16,2) NOT NULL,
+  `quantity` INT NOT NULL,
   `subtotal` FLOAT(16,2) NOT NULL,
   `discount` VARCHAR(45) NULL,
   `total` FLOAT(16,2) NOT NULL,

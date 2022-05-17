@@ -179,7 +179,7 @@ li a:hover, .dropdown:hover .dropbtn {
               <div class="card-body">
                 <h5 class="card-title">{{prices.dish.name}}</h5>
                 <p class="card-text">
-                  <br> <b>Price</b>: {{prices.price}}
+                  <br> <b>Price</b>: ${{prices.price}}0
                   <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                   <!-- Button trigger modal -->
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{prices.dish.id}}">
@@ -204,7 +204,7 @@ li a:hover, .dropdown:hover .dropbtn {
                       </div>
                       <br> <b>Description: </b>: {{prices.dish.description}}
                       <br>
-                      <br> <b>Price</b>: {{prices.price}}
+                      <br> <b>Price</b>: ${{prices.price}}0
                       <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                       <br> <b>Review</b>: This is sooooooo good!</p>   
                     </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{prices.dish.id}}review">
@@ -251,10 +251,9 @@ li a:hover, .dropdown:hover .dropbtn {
                       </div>
                       <div class="modal-footer">
                       <form method="POST">
-                        <p><h5><b>Quantity:</b></h5></p>
+                        <p><h5><b>&nbsp;Quantity:</b></h5></p>
                       <div class="dropdown">
                         <select type="quantity" class="form-select" name="quantity" aria-label="Default select example">
-                          <option selected>0</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
