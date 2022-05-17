@@ -4,12 +4,13 @@
 from ast import Delete
 from doctest import TestResults
 from functools import wraps
+from getopt import gnu_getopt
 import random
 from re import I
 from unicodedata import name
 import bcrypt
 from click import password_option
-from flask import Flask, redirect, render_template, url_for, request, jsonify
+from flask import Flask, g, redirect, render_template, url_for, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LOGIN_MESSAGE, UserMixin, login_user, LoginManager, login_required, logout_user,current_user
 from flask_wtf import FlaskForm
@@ -736,13 +737,14 @@ def cart():
 def checkout():
     user = 0
     users_name = ""
+    
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
     else: 
         current_customer = 0
-        
+    
     is_employee = 0
     
     try:
@@ -750,6 +752,7 @@ def checkout():
     except:
         print("You are not registered as an employee")
         return redirect(url_for('login'))
+        
     print(current_user.get_id())
     if(employees.query.get(employee_check)):
         emp = employees.query.get(employee_check)
@@ -759,6 +762,14 @@ def checkout():
             is_employee = 2
         elif (emp.role == 'Delivery'):
             is_employee = 3
+    if request.method == 'POST':
+        order = orders.query.filter_by(custID=user,Active='1').all()
+        print(order)
+        for i in order:
+            order[i].Active = 0
+            print(order[i].Active)
+            db.session.commmit()
+        return redirect(url_for('menu_popular'))
     return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
