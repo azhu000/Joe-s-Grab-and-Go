@@ -176,3 +176,9 @@ footer{
 .dispute-submit-button{
   float: right;
 }
+
+.center{
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+}

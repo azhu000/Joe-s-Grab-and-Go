@@ -159,66 +159,32 @@
             <h2>Order Food to  Your Door :D</h2>
             <div><b>You are logged in as {{users_name}}. Id is: {{user}}. Chef.</b></div>
             </div>
-            <nav class = "sticky-top" role="navigation">
-            <ul id="main-menu">
-                <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
-                <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
-                <ul id="sub-menu">
-                    <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
+            <nav role="navigation">
+                <ul id="main-menu">
+                    <li><a href="/CSC322-SWE-Group-Project/templates/index.html"><i class="fa fa-fw fa-home"></i>Home</a></li>
+                    <li><a href="/CSC322-SWE-Group-Project/templates/menu.html"><i class="fa fa-fw fa-search"></i>Menu</a>
+                        <ul id="sub-menu">
+                            <li><a href="menu_detail.html" aria-label="subemnu">Popular</a></li>
+                            <li><a href="menu_detail.html" aria-label="subemnu">Healthy</a></li>
+                            <li><a href="menu_detail.html" aria-label="subemnu">Kids</a></li>
+                            <li><a href="menu_detail.html" aria-label="subemnu">Sessert</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/CSC322-SWE-Group-Project/templates/cart.html"><i class="fa fa-fw fa-shopping-cart"></i>Order</a>
+                        <ul id="sub-menu">
+                            <li><a href="/CSC322-SWE-Group-Project/templates/cart.html" aria-label="subemnu">Cart</a></li>
+                            <li><a href="/CSC322-SWE-Group-Project/templates/order.html" aria-label="subemnu">Order History</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/CSC322-SWE-Group-Project/templates/login.html"><i class="fa fa-fw fa-user"></i>Login/Register</a></li>
+                    <li><a href="/CSC322-SWE-Group-Project/templates/contact-us.html"><i class="fa fa-fw fa-envelope"></i>Contact</a>
+                        <ul id="sub-menu">
+                            <li><a href="about-us.html" aria-label="subemnu">About Us</a></li>
+                            <li><a href="contact-us.html" aria-label="subemnu">Contact Info</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                </li>
-        
-                <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
-                {%if current_customer == 0%}
-        
-                <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
-                    <ul id="sub-menu">
-                    <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
-                    <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
-                    </ul>
-                </li>
-        
-                {%elif current_customer == 1%}
-        
-                <li><a href="{{url_for('chef_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
-                    <ul id="sub-menu">
-                    <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
-                    </ul>
-                </li>
-                {%endif%}
-        
-                <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
-            </ul>
             </nav>
-        <br>
-        <center> <br><b>THIS IS THE CHEF PAGE :D </b></center>
-        <br>
-        {% for dishes in dished %}
-        {%if ((loop.length - loop.revindex)%4 == 0)%}
-
-        {%set number = ((loop.length - loop.revindex)/4) | int %}
-        <div class="row"> 
-        <br>
-        {%endif%}
-            <div class="col">
-            <div class="card" style="width: 18rem;">
-                <img src={{dishes.url}} class="card-img-top" width = "350" height = "250" alt="Food Image" width="250" height = "200">
-                <div class="card-body">
-                <h5 class="card-title"></h5>
-                <p class="card-text">
-                <b>ID:</b> {{dishes.id}}<br>
-                <b>Name:</b> {{dishes.name}}<br>
-                <b>Description:</b> {{dishes.description}}<br>
-                    
-                </div>
-                
-                </div>
-                <p></P>
-            </div>
-            <br>
-        {% endfor %}
-        </div>
-        
         <h2> Order Compliments</h2>
         <h5> Please share your feedback.</h5>
         <main class="form-signin">
@@ -238,7 +204,6 @@
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                    <option value="6">6</option>
                   </select>
                 </div>
             </div>
@@ -249,8 +214,10 @@
             </div>
             <br>
             <button class="w-100 btn btn-lg btn-dark" type="submit">Submit Compliment</button>
-            <p>Have complaints? <a class="btn btn-link" href="/CSC322-SWE-Group-Project/templates/complaints.html" role="button">Complaints</a>
-            <!--NOTE: Change href url on line 253 to your branch's format of url-->
+            <div class="center">
+                <p>Have compliments? <a class="btn btn-link" href="/CSC322-SWE-Group-Project/templates/compliments.html" role="button">Compliments</a>
+                <!--NOTE: Change href url on line 253 to your branch's format of url-->
+            </div>
         </form>
         </main>
     </body>
