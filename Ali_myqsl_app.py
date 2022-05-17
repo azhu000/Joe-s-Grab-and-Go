@@ -794,7 +794,7 @@ def checkout():
                 for q in range (0,i.quantity):
                     subtotal = subtotal + c.total
     if (user_balance < subtotal):
-        enough_money = False;
+        enough_money = False
         alert_user = "You do not have enough money to make this purchase. If you continue, you will get a warning."
         
     if request.method == 'POST':
@@ -1100,7 +1100,10 @@ def complaint():
         print(type(new_complaint))
         db.session.add(new_complaint)
         db.session.commit()
-    return render_template('complaints.html',current_customer=current_customer,users=users,users_name=users_name,is_employee=is_employee)
+        empl = employees.query.filter_by(id = victim).first()
+        empl.warning += float(1.0)
+        db.session.commit()
+    return render_template('complaints.html')
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required

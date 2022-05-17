@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `menuDishes` (
 DROP TABLE IF EXISTS `complaints` ;
 
 CREATE TABLE IF NOT EXISTS `complaints` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `comment` VARCHAR(255) NOT NULL,
   `complainer` INT NOT NULL,
   `complainee` INT NOT NULL,
@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `complaints` (
 DROP TABLE IF EXISTS `compliments` ;
 
 CREATE TABLE IF NOT EXISTS `compliments` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `comment` VARCHAR(255) NOT NULL,
   `complimenter` INT NOT NULL,
   `complimentee` INT NOT NULL,

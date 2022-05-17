@@ -215,7 +215,7 @@ section {
             <div class="mb-3">
                 <label for="chef" class="col-form-label"><b>Chef ID:</b></label>
                 <div class="dropdown">
-                    <select class="form-select" aria-label="Default select example">
+                    <select type='complainee' class="form-select" name='complainee'aria-label="Default select example">
                     <option selected>Select Chef</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -226,8 +226,8 @@ section {
             </div>
             <br> 
             <div class="mb-3">
-                <label for="message-text" class="col-form-label" name="comment"><b>Comment:</b></label>
-                <textarea class="form-control" id="review-text"></textarea>
+                <label for="message-text" class="col-form-label"><b>Comment:</b></label>
+                <textarea type='comment'class="form-control" id="review-text" name="comment"></textarea>
             </div>
             <br>
             <button class="w-100 btn btn-lg btn-dark" type="submit">Submit Complaint</button>
