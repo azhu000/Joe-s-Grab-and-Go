@@ -220,36 +220,40 @@ section {
     {% endfor %}
       </div>
     
-    <main class="form-signin">
-      <form method="POST">
-      
-             
-        <br>
-        <div class="form-floating">
-          <input type="dish" class="form-control" id="floatingInput" name="dish" placeholder="Enter the Dish to be Added"/>
-          <label for="floatingInput">Dish To be Added</label>
-        </div>
-        <br> 
-        <div class="form-floating">
-          <input type="description" class="form-control" id="floatingInput" name="description" placeholder="Enter Description of Dish"/>
-          <label for="floatingInput">Description</label>
-        </div>
-        <br>
-        <div class="form-floating">
-          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
-          <label for="floatingInput">bizID</label>
-        </div>
-        <br> 
-
-        
-        <div>
-        
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Add Dishes</button>
-        <p>Remove Dishes? <a class="btn btn-link" href="{{url_for('chef_page_rm')}}" role="button">Remove Dishes</a>
-        
-        
+      <h2> Order Complaints</h2>
+      <h5> Please share your feedback.</h5>
+      <main class="form-signin">
+      <form method="POST">    
+          <br>
+          <div class="form-floating w-100">
+              <input type="OrderID" class="form-control" id="floatingInput" name="dish" placeholder="Enter the Dish to be Added"/>
+              <label for="floatingInput"><b>Enter OrderID</b></label>
+          </div>
+          <br>
+          <div class="mb-3">
+              <label for="chef" class="col-form-label"><b>Chef ID:</b></label>
+              <div class="dropdown">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>Select Chef</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
+              </div>
+          </div>
+          <br> 
+          <div class="mb-3">
+              <label for="message-text" class="col-form-label"><b>Comment:</b></label>
+              <textarea class="form-control" id="review-text"></textarea>
+          </div>
+          <br>
+          <button class="w-100 btn btn-lg btn-dark" type="submit">Submit Complaint</button>
+          <p>Have compliments? <a class="btn btn-link" href="/CSC322-SWE-Group-Project/templates/compliments.html" role="button">Compliments</a>
+            <!--NOTE: Change href url on line 253 to your branch's format of url-->
       </form>
-    </main>
+      </main>
 
 </body>
 
