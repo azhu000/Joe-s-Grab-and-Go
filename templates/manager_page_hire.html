@@ -198,19 +198,21 @@ section {
           <label for="floatingInput">Employee Email</label>
         </div>
         <br>
+        
         <div class="form-floating">
           <input type="bizID" class="form-control" id="floatingInput" name="password" placeholder="Employee Password"/>
           <label for="floatingInput">Employee Password</label>
         </div>
         <br>
-        <div class="form-floating">
-          <input type="bizID" class="form-control" id="floatingInput" name="role" placeholder="Employee Role"/>
-          <label for="floatingInput">Employee Role</label>
+        <div class="dropdown">
+          <center><p>Employee Role</p></center>
+          <select type="quantity" class="form-select" name="role" aria-label="Default select example">
+            <option value="Chef">Chef</option>
+            <option value="Delivery">Delivery</option>
+          </select>
         </div>
-        <br> 
         <div class="form-floating">
-          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
-          <label for="floatingInput">bizID</label>
+          <input type="hidden" name="bizID" value="1"/>
         </div>
         <br> 
 
