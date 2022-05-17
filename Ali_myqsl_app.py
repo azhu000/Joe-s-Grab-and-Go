@@ -94,6 +94,7 @@ class employees(db.Model, UserMixin):
     isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
+    complaint = db.relationship('complaints', backref='employees')
 
     def __repr__(self):
         return "id: {0} | name: {1} | role: {2}".format(self.id, self.name, self.role)
@@ -109,6 +110,7 @@ class customers(db.Model, UserMixin):
     isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
+    complain = db.relationship('complaints', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
 
     def __repr__(self):
@@ -162,6 +164,7 @@ class orders(db.Model):
     custID = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     orderline = db.relationship('orderLineItem', backref='orders')
+    complaint = db.relationship('complaints', backref='orders')
 
 class orderLineItem(db.Model):
     __tablename__ = 'orderLineItem'
@@ -172,6 +175,14 @@ class orderLineItem(db.Model):
     total = db.Column(db.Float,  nullable = False)
     orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
     DishOrdered = db.Column(db.Integer, db.ForeignKey('dish.id'),  nullable = False)
+
+class complaints(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    comment = db.Column(db.String(255), nullable = False)
+    complainer = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
+    complainee = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
+    orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
+    
 
 
 #Registration Authentication setup
@@ -529,22 +540,22 @@ def menu_popular():
     is_employee = user_check()
     randoms = [0, 1, 2]
         
+    for i in randoms:
+        randoms[i] = random.choice(price)
+        print(randoms[i])
+        while ((i>0) and (randoms[i] == randoms[i-1])):
+            randoms[i] = random.choice(price)
+        while ((i>1) and (randoms[i] == randoms[i-2])):
+            randoms[i] = random.choice(price)
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
-        frequency = orders.query.filter_by(custID=user).all()
-        freq = len(frequency)
-        print(frequency)
-        print(freq)
+        #frequency = orders.query.filter_by(custID=user).all()
+        #freq = len(frequency)
+        #print(frequency)
+        #print(freq)
         #if (freq < 3 ):
-        for i in randoms:
-            randoms[i] = random.choice(price)
-            print(randoms[i])
-            while ((i>0) and (randoms[i] == randoms[i-1])):
-                randoms[i] = random.choice(price)
-            while ((i>1) and (randoms[i] == randoms[i-2])):
-                randoms[i] = random.choice(price)
         #else: # check frequency of dishes ordered, top 3 displayed here
             #for i in randoms:
                 #freq = len(frequency)
@@ -571,6 +582,11 @@ def menu_popular():
         except:
             print("You are not registered as a customer")
             return redirect(url_for('login'))
+        try:
+            customers.query.get(user)
+        except:
+            print("you are not a customer, go buy somewhere else")
+            return redirect(url_for('menu_popular'))
         print(user)
         print(type(user))
         guy = customers.query.get(user)
@@ -917,6 +933,19 @@ def chef_page():
             return redirect(url_for('chef_page'))
 
     return render_template('chef_page.html', dished = dished, user=user, users_name=users_name,current_customer=current_customer)
+
+@app.route('/complaints', methods = ['GET','POST'])
+@login_required
+def complaint():
+    user = int(current_user.get_id())
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        victim = request.form.get('complainee')
+        orderid = request.form.get('orderID')
+        #new_complaint = complaints.
+
+
+
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
