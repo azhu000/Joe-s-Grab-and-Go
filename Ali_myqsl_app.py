@@ -95,6 +95,7 @@ class employees(db.Model, UserMixin):
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
     complaint = db.relationship('complaints', backref='employees')
+    compliment = db.relationship('compliments', backref='employees')
 
     def __repr__(self):
         return "id: {0} | name: {1} | role: {2}".format(self.id, self.name, self.role)
@@ -111,6 +112,7 @@ class customers(db.Model, UserMixin):
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     complain = db.relationship('complaints', backref='customers')
+    compliment = db.relationship('compliments', backref='customers')
     #forgot isVIP in here. its TINYINT in MYSQL but you do db.Integer here
 
     def __repr__(self):
@@ -134,6 +136,7 @@ class dish(db.Model):
     menudish = db.relationship('menuDishes', backref='dish')
     rating = db.relationship('dishRating', backref='dish')
     orderline = db.relationship('orderLineItem', backref='dish')
+    
 
     def __repr__(self):
         return "id: {0} | name: {1} | description: {2} | url: {3}".format(self.id, self.name, self.description, self.url)
@@ -165,6 +168,7 @@ class orders(db.Model):
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     orderline = db.relationship('orderLineItem', backref='orders')
     complaint = db.relationship('complaints', backref='orders')
+    compliment = db.relationship('compliments', backref='orders')
 
 class orderLineItem(db.Model):
     __tablename__ = 'orderLineItem'
@@ -181,6 +185,14 @@ class complaints(db.Model):
     comment = db.Column(db.String(255), nullable = False)
     complainer = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
     complainee = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
+    orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
+
+
+class compliments(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable = False)
+    comment = db.Column(db.String(255), nullable = False)
+    complimenter = db.Column(db.Integer, db.ForeignKey('customers.id'), nullable = False)
+    complimentee = db.Column(db.Integer, db.ForeignKey('employees.id'), nullable = False)
     orderID = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable = False)
     
 
@@ -597,12 +609,12 @@ def menu_popular():
             return redirect(url_for('menu_popular'))
         
         print(user)
-        print(type(user))
         guy = customers.query.get(user)
+        print(guy)
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
-        print(guy.wallet)
+        #print(guy.wallet)
         if(guy.wallet < float(cost)):
             guy.warning += float(1.0)
             db.session.commit()
@@ -962,8 +974,23 @@ def complaint():
         comment = request.form.get('comment')
         victim = request.form.get('complainee')
         orderid = request.form.get('orderID')
-        #new_complaint = complaints.
+        new_complaint = complaints(comment = comment, complainer = user, complainee = victim, orderID = orderid)
+        db.session.add(new_complaint)
+        db.session.commit()
+    #return render_template('complaints.html')
 
+@app.route('/compliments', methods = ['GET','POST'])
+@login_required
+def compliment():
+    user = int(current_user.get_id())
+    if request.method == 'POST':
+        comment = request.form.get('comment')
+        friend = request.form.get('complimenter')
+        orderid = request.form.get('orderID')
+        new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
+        db.session.add(new_compliment)
+        db.session.commit()
+    #return render_template('complimentts.html')
 
 
 
