@@ -33,7 +33,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -634,8 +634,10 @@ def wallet():
     user = 0
     users_name = ""
     alert_user = ""
+    user_alert = ""
     is_employee = 0
     is_customer = True
+    is_Valid = True
     try:
         employee_check = int(current_user.get_id())
     except:
@@ -666,13 +668,17 @@ def wallet():
             is_customer = False
             alert_user = "You are not a customer. You cannot add balance."
             return redirect(url_for('wallet'))
-        amount = request.form.get('amount')
-        userid = customers.query.filter_by(id = user).first()
-        current_amount = float(userid.wallet)
-        new_amount = current_amount + float(amount)
-    
-        userid.wallet = float(new_amount)
-        db.session.commit()
+        elif request.form.get('amount') == '':
+            is_Valid = False
+            user_alert = "Enter a valid amount"
+            return render_template('wallet.html', user_alert = user_alert,is_Valid=is_Valid)
+        else:
+            amount = request.form.get('amount')
+            userid = customers.query.filter_by(id = user).first()
+            current_amount = float(userid.wallet)
+            new_amount = current_amount + float(amount)
+            userid.wallet = float(new_amount)
+            db.session.commit()
 
     return render_template('wallet.html',alert_user=alert_user, is_customer=is_customer,user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
 
@@ -735,6 +741,8 @@ def cart():
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
 def checkout():
+    alert_user = ""
+    is_Valid = True
     user = 0
     users_name = ""
     items = orderLineItem.query.all()
@@ -793,12 +801,18 @@ def checkout():
             guy.AmountSpent = broke
             db.session.commit()
         print(type(order))
-        print(order[0].Active)
-        for i in range(0,ordxcc):
-            order[i].Active = 0
-            db.session.commit()
-            print(order[i].Active)
-        return redirect(url_for('menu_popular'))
+        print(len(order))
+        if (len(order) == 0):
+            is_Valid = False
+            alert_user = "You do not have a valid amount of items in your cart"
+            return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee, is_Valid=is_Valid, alert_user=alert_user)
+        else:
+            print(order[0].Active)
+            for i in range(0,ordxcc):
+                order[i].Active = 0
+                db.session.commit()
+                print(order[i].Active)
+            return redirect(url_for('menu_popular'))
     return render_template('checkout.html', user=user, users_name=users_name,current_customer=current_customer,is_employee=is_employee)
 
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
