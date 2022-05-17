@@ -336,6 +336,8 @@ def warn():
         emplUser = employees.query.filter_by(id = userID).first()
         if emplUser.warning >= 3:
             emplUser.isBlacklisted = 1
+            db.session.commit()
+            logout_user()
             print("Employee BlackListed")
             return True
     else:
@@ -426,6 +428,9 @@ def menus():
 #Completely untested Route.
 @app.route('/VIPmenu', methods = ['GET', 'POST'])
 def VIP():
+    if warn() == True:
+        return redirect(url_for('login'))
+
     dished = dish.query.all()
     price = menuDishes.query.filter_by(VIP='1')
     lens = len(vip_tags)
@@ -568,7 +573,8 @@ def register():
 
 @app.route('/menu_popular', methods = ['GET', 'POST'])
 def menu_popular():
-    #warn()
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     dished = dish.query.all()
@@ -646,6 +652,8 @@ def menu_popular():
 @app.route('/wallet', methods = ['GET', 'POST'])
 @login_required
 def wallet():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     alert_user = ""
@@ -702,6 +710,8 @@ def wallet():
 @app.route('/cart', methods = ['GET', 'POST'])
 @login_required
 def cart():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     is_employee = 0
@@ -757,6 +767,8 @@ def cart():
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
 def checkout():
+    if warn() == True:
+        return redirect(url_for('login'))
     alert_user = ""
     is_Valid = True
     user = 0
@@ -853,6 +865,8 @@ def checkout():
 @app.route('/customer_page', methods = ['GET', 'POST']) #customer page
 @login_required
 def customer_page():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = int(current_user.get_id())
     users_name = str(current_user.name)
     user_balance = float(current_user.wallet)
@@ -904,6 +918,8 @@ def customer_page():
 @app.route('/delivery_page', methods = ['GET', 'POST']) #the delivery persons page
 @login_required
 def delivery_page():
+    if warn() == True:
+        return redirect(url_for('login'))
     user2 = employees.query.filter_by(role="Delivery").first()
     print(current_user.name)
     print(user2.role)
@@ -928,6 +944,8 @@ def delivery_page():
 
 @app.route('/manager_page_hire', methods = ['GET', 'POST'])
 def manager_page_hire():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
@@ -955,6 +973,8 @@ def manager_page_hire():
 
 @app.route('/manager_page_fire', methods = ['GET', 'POST'])
 def manager_page_fire():
+    if warn() == True:
+        return redirect(url_for('login'))
     list_employees = employees.query.all()
     user = 0
     users_name = ""
@@ -983,6 +1003,8 @@ def manager_page_fire():
 @app.route('/manager_page', methods = ['GET', 'POST']) #the mananger's page
 @login_required
 def manager_page():
+    if warn() == True:
+        return redirect(url_for('login'))
     # confirms the user accessing this page is the manager. Can be changed to filter by role="Manager" but too lazy.
     users = 0
     users_name = ""
@@ -1004,6 +1026,8 @@ def manager_page():
 
 @app.route('/chef_page_rm', methods = ['GET', 'POST']) #the chef's page remove function
 def chef_page_rm():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
@@ -1031,6 +1055,8 @@ def chef_page_rm():
 @app.route('/chef_page', methods = ['GET', 'POST']) #the chef's page
 @login_required
 def chef_page():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
@@ -1067,6 +1093,8 @@ def chef_page():
 @app.route('/complaints', methods = ['GET','POST'])
 @login_required
 def complaint():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = int(current_user.get_id())
     if request.method == 'POST':
         comment = request.form.get('comment')
@@ -1088,6 +1116,8 @@ def complaint():
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
 def compliment():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = int(current_user.get_id())
     if request.method == 'POST':
         comment = request.form.get('comment')
@@ -1102,6 +1132,8 @@ def compliment():
 
 @app.route('/contact_us', methods = ['GET', 'POST'])
 def contact():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
