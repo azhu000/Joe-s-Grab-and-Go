@@ -1103,7 +1103,7 @@ def complaint():
         empl = employees.query.filter_by(id = victim).first()
         empl.warning += float(1.0)
         db.session.commit()
-    return render_template('complaints.html')
+    return render_template('complaints.html',current_customer=current_customer,users=users,users_name=users_name,is_employee=is_employee)
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
