@@ -1064,6 +1064,8 @@ def complaint():
         victim = request.form.get('complainee')
         orderid = request.form.get('orderID')
         new_complaint = complaints(comment = comment, complainer = user, complainee = victim, orderID = orderid)
+        print(new_complaint)
+        print(type(new_complaint))
         db.session.add(new_complaint)
         db.session.commit()
     #return render_template('complaints.html')
