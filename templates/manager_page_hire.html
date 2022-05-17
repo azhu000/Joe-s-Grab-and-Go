@@ -179,12 +179,10 @@ section {
           </ul>
         </nav>
     <br>
-    <center> <br><br><br><br><b>Hire Page</b></center>
+    <center> <br><b>Hire Page</b></center>
    
     <main class="form-signin">
       <form method="POST">
-        <br>
-        <br>
         <br>
              
         <br>
@@ -198,19 +196,21 @@ section {
           <label for="floatingInput">Employee Email</label>
         </div>
         <br>
+        
         <div class="form-floating">
           <input type="bizID" class="form-control" id="floatingInput" name="password" placeholder="Employee Password"/>
           <label for="floatingInput">Employee Password</label>
         </div>
         <br>
-        <div class="form-floating">
-          <input type="bizID" class="form-control" id="floatingInput" name="role" placeholder="Employee Role"/>
-          <label for="floatingInput">Employee Role</label>
+        <div class="dropdown">
+          <center><p>Employee Role</p></center>
+          <select type="quantity" class="form-select" name="role" aria-label="Default select example">
+            <option value="Chef">Chef</option>
+            <option value="Delivery">Delivery</option>
+          </select>
         </div>
-        <br> 
         <div class="form-floating">
-          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
-          <label for="floatingInput">bizID</label>
+          <input type="hidden" name="bizID" value="1"/>
         </div>
         <br> 
 
@@ -231,7 +231,7 @@ section {
 </body>
 
 <center>
-  <footer class = "sticky-bottom"><br>Contact Information down here 
+  <footer class = "fixed-bottom"><br>Contact Information down here 
       <br>Address: 1234 Main Street New York, NY, 10044
       <br>Telephone: 1-(212)-345-1234
       <br>Email Address: thebestrestaurant@resturants.com
