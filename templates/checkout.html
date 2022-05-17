@@ -238,8 +238,15 @@ li a:hover, .dropdown:hover .dropbtn {
         <button class="w-100 btn btn-lg btn-primary" type="submit">Check Out</button>
     </form></center>
         <br>
+        <h4><span class="badge bg-primary rounded-pill">You have <u>${{user_balance}}0</u> in your wallet. The subtotal is ${{subtotal}}0.</span> <div></div>
 
+      <p></p>
 
+    {%if enough_money == False%}
+    <div class = "alert alert-warning" role="alert">
+      {{alert_user}}
+    </div>
+    {%endif%}
 
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
