@@ -311,6 +311,7 @@ def warn():
     elif currUser.warning >= 3:
         try:
             currUser.isBlacklisted = 1
+            currUser.wallet = 0
             db.session.commit()
             logout_user()
             print("De-Registered")
@@ -523,30 +524,47 @@ def menu_popular():
     users_name = ""
     dished = dish.query.all()
     price = menuDishes.query.all()
-    randoms = [0, 1, 2]
-    for i in randoms:
-        randoms[i] = random.choice(price)
-        while ((i>0) and (randoms[i] == randoms[i-1])):
-            randoms[i] = random.choice(price)
-        while ((i>1) and (randoms[i] == randoms[i-2])):
-            randoms[i] = random.choice(price)
-        print(randoms[i])
-    
+    ord = orderLineItem.query.all()
     lens = len(menu_tags)
     is_employee = user_check()
+    randoms = [0, 1, 2]
         
     if current_user.is_authenticated == True:
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
+        frequency = orders.query.filter_by(custID=user).all()
+        freq = len(frequency)
+        print(frequency)
+        print(freq)
+        #if (freq < 3 ):
+        for i in randoms:
+            randoms[i] = random.choice(price)
+            print(randoms[i])
+            while ((i>0) and (randoms[i] == randoms[i-1])):
+                randoms[i] = random.choice(price)
+            while ((i>1) and (randoms[i] == randoms[i-2])):
+                randoms[i] = random.choice(price)
+        #else: # check frequency of dishes ordered, top 3 displayed here
+            #for i in randoms:
+                #freq = len(frequency)
+                #vari = random.randint(0,(freq-1))
+                #randoms[i] = frequency[vari]
+                #frequency.pop(vari)
+                #while ((i>0) and (randoms[i] == randoms[i-1])):
+                #    randoms[i] = random.choice(frequency)
+                #    while ((i>1) and (randoms[i] == randoms[i-2])):
+                #        randoms[i] = random.sample(frequency)
+                #print(randoms[i].id)
     else: 
         current_customer = 0
+    #ord = orderLineItem.query.filter_by(orderID=randoms[0].id).first()
+    #print(ord.id)
 
     # This method below will handle the orders that come in from the menu. 
     # It needs to update two tables, "orders" and "orderLineItem".
     # Needs customerID, dishID, dish price, quantity of dish. 
     # Issue here is that "adding to cart" is being read as its own order. 
-
     if request.method == "POST":
         try:
             user = int(current_user.get_id())
@@ -556,7 +574,6 @@ def menu_popular():
         print(user)
         print(type(user))
         guy = customers.query.get(user)
-        print(type(guy))
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
@@ -578,7 +595,7 @@ def menu_popular():
         print("Added to cart")
         return redirect(url_for('menu_popular'))
 
-    return render_template('menu_popular.html',rando=randoms,price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('menu_popular.html',rando=randoms,order=ord,price=price,dish=dished, lens = lens, menu_tags = menu_tags, current_customer = current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 #adding money to wallet route
 @app.route('/wallet', methods = ['GET', 'POST'])
