@@ -33,13 +33,13 @@ INSERT INTO menu VALUES (3, 3, 1);
 INSERT INTO menu VALUES (4, 2, 1);
 INSERT INTO menu VALUES (5, 2, 1);
 
-INSERT INTO customers VALUES (21, "Jolene", "why@dahell.com", "amihere",'0' ,0,0,0);
-INSERT INTO customers VALUES (22, "Nathaniel", "jimmytwoshoes@aol.com","jimmy",'0' ,1,0,0);
-INSERT INTO customers VALUES (23, "Tom", "Tom@Tom.Tom", "Tom",'0',0,0,0);
-INSERT INTO customers VALUES (24, "Angelica","ahhh@1.2", "3",'0',0,0,0);
-INSERT INTO customers VALUES (25, "Brady", "8@superbowl.rings","easy" ,'0',1,0,0);
-INSERT INTO customers VALUES (26, "DATBOI", "bigboi@aol.com", "password",'0', 0,0,0);
-INSERT INTO customers VALUES (27, "DABOI", "biboi@aol.com", "passed",'0', 0,3,0);
+INSERT INTO customers VALUES (21, "Jolene", "why@dahell.com", "amihere",'0' ,0,0,0,0);
+INSERT INTO customers VALUES (22, "Nathaniel", "jimmytwoshoes@aol.com","jimmy",'0' ,1,0,0,0);
+INSERT INTO customers VALUES (23, "Tom", "Tom@Tom.Tom", "Tom",'0',0,0,0,0);
+INSERT INTO customers VALUES (24, "Angelica","ahhh@1.2", "3",'0',0,0,0,0);
+INSERT INTO customers VALUES (25, "Brady", "8@superbowl.rings","easy" ,'0',1,0,0,0);
+INSERT INTO customers VALUES (26, "DATBOI", "bigboi@aol.com", "password",'0', 0,0,0,0);
+INSERT INTO customers VALUES (27, "DABOI", "biboi@aol.com", "passed",'0', 0,3,0,0);
 
 INSERT INTO orders VALUES (1, '24.50', NULL,0 ,21, 1); 
 INSERT INTO orders VALUES (2, '16.00', NULL,0 ,21, 1);

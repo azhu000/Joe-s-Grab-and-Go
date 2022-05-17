@@ -110,6 +110,7 @@ class customers(db.Model, UserMixin):
     isVIP = db.Column(db.Integer, nullable = True, default = 0)
     warning = db.Column(db.Integer, nullable = True, default = 0)
     isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
+    AmountSpent = db.Column(db.Float(16,2), nullable = True, default = 0)
     rating = db.relationship('dishRating', backref='customers')
     order = db.relationship('orders', backref='customers')
     complain = db.relationship('complaints', backref='customers')
@@ -786,7 +787,10 @@ def checkout():
         else:
             wallit = float(guy.wallet)
             moneytotal = wallit - float(subtotal)
+            payup = float(guy.AmountSpent)
+            broke = payup + float(subtotal)
             guy.wallet = moneytotal
+            guy.AmountSpent = broke
             db.session.commit()
         print(type(order))
         print(order[0].Active)
@@ -828,10 +832,11 @@ def customer_page():
 
     custVIP = customers.query.filter_by(id = user).first()
     custVip = custVIP.isVIP
-
-    for o in CustHistory:
-        total += float(o.total)
-    custTotal = total
+    guy = customers.query.get(user)
+    
+    #for o in CustHistory:
+    #    total += float(o.total)
+    custTotal = float(guy.AmountSpent)
     #check if they are VIP
     if lenCust >= 5 or custTotal >= 100:
         cust = customers.query.filter_by(id = user).first()

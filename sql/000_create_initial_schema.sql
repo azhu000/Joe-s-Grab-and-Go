@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `isVIP` TINYINT NULL DEFAULT 0,
   `warning` TINYINT NOT NULL DEFAULT 0,
   `isBlacklisted` TINYINT NULL DEFAULT 0,
+  `AmountSpent` FLOAT(16,2) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE);
 
