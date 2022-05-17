@@ -258,6 +258,8 @@ class LoginForm(FlaskForm):
 #this is the base routing "url" this is the standard home page
 @app.route('/')
 def home():
+    if warn() == True:
+        return redirect(url_for('login'))
     user = 0
     users_name = ""
     if current_user.is_authenticated == True:
