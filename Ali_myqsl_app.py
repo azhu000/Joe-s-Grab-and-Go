@@ -1113,8 +1113,6 @@ def complaint():
         empl = employees.query.filter_by(id = victim).first()
         empl.warning += float(1.0)
         db.session.commit()
-
-
     return render_template('complaints.html', user = user, user_name = user_name)
 
 @app.route('/compliments', methods = ['GET','POST'])
@@ -1123,6 +1121,7 @@ def compliment():
     if warn() == True:
         return redirect(url_for('login'))
     user = int(current_user.get_id())
+    user_name = user.name
     if request.method == 'POST':
         comment = request.form.get('comment')
         friend = request.form.get('complimenter')
@@ -1130,7 +1129,7 @@ def compliment():
         new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
         db.session.add(new_compliment)
         db.session.commit()
-    return render_template('compliments.html')
+    return render_template('compliments.html',user = user, user_name = user_name)
 
 
 
