@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
   `bizID` INT NOT NULL,
+  `warning` TINYINT NOT NULL DEFAULT 0,
   `isBlacklisted` TINYINT NOT NULL DEFAULT 0,
   INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
   PRIMARY KEY (`id`),
@@ -211,6 +212,76 @@ CREATE TABLE IF NOT EXISTS `menuDishes` (
     REFERENCES `menu` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
+-- Table `test_schema`.`complaints`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `complaints` ;
+
+CREATE TABLE IF NOT EXISTS `complaints` (
+  `id` INT NOT NULL,
+  `comment` VARCHAR(255) NOT NULL,
+  `complainer` INT NOT NULL,
+  `complainee` INT NOT NULL,
+  `orderID` INT NOT NULL,
+  `isAccepted` TINYINT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `orderID_idx` (`orderID` ASC) VISIBLE,
+  INDEX `fk_cust_idx` (`complainer` ASC) VISIBLE,
+  INDEX `fk_emp_idx` (`complainee` ASC) VISIBLE,
+  CONSTRAINT `fk_order`
+    FOREIGN KEY (`orderID`)
+    REFERENCES `orders` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cust`
+    FOREIGN KEY (`complainer`)
+    REFERENCES `customers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_emp`
+    FOREIGN KEY (`complainee`)
+    REFERENCES `employees` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+-- -----------------------------------------------------
+-- Table `test_schema`.`compliments`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `compliments` ;
+
+CREATE TABLE IF NOT EXISTS `compliments` (
+  `id` INT NOT NULL,
+  `comment` VARCHAR(255) NOT NULL,
+  `complimenter` INT NOT NULL,
+  `complimentee` INT NOT NULL,
+  `orderID` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_complimenter_idx` (`complimenter` ASC) VISIBLE,
+  INDEX `fk_complimentee_idx` (`complimentee` ASC) VISIBLE,
+  INDEX `fk_ordernum_idx` (`orderID` ASC) VISIBLE,
+  CONSTRAINT `fk_complimenter`
+    FOREIGN KEY (`complimenter`)
+    REFERENCES `customers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_complimentee`
+    FOREIGN KEY (`complimentee`)
+    REFERENCES `employees` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordernum`
+    FOREIGN KEY (`orderID`)
+    REFERENCES `orders` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

@@ -1,9 +1,9 @@
 INSERT INTO businesses (Name, Address, Phone) VALUES ( "Moe's Tavern", '555 5th Avenue', '(212)-867-5309');
-INSERT INTO employees VALUES (1, "Tracy", "abc@123.com" , "",'Manager', 1,0);
-INSERT INTO employees VALUES (2, "Stefan", "joe@shmoe.org" ,"Bobbyscar@yahoo.com" , 'Chef', 1,0);
-INSERT INTO employees VALUES (3, "Rachel", "a@b.c" ,"3",'Chef', 1,0);
-INSERT INTO employees VALUES (4, "Bob", "hi@there.com" ,"4",'Delivery', 1,0);
-INSERT INTO employees VALUES (5, "Jeffrey", "blah@blah.edu" ,"5", 'Delivery', 1,0);
+INSERT INTO employees VALUES (1, "Tracy", "abc@123.com" , "",'Manager', 1,0,0);
+INSERT INTO employees VALUES (2, "Stefan", "joe@shmoe.org" ,"Bobbyscar@yahoo.com" , 'Chef', 1,0,0);
+INSERT INTO employees VALUES (3, "Rachel", "a@b.c" ,"3",'Chef', 1,0,0);
+INSERT INTO employees VALUES (4, "Bob", "hi@there.com" ,"4",'Delivery', 1,0,0);
+INSERT INTO employees VALUES (5, "Jeffrey", "blah@blah.edu" ,"5", 'Delivery', 1,0,0);
 
 INSERT INTO dish VALUES (1, "Caesar Salad", 'a tossed salad made of romaine, garlic, anchovies, and croutons and dressed with olive oil, coddled egg, lemon juice, and grated cheese. ', 1,'https://www.seriouseats.com/thmb/ugNLQE6hZcoZx0Tzu780h1L3lfc=/3750x3750/smart/filters:no_upscale()/the-best-caesar-salad-recipe-06-40e70f549ba2489db09355abd62f79a9.jpg');
 INSERT INTO dish VALUES (2, "Flaming Moe", 'The signature specialty drink of Springfield', 1,'https://images.squarespace-cdn.com/content/v1/56b92fd6f8508249cabeff0a/1492450769102-27IA53NVPAV9FW1R20F2/flaming-moe-drink.jpg');

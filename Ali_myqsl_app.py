@@ -92,6 +92,7 @@ class employees(db.Model, UserMixin):
     email = db.Column(db.String(45), nullable = False, unique = True)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
+    warning = db.Column(db.Integer, nullable = False, default = 0)
     isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
     bizID = db.Column(db.Integer, db.ForeignKey('businesses.id'), nullable = False)
     menus = db.relationship('menu', backref='employees')
@@ -1068,7 +1069,7 @@ def complaint():
         print(type(new_complaint))
         db.session.add(new_complaint)
         db.session.commit()
-    #return render_template('complaints.html')
+    return render_template('complaints.html')
 
 @app.route('/compliments', methods = ['GET','POST'])
 @login_required
@@ -1081,7 +1082,7 @@ def compliment():
         new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
         db.session.add(new_compliment)
         db.session.commit()
-    #return render_template('compliments.html')
+    return render_template('compliments.html')
 
 
 
