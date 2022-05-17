@@ -176,7 +176,7 @@ li a:hover, .dropdown:hover .dropbtn {
         <div class="card-body">
           <h5 class="card-title">{{rand.dish.name}}</h5>
           <p class="card-text">
-            <br> <b>Price</b>: ${{rand.price}}
+            <br> <b>Price</b>: ${{rand.price}}0
             <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
           <!-- Button trigger modal -->
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{rand.dish.id}}">
@@ -201,7 +201,7 @@ li a:hover, .dropdown:hover .dropbtn {
                   </div>
                   <br> <b>Description: </b>: {{rand.dish.description}}
                   <br>
-                  <br> <b>Price</b>: ${{rand.price}}
+                  <br> <b>Price</b>: ${{rand.price}}0
                   <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                   <br> <b>Review</b>: This is sooooooo good!</p>   
                   </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{rand.dish.id}}review">
@@ -254,8 +254,8 @@ li a:hover, .dropdown:hover .dropbtn {
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
-                    <option value="3">4</option>
-                    <option value="3">5</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                   </select>
                 </div>
                 <br> <b><input type="hidden" name="dishid" value="{{ rand.dish.id }}"></b>
@@ -326,7 +326,7 @@ li a:hover, .dropdown:hover .dropbtn {
               <div class="card-body">
                 <h5 class="card-title">{{prices.dish.name}}</h5>
                 <p class="card-text">
-                  <br> <b>Price</b>: ${{prices.price}}
+                  <br> <b>Price</b>: ${{prices.price}}0
                   <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{prices.dish.id}}">
@@ -351,7 +351,7 @@ li a:hover, .dropdown:hover .dropbtn {
                         </div>
                         <br> <b>Description: </b>: {{prices.dish.description}}
                         <br>
-                        <br> <b>Price</b>: ${{prices.price}}
+                        <br> <b>Price</b>: ${{prices.price}}0
                         <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                         <br> <b>Review</b>: This is sooooooo good!</p>   
                         </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{prices.dish.id}}review">

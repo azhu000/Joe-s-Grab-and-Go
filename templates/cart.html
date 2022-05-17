@@ -164,16 +164,14 @@ li a:hover, .dropdown:hover .dropbtn {
 
 <div class="row">
     <div class="col">
-      <h4 class="d-flex justify-content-between align-items-center mb-3">
-      <span class="text-primary">You have </span> &nbsp;&nbsp;
-      <span class="badge bg-primary rounded-pill">{{item_total}}</span> &nbsp;&nbsp;
-      <span class="text-primary">items in your cart </span>
       </div>
       
 {%for c in in_cart%}
 <ul class="list-group">
 {%for i in items%}
 {% if i.orderID == c.id %}
+
+  {%for q in range(0,i.quantity)  %}
   
     <li class="list-group-item d-flex justify-content-between lh-sm">
       <div>
@@ -181,6 +179,7 @@ li a:hover, .dropdown:hover .dropbtn {
       </div>
       <span class="text-muted"><b>${{c.total}}</b></span>
     </li>
+    {%endfor%}
 {%endif%}
 {%endfor%}
   
@@ -194,7 +193,7 @@ li a:hover, .dropdown:hover .dropbtn {
       
         
       <a class="w-100 btn btn-lg btn-primary" href="{{url_for('checkout')}}" role ="button">Continue to Check Out</a>
-      <br>
+      <p></p>
 
       {%if is_customer == False%}
       <button type = "button" class="w-100 btn btn-lg btn-primary" disabled href="{{url_for('wallet')}}" role ="button">Add Money to your wallet</button>
