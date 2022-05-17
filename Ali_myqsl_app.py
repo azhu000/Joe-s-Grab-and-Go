@@ -33,7 +33,7 @@ from flask_bcrypt import Bcrypt
 # 3 = the name of your DB
 
 
-conn = "mysql+pymysql://root:MyDBserver1998@localhost/test_schema"
+conn = "mysql+pymysql://root:john1715@localhost/test_schema"
 
 #Creating the app which the Flsk app will run off
 app = Flask(__name__)
@@ -668,10 +668,11 @@ def wallet():
             is_customer = False
             alert_user = "You are not a customer. You cannot add balance."
             return redirect(url_for('wallet'))
-        elif request.form.get('amount') == '':
+            
+        elif request.form.get('amount').isnumeric() == False or float(request.form.get('amount')) < 0:
             is_Valid = False
             user_alert = "Enter a valid amount"
-            return render_template('wallet.html', user_alert = user_alert,is_Valid=is_Valid)
+            return render_template('wallet.html', user_alert = user_alert,is_Valid=is_Valid,is_customer=is_customer,user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
         else:
             amount = request.form.get('amount')
             userid = customers.query.filter_by(id = user).first()
