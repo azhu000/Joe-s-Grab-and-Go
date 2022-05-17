@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   `isBlacklisted` TINYINT NOT NULL DEFAULT 0,
   INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   CONSTRAINT `fk_bizID`
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `isBlacklisted` TINYINT NULL DEFAULT 0,
   `AmountSpent` FLOAT(16,2) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE);
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);
 
 
 

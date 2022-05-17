@@ -89,7 +89,7 @@ class businesses(db.Model):
 class employees(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(45), nullable = False)
-    email = db.Column(db.String(45), nullable = False)
+    email = db.Column(db.String(45), nullable = False, unique = True)
     password = db.Column(db.String(255), nullable = False)
     role = db.Column(db.String(45), nullable = False)
     isBlacklisted = db.Column(db.Integer, nullable = True, default = 0)
@@ -104,8 +104,8 @@ class employees(db.Model, UserMixin):
 class customers(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable = False)
     name = db.Column(db.String(20), nullable = False)
-    email = db.Column(db.String(45), nullable = False)
-    password = db.Column(db.String(255), nullable = False, unique = True)
+    email = db.Column(db.String(45), nullable = False, unique = True)
+    password = db.Column(db.String(255), nullable = False)
     wallet = db.Column(db.Float(16,2), nullable = True, default = 0)
     isVIP = db.Column(db.Integer, nullable = True, default = 0)
     warning = db.Column(db.Integer, nullable = True, default = 0)
@@ -531,8 +531,10 @@ def register():
         #checks if email is already taken by customer or employee
         if user:
             print("Username already exists")
+            return redirect(url_for('register'))
         if worker:
             print("Ay, im workin ova here!")
+            return redirect(url_for('register'))
         else:
             new_user = customers(name=name, email=email, password=password)
             db.session.add(new_user)
