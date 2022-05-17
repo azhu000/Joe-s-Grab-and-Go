@@ -453,11 +453,20 @@ def VIP():
             is_employee = 3
             
     if request.method == 'POST':
+        try:
+            user = int(current_user.get_id())
+        except:
+            print("You are not registered as a customer")
+            return redirect(url_for('login'))
+        
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go buy somewhere else")
+            return redirect(url_for('VIP'))
         
         quantity = request.form.get('quantity')
         dishes = request.form.get('dishid')
         cost = request.form.get('price')
-        new_order = orders(custID=user, total=cost, bizID='1',Active='1')
+        new_order = orders(custID=user, total=cost, bizID='1', Active='1')
         db.session.add(new_order)
         num = orders.query.order_by(orders.id.desc()).first()
         new_orderline = orderLineItem(quantity=quantity,subtotal=cost, DishOrdered=dishes,total=cost,orderID=num.id)
@@ -598,6 +607,7 @@ def menu_popular():
         if(customers.query.get(user) == None):
             print("you are not a customer, go buy somewhere else")
             return redirect(url_for('menu_popular'))
+        
         print(user)
         guy = customers.query.get(user)
         print(guy)
@@ -630,9 +640,9 @@ def menu_popular():
 def wallet():
     user = 0
     users_name = ""
-    
+    alert_user = ""
     is_employee = 0
-    
+    is_customer = True
     try:
         employee_check = int(current_user.get_id())
     except:
@@ -658,6 +668,11 @@ def wallet():
         except:
             print("You are not registered as a customer")
             return redirect(url_for('login'))
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go add balance somewhere else")
+            is_customer = False
+            alert_user = "You are not a customer. You cannot add balance."
+            return redirect(url_for('wallet'))
         amount = request.form.get('amount')
         userid = customers.query.filter_by(id = user).first()
         current_amount = float(userid.wallet)
@@ -666,7 +681,7 @@ def wallet():
         userid.wallet = float(new_amount)
         db.session.commit()
 
-    return render_template('wallet.html', user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
+    return render_template('wallet.html',alert_user=alert_user, is_customer=is_customer,user=user, users_name=users_name, current_customer=current_customer,is_employee=is_employee)
 
 #Currently not in use
 @app.route('/cart', methods = ['GET', 'POST'])
@@ -679,7 +694,8 @@ def cart():
     #
     #order.query.filter_by(Active='1')
     #
-
+    alert_user = ""
+    is_customer = True
 
     try:
         employee_check = int(current_user.get_id())
@@ -700,9 +716,14 @@ def cart():
         current_customer = 1
         user = int(current_user.get_id())
         users_name = str(current_user.name)
+        if(customers.query.get(user) == None):
+            print("you are not a customer, go add balance somewhere else")
+            is_customer = False
+            alert_user = "You are not a customer. You cannot add balance."
+            
     else: 
         current_customer = 0
-    return render_template('cart.html', current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
+    return render_template('cart.html',is_customer=is_customer,alert_user=alert_user, current_customer=current_customer, user=user, users_name=users_name, is_employee=is_employee)
 
 @app.route('/checkout', methods = ['GET', 'POST'])
 @login_required
