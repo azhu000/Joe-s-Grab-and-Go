@@ -910,7 +910,7 @@ def customer_page():
         #if they are not VIP, give them VIP
             cust.isVIP = 1
             db.session.commit()
-            return render_template('customer_page.html')
+            #return render_template('customer_page.html')
  
    
     #item = orderLineItem.query.filter_by(orderID='1')
@@ -1134,6 +1134,9 @@ def complaint():
         comment = request.form.get('comment')
         victim = request.form.get('complainee')
         orderid = request.form.get('orderID')
+        if (orders.query.get(orderid) == None):
+            print("u high that isnt a real order")
+            return redirect(url_for('complaint'))
         new_complaint = complaints(comment = comment, complainer = user, complainee = victim, orderID = orderid)
         print(new_complaint)
         print(type(new_complaint))
@@ -1182,11 +1185,18 @@ def compliment():
         current_customer = 0
     if request.method == 'POST':
         comment = request.form.get('comment')
-        friend = request.form.get('complimenter')
+        friend = request.form.get('complimentee')
         orderid = request.form.get('orderID')
-        new_compliment = complaints(comment = comment, complainer = user, complainee = friend, orderID = orderid)
+        if (orders.query.get(orderid) == None):
+            print("u high that isnt a real order")
+            return redirect(url_for('compliment'))
+        new_compliment = compliments(comment = comment, complimenter = user, complimentee = friend, orderID = orderid)
         db.session.add(new_compliment)
         db.session.commit()
+        empl = employees.query.filter_by(id = friend).first()
+        if empl.warning > 0:
+            empl.warning -= float(1.0)
+            db.session.commit()
     return render_template('compliments.html',user = user, user_name = user_name, is_employee=is_employee,is_customer=is_customer,alert_user=alert_user,current_customer=current_customer)
 
 
