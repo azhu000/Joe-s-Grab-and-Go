@@ -25,8 +25,8 @@ Initial setup:
   
 Developers:
 
-- Anthony Zhu
-- Anson Oommen,
-- Pablo Lara,
-- Ali Mohamed,
-- Hyemin Shin
+- Anthony Zhu - Full Stack / Quality Assurance
+- Anson Oommen, Backend / Database 
+- Pablo Lara, Frontend
+- Ali Mohamed, Backend / Database
+- Hyemin Shin, Frontend
