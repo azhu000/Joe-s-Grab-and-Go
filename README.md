@@ -1,4 +1,4 @@
-# CSC322-SWE-Group-Project
+# CSC322-SWE-Group-Project Team T
 Group project for CSC33200
 
 To use your own local database, change the "conn" variable to your own information in this format:
