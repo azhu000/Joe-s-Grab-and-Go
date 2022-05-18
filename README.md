@@ -4,10 +4,15 @@ Group project for CSC33200
 To use your own local database, change the "conn" variable to your own information in this format:
 
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}" 
+
 0 = the username of your DB
+
 1 = the password of your DB
+
 2 = the host/localhost of your DB (its usually localhost if you arent hosting it online)
+
 3 = the name of your DB
+
 
 Initial setup:
 - install mysql (5.8+)
