@@ -17,7 +17,7 @@ Initial setup:
 
 - Run  flask_app.py
   
-Developers: (Add your name here)
+Developers:
 
 - Anthony Zhu
 - Anson Oommen,
