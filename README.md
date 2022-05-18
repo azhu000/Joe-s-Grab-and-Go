@@ -17,9 +17,6 @@ conn = "mysql+pymysql://{0}:{1}@{2}/{3}"
 2 = the host/localhost of your DB (its usually localhost if you arent hosting it online)
 3 = the name of your DB
 
-# CSC322-SWE-Group-Project
-Group project for CSC33200
-
 Initial setup:
 - install mysql (5.8+)
   -- run the init schema script 
