@@ -14,12 +14,8 @@ Initial setup:
 - install python (3.9)
 - pip install flask flask_sqlalchemy flask_login flask_bcrypt flask_wtf wtforms email_validator pip install mysql-connector-python
 - pip install pymysql
-- 
-- run the flask web server:
-- ```bash
-    set FLASK_APP=/full/path/to/your/folder/app.py
-    python -m flask run
-  ```
+
+- Run 
   
 Developers: (Add your name here)
 
