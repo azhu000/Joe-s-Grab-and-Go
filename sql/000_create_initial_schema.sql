@@ -7,11 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
 -- Table .`businesses`
-=======
--- Table `businesses`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `businesses` ;
 
@@ -24,10 +20,6 @@ CREATE TABLE IF NOT EXISTS `businesses` (
 
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> main
 -- -----------------------------------------------------
 -- Table `employees`
 -- -----------------------------------------------------
@@ -36,7 +28,6 @@ DROP TABLE IF EXISTS `employees` ;
 CREATE TABLE IF NOT EXISTS `employees` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-<<<<<<< HEAD
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
@@ -46,12 +37,6 @@ CREATE TABLE IF NOT EXISTS `employees` (
   INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-=======
-  `role` VARCHAR(45) NOT NULL,
-  `bizID` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
->>>>>>> main
   CONSTRAINT `fk_bizID`
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
@@ -68,10 +53,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `bizID` INT NOT NULL,
-<<<<<<< HEAD
   `url` VARCHAR(255) NOT NULL,
-=======
->>>>>>> main
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
   INDEX `fk_bizID_idx` (`bizID` ASC) VISIBLE,
@@ -83,11 +65,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
 -- Table .`menu`
-=======
--- Table `menu`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `menu` ;
 
@@ -111,18 +89,13 @@ CREATE TABLE IF NOT EXISTS `menu` (
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
 -- Table .`customers`
-=======
--- Table `customers`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `customers` ;
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-<<<<<<< HEAD
   `email` VARCHAR(45) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `wallet` FLOAT(16,2) NULL DEFAULT 0,
@@ -138,29 +111,14 @@ CREATE TABLE IF NOT EXISTS `customers` (
 
 -- -----------------------------------------------------
 -- Table .`orders`
-=======
-  `phone` VARCHAR(45) NOT NULL,
-  `isVIP` TINYINT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE);
-
-
--- -----------------------------------------------------
--- Table `orders`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `orders` ;
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
-<<<<<<< HEAD
   `total` FLOAT(16,2) NOT NULL,
   `DeliveryTime` VARCHAR(45) NULL,
   `Active` TINYINT NOT NULL DEFAULT 1,
-=======
-  `total` VARCHAR(45) NOT NULL,
-  `DeliveryTime` VARCHAR(45) NULL,
->>>>>>> main
   `custID` INT NOT NULL,
   `bizID` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -179,27 +137,16 @@ CREATE TABLE IF NOT EXISTS `orders` (
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
 -- Table .`orderLineItem`
-=======
--- Table `orderLineItem`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
   `id` INT NOT NULL AUTO_INCREMENT,
-<<<<<<< HEAD
   `quantity` INT NOT NULL,
   `subtotal` FLOAT(16,2) NOT NULL,
   `discount` VARCHAR(45) NULL,
   `total` FLOAT(16,2) NOT NULL,
-=======
-  `quantity` VARCHAR(45) NOT NULL,
-  `subtotal` VARCHAR(45) NOT NULL,
-  `discount` VARCHAR(45) NULL,
-  `total` VARCHAR(45) NOT NULL,
->>>>>>> main
   `orderID` INT NOT NULL,
   `DishOrdered` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -218,11 +165,7 @@ CREATE TABLE IF NOT EXISTS `orderLineItem` (
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
 -- Table .`dishRating`
-=======
--- Table `dishRating`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `dishRating` ;
 
@@ -248,23 +191,15 @@ CREATE TABLE IF NOT EXISTS `dishRating` (
 
 
 -- -----------------------------------------------------
-<<<<<<< HEAD
 -- Table .`menuDishes`
-=======
--- Table `menuDishes`
->>>>>>> main
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `menuDishes` ;
 
 CREATE TABLE IF NOT EXISTS `menuDishes` (
   `id` INT NOT NULL,
   `MenuDishID` INT NOT NULL,
-<<<<<<< HEAD
   `price` FLOAT(16,2) NOT NULL,
   `VIP` TINYINT NOT NULL DEFAULT 0,
-=======
-  `price` VARCHAR(45) NOT NULL,
->>>>>>> main
   PRIMARY KEY (`id`, `MenuDishID`),
   CONSTRAINT `fk_MenuDishID`
     FOREIGN KEY (`id`)
@@ -278,7 +213,6 @@ CREATE TABLE IF NOT EXISTS `menuDishes` (
     ON UPDATE NO ACTION);
 
 
-<<<<<<< HEAD
 -- -----------------------------------------------------
 -- Table `test_schema`.`complaints`
 -- -----------------------------------------------------
@@ -352,8 +286,3 @@ CREATE TABLE IF NOT EXISTS `compliments` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-=======
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
->>>>>>> main

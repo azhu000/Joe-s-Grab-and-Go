@@ -168,6 +168,7 @@ li a:hover, .dropdown:hover .dropbtn {
   <br>
   <div class="row">
 
+<<<<<<< HEAD
   {% for rand in rando%}
   
   <div class="col">
@@ -308,6 +309,8 @@ li a:hover, .dropdown:hover .dropbtn {
   {%endfor%}
 
 
+=======
+>>>>>>> origin/main
   {%for prices in price%}
 
     {%if ((loop.length - loop.revindex)%4 == 0)%}
@@ -318,7 +321,10 @@ li a:hover, .dropdown:hover .dropbtn {
     </div>
     <div class="row"> 
     {%endif%}
+<<<<<<< HEAD
     
+=======
+>>>>>>> origin/main
 
         <div class="col">
           <div class="card" style="width: 18rem;">
@@ -326,7 +332,11 @@ li a:hover, .dropdown:hover .dropbtn {
               <div class="card-body">
                 <h5 class="card-title">{{prices.dish.name}}</h5>
                 <p class="card-text">
+<<<<<<< HEAD
                   <br> <b>Price</b>: ${{prices.price}}0
+=======
+                  <br> <b>Price</b>: {{prices.price}}
+>>>>>>> origin/main
                   <br> <b>Review</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_{{prices.dish.id}}">
@@ -351,7 +361,11 @@ li a:hover, .dropdown:hover .dropbtn {
                         </div>
                         <br> <b>Description: </b>: {{prices.dish.description}}
                         <br>
+<<<<<<< HEAD
                         <br> <b>Price</b>: ${{prices.price}}0
+=======
+                        <br> <b>Price</b>: {{prices.price}}
+>>>>>>> origin/main
                         <br> <b>Rating</b>: &#9733;&#9733;&#9733;&#9733;&#9733;</p>
                         <br> <b>Review</b>: This is sooooooo good!</p>   
                         </b><!-- Button trigger modal for review --><button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal{{prices.dish.id}}review">
