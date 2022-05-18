@@ -15,7 +15,7 @@ Initial setup:
 - pip install flask flask_sqlalchemy flask_login flask_bcrypt flask_wtf wtforms email_validator pip install mysql-connector-python
 - pip install pymysql
 
-- Run 
+- Run  flask_app.py
   
 Developers: (Add your name here)
 
