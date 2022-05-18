@@ -7,7 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 
 
 -- -----------------------------------------------------
--- Table `businesses`
+-- Table .`businesses`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `businesses` ;
 
@@ -28,10 +28,15 @@ DROP TABLE IF EXISTS `employees` ;
 CREATE TABLE IF NOT EXISTS `employees` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   `role` VARCHAR(45) NOT NULL,
   `bizID` INT NOT NULL,
-  PRIMARY KEY (`id`),
+  `warning` TINYINT NOT NULL DEFAULT 0,
+  `isBlacklisted` TINYINT NOT NULL DEFAULT 0,
   INDEX `bizID_idx` (`bizID` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   CONSTRAINT `fk_bizID`
     FOREIGN KEY (`bizID`)
     REFERENCES `businesses` (`id`)
@@ -48,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
   `name` VARCHAR(45) NOT NULL,
   `description` VARCHAR(255) NOT NULL,
   `bizID` INT NOT NULL,
+  `url` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
   INDEX `fk_bizID_idx` (`bizID` ASC) VISIBLE,
@@ -59,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `dish` (
 
 
 -- -----------------------------------------------------
--- Table `menu`
+-- Table .`menu`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `menu` ;
 
@@ -83,28 +89,36 @@ CREATE TABLE IF NOT EXISTS `menu` (
 
 
 -- -----------------------------------------------------
--- Table `customers`
+-- Table .`customers`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `customers` ;
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(45) NOT NULL,
-  `isVIP` TINYINT NOT NULL DEFAULT 0,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `wallet` FLOAT(16,2) NULL DEFAULT 0,
+  `isVIP` TINYINT NULL DEFAULT 0,
+  `warning` TINYINT NOT NULL DEFAULT 0,
+  `isBlacklisted` TINYINT NULL DEFAULT 0,
+  `AmountSpent` FLOAT(16,2) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE);
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE);
+
+
 
 
 -- -----------------------------------------------------
--- Table `orders`
+-- Table .`orders`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `orders` ;
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `total` VARCHAR(45) NOT NULL,
+  `total` FLOAT(16,2) NOT NULL,
   `DeliveryTime` VARCHAR(45) NULL,
+  `Active` TINYINT NOT NULL DEFAULT 1,
   `custID` INT NOT NULL,
   `bizID` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -123,16 +137,16 @@ CREATE TABLE IF NOT EXISTS `orders` (
 
 
 -- -----------------------------------------------------
--- Table `orderLineItem`
+-- Table .`orderLineItem`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `orderLineItem` ;
 
 CREATE TABLE IF NOT EXISTS `orderLineItem` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `quantity` VARCHAR(45) NOT NULL,
-  `subtotal` VARCHAR(45) NOT NULL,
+  `quantity` INT NOT NULL,
+  `subtotal` FLOAT(16,2) NOT NULL,
   `discount` VARCHAR(45) NULL,
-  `total` VARCHAR(45) NOT NULL,
+  `total` FLOAT(16,2) NOT NULL,
   `orderID` INT NOT NULL,
   `DishOrdered` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -151,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `orderLineItem` (
 
 
 -- -----------------------------------------------------
--- Table `dishRating`
+-- Table .`dishRating`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `dishRating` ;
 
@@ -177,14 +191,15 @@ CREATE TABLE IF NOT EXISTS `dishRating` (
 
 
 -- -----------------------------------------------------
--- Table `menuDishes`
+-- Table .`menuDishes`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `menuDishes` ;
 
 CREATE TABLE IF NOT EXISTS `menuDishes` (
   `id` INT NOT NULL,
   `MenuDishID` INT NOT NULL,
-  `price` VARCHAR(45) NOT NULL,
+  `price` FLOAT(16,2) NOT NULL,
+  `VIP` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `MenuDishID`),
   CONSTRAINT `fk_MenuDishID`
     FOREIGN KEY (`id`)
@@ -196,6 +211,76 @@ CREATE TABLE IF NOT EXISTS `menuDishes` (
     REFERENCES `menu` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+-- -----------------------------------------------------
+-- Table `test_schema`.`complaints`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `complaints` ;
+
+CREATE TABLE IF NOT EXISTS `complaints` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `comment` VARCHAR(255) NOT NULL,
+  `complainer` INT NOT NULL,
+  `complainee` INT NOT NULL,
+  `orderID` INT NOT NULL,
+  `isAccepted` TINYINT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  INDEX `orderID_idx` (`orderID` ASC) VISIBLE,
+  INDEX `fk_cust_idx` (`complainer` ASC) VISIBLE,
+  INDEX `fk_emp_idx` (`complainee` ASC) VISIBLE,
+  CONSTRAINT `fk_order`
+    FOREIGN KEY (`orderID`)
+    REFERENCES `orders` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cust`
+    FOREIGN KEY (`complainer`)
+    REFERENCES `customers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_emp`
+    FOREIGN KEY (`complainee`)
+    REFERENCES `employees` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+-- -----------------------------------------------------
+-- Table `test_schema`.`compliments`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `compliments` ;
+
+CREATE TABLE IF NOT EXISTS `compliments` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `comment` VARCHAR(255) NOT NULL,
+  `complimenter` INT NOT NULL,
+  `complimentee` INT NOT NULL,
+  `orderID` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_complimenter_idx` (`complimenter` ASC) VISIBLE,
+  INDEX `fk_complimentee_idx` (`complimentee` ASC) VISIBLE,
+  INDEX `fk_ordernum_idx` (`orderID` ASC) VISIBLE,
+  CONSTRAINT `fk_complimenter`
+    FOREIGN KEY (`complimenter`)
+    REFERENCES `customers` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_complimentee`
+    FOREIGN KEY (`complimentee`)
+    REFERENCES `employees` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordernum`
+    FOREIGN KEY (`orderID`)
+    REFERENCES `orders` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

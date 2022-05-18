@@ -1,0 +1,266 @@
+<!-- HTML - Hypertext Markup Language -->
+<!DOCTYPE html> <!--Doctype Explanation-->
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    </head>
+
+<html lang="en">
+
+<style>
+    * {box-sizing: border-box}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;  
+}
+
+.header {
+  text-align: center;
+  padding: 40px;
+}
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: black;
+  z-index: 1;
+}
+
+ ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: rgb(40, 148, 112);
+}
+
+#main-menu > li {
+  float: left;
+  position: relative;
+}
+
+#main-menu > li > a {
+  font-size: 20px;
+  color: rgba(253, 252, 252, 0.85);
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  display: block;
+  width: 100%;
+  padding: 14px 36px;
+  border-right: 1px solid rgba(0,0,0,0.15);
+  
+}
+
+#main-menu > li:nth-child(1) > a {
+  border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu {
+  position: absolute;
+  background: #f8f8f6;
+  opacity: 0;
+  visibility: hidden;
+  width:100%;
+  text-align: center;
+  transition: all 0.15s ease-in;
+}
+
+#sub-menu > li {
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+}
+
+#sub-menu > li >  a {
+  color: rgba(19, 18, 18, 0.6);
+  text-decoration: none;
+}
+
+#main-menu > li:hover #sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+#sub-menu > li >  a:hover {
+ text-decoration: underline;
+}
+
+section {
+  column-width: 15em;
+  background: #dadadf;
+  padding: 2em 12em;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+
+.column img {
+  margin-top: 12px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.container {
+  position: relative;
+  font-family: Arial;
+}
+
+.text-block {
+  position: absolute;
+  text-align: center;
+  bottom: 10px;
+  right: 20%;
+  left: 20%;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.col {
+  flex: 0 0 0%;
+  
+}
+
+.row {
+  justify-content:center;
+}
+#id {
+  width: 50%;
+}
+.form-signin {
+  width: 20%;
+}
+</style>
+
+<body>
+    <div class="header">
+        <h1><b>Joe's Grab and Go</b></h1>
+        <h2>Order Food to  Your Door :D</h2>
+        <div><b>You are logged in as {{users_name}}. Id is: {{user}}. Chef.</b></div>
+        </div>
+        <nav class = "sticky-top" role="navigation">
+          <ul id="main-menu">
+            <li><a href="{{url_for('home')}}"><i class="fa fa-fw fa-home"></i><b>Home</b></a></li>
+            <li><a href="{{url_for('menu_popular')}}"><i class="fa fa-fw fa-search"></i><b>Menu</b></a>
+              <ul id="sub-menu">
+                <li><a href="{{url_for('VIP')}}" aria-label="subemnu"><b>VIP Menu</b></a></li>
+              </ul>
+            </li>
+      
+            <li><a href="{{url_for('cart')}}"><i class="fa fa-fw fa-shopping-cart"></i><b>Cart</b></a>
+              {%if current_customer == 0%}
+      
+              <li><a href="{{url_for('login')}}"><i class="fa fa-fw fa-user"></i><b>Log-in/Register</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('login')}}" aria-label="submenu"><b>Log-in</b></a></li>
+                  <li><a href="{{url_for('register')}}" aria-label="submenu"><b>Register</b></a></li>
+                </ul>
+              </li>
+      
+              {%elif current_customer == 1%}
+      
+              <li><a href="{{url_for('chef_page')}}"><i class="fa fa-fw fa-user"></i><b>Account</b></a>
+                <ul id="sub-menu">
+                  <li><a href="{{url_for('logout')}}" aria-label="submenu"><b>Logout</b></a></li>
+                </ul>
+              </li>
+              {%endif%}
+      
+              <li><a href="{{url_for('contact')}}"><i class="fa fa-fw fa-envelope"></i><b>Contact Us</b></a></li>
+          </ul>
+        </nav>
+    <br>
+    <center> <br><b>THIS IS THE CHEF PAGE :D </b></center>
+    <br>
+    {% for dishes in dished %}
+    {%if ((loop.length - loop.revindex)%4 == 0)%}
+
+    {%set number = ((loop.length - loop.revindex)/4) | int %}
+    <div class="row"> 
+      <br>
+    {%endif%}
+        <div class="col">
+          <div class="card" style="width: 18rem;">
+            <img src={{dishes.url}} class="card-img-top" width = "350" height = "250" alt="Food Image" width="250" height = "200">
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <p class="card-text">
+              <b>ID:</b> {{dishes.id}}<br>
+              <b>Name:</b> {{dishes.name}}<br>
+              <b>Description:</b> {{dishes.description}}<br>
+                
+              </div>
+              
+            </div>
+            <p></P>
+        </div>
+        <br>
+    {% endfor %}
+      </div>
+    
+    <main class="form-signin">
+      <form method="POST">
+      
+             
+        <br>
+        <div class="form-floating">
+          <input type="dish" class="form-control" id="floatingInput" name="dish" placeholder="Enter the Dish to be Added"/>
+          <label for="floatingInput">Dish To be Added</label>
+        </div>
+        <br> 
+        <div class="form-floating">
+          <input type="description" class="form-control" id="floatingInput" name="description" placeholder="Enter Description of Dish"/>
+          <label for="floatingInput">Description</label>
+        </div>
+        <br>
+        <div class="form-floating">
+          <input type="bizID" class="form-control" id="floatingInput" name="bizID" placeholder="bizID"/>
+          <label for="floatingInput">bizID</label>
+        </div>
+        <br> 
+        <b><input type="hidden" name="url" value="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"></b>
+
+        
+        <div>
+        
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Add Dishes</button>
+        <p>Remove Dishes? <a class="btn btn-link" href="{{url_for('chef_page_rm')}}" role="button">Remove Dishes</a>
+        
+        
+      </form>
+    </main>
+
+</body>
+
+<center>
+  <footer class = "sticky-bottom"><br>Contact Information down here 
+      <br>Address: 1234 Main Street New York, NY, 10044
+      <br>Telephone: 1-(212)-345-1234
+      <br>Email Address: thebestrestaurant@resturants.com
+      <p></p>
+</footer>
+</center>
+
+</html>
