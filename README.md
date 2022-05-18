@@ -25,7 +25,7 @@ Initial setup:
   
 Developers:
 
-- Anthony Zhu - Full Stack / Quality Assurance
+- Anthony Zhu, Full Stack / Quality Assurance
 - Anson Oommen, Backend / Database 
 - Pablo Lara, Frontend
 - Ali Mohamed, Backend / Database
